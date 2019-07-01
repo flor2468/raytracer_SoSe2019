@@ -1,0 +1,51 @@
+#include "Sphere.hpp"
+#include <math.h>
+#include <string>
+
+Sphere::Sphere():
+    Shape(),
+    center_{},
+    radius_{0.0f}
+    {};
+
+Sphere::Sphere(std::string name, Color color, glm::vec3 center, float radius):
+    Shape{name, color},
+    center_{center},
+    radius_{radius}
+    {};
+Sphere::~Sphere(){
+    std::cout<<"Sphere destructor is called\n";
+}
+
+float Sphere::area(){
+    return 4*M_PI*radius_*radius_;
+}
+
+float Sphere::volume(){
+    return 4.0f/3.0f* M_PI*radius_*radius_*radius_;    
+}
+
+
+std::ostream& Sphere::print (std::ostream& os) const{
+    Shape::print(os);
+    os << ", { " << center_.x << ", " << center_.y << ", " << center_.z << "}, {" 
+    << radius_ << "}\n";
+    return os;
+}
+
+hitpoint Sphere::intersect(Ray const& ray, float& distance){
+    hitpoint h{};
+    h.cut = glm::intersectRaySphere(ray.origin, ray.direction, center_, radius_*radius_, distance);
+    if(h.cut == false){ //wenn sie sich nicht schneiden
+        return h;
+    }
+    else{
+        h.distance = distance;
+        h.name = name_;
+        h.col = color_;
+        h.point3d = ray.origin + distance + ray.direction;
+        h.direction= ray.direction;
+        return h;
+    }
+
+}
