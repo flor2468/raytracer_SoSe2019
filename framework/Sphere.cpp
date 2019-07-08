@@ -33,19 +33,19 @@ std::ostream& Sphere::print (std::ostream& os) const{
     return os;
 }
 
-hitpoint Sphere::intersect(Ray const& ray, float& distance){
+hitpoint Sphere::intersect(Ray const& ray/*, float& distance*/){
     hitpoint h{};
-    h.cut = glm::intersectRaySphere(ray.origin, glm::normalize(ray.direction), center_, radius_*radius_, distance);
+    h.cut = glm::intersectRaySphere(ray.origin, glm::normalize(ray.direction), center_, radius_*radius_, h.distance);
     if(h.cut == false){ //wenn sie sich nicht schneiden
         return h;
     }
     else{
-        h.distance = distance;
+        // h.distance = distance;
         h.name = name_;
         h.col = color_;
-        h.point3d.x = ray.origin.x + distance * ray.direction.x;
-        h.point3d.y = ray.origin.y + distance * ray.direction.y;
-        h.point3d.z = ray.origin.z + distance * ray.direction.z;
+        h.point3d.x = ray.origin.x + h.distance * ray.direction.x;
+        h.point3d.y = ray.origin.y + h.distance * ray.direction.y;
+        h.point3d.z = ray.origin.z + h.distance * ray.direction.z;
         h.direction = ray.direction;
         return h;
     }

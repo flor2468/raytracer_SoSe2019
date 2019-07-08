@@ -15,7 +15,7 @@ class Shape{
         virtual float area() = 0;
         virtual float volume() = 0;
         virtual std::ostream& print (std::ostream& os ) const;
-        virtual hitpoint intersect(Ray const& ray, float& t) = 0;
+        virtual hitpoint intersect(Ray const& ray) = 0;
         
     protected:
         std::string name_;

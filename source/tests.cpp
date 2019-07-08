@@ -82,9 +82,9 @@ TEST_CASE ( "intersect_ray_sphere","[intersect]" )
     Ray ray1{{0.0f, 0.0f, -2.0f},{0.0f, 0.0f, 2.5f}};
     Ray ray2{{0.0f, 0.0f,  0.0f},{0.0f, -1.0f, 0.0f}};
     
-    hitpoint a = s1.intersect(ray1, distance1);
-    hitpoint b = s2.intersect(ray2, distance2);
-    REQUIRE (distance1 == 5.0f);
+    hitpoint a = s1.intersect(ray1);
+    hitpoint b = s2.intersect(ray2);
+    REQUIRE (a.distance == 5.0f);
     // REQUIRE (b.cut == false);
 }
 
@@ -102,6 +102,20 @@ TEST_CASE("destruktor", "[destruktor]"){
   s2-> print (std::cout );
   delete s1;
   delete s2;
+}
+
+TEST_CASE("intersect Box", "[Task 6.3]") {
+  Color col = {0.0f, 0.0f, 1.0f};
+  float distance1 = 0.0f;
+
+  glm::vec3 v = {0.0f, 1.0f, 0.0f};
+  glm::normalize(v);
+  Box b1("Box 1", {0.0f, 1.0f, 0.0f}, {-1.0f, 1.0f, -2.0f}, {6.0f, 4.0f, 1.0f});
+  Ray ray1{{0.0f, 0.0f, 0.0f}, v};
+
+  hitpoint a = b1.intersect(ray1);
+
+  REQUIRE(a.distance == 1.0f);
 }
 
 int main(int argc, char *argv[])
