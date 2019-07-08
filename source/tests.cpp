@@ -74,15 +74,19 @@ TEST_CASE ( "intersect_ray_sphere","[intersect]" )
     distance);
   REQUIRE (distance == Approx(4.0f));
   Color col = {0.0f, 0.0f, 1.0f};
-}
-  //Sphere s1{" ", col, glm::vec3{5.0f, 5.0f, 5.0f}, 1.0f};
-    //Sphere s2{" ", col, glm::vec3{10.0f, 10.0f, 10.0f}, 1.0f};
-    //Ray ray1{{0.0f, 0.0f, 0.0f},{1.0f, 1.0f, 1.0f}};
-    //Ray ray2{{0.0f, 0.0f,  0.0f},{0.0f, -1.0f, 0.0f}};
-    
-    //hitpoint a = s1.intersect(ray1, 1.0f);
-    //hitpoint b = s2.intersect(ray2, 5.0f);
+  float distance1 = 0.0f;
+  float distance2 = 0.0f;
 
+  Sphere s1{" ", col, glm::vec3{0.0f, 0.0f, 4.0f}, 1.0f};
+    Sphere s2{" ", col, glm::vec3{10.0f, 10.0f, 10.0f}, 1.0f};
+    Ray ray1{{0.0f, 0.0f, -2.0f},{0.0f, 0.0f, 2.5f}};
+    Ray ray2{{0.0f, 0.0f,  0.0f},{0.0f, -1.0f, 0.0f}};
+    
+    hitpoint a = s1.intersect(ray1, distance1);
+    hitpoint b = s2.intersect(ray2, distance2);
+    REQUIRE (distance1 == 5.0f);
+    // REQUIRE (b.cut == false);
+}
 
 TEST_CASE("destruktor", "[destruktor]"){
   std::cout << "\nTask 8\n\n";

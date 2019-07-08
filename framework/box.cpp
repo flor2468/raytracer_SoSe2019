@@ -34,3 +34,7 @@ std::ostream& Box::print (std::ostream& os) const{ //<< überladen
     << min_.x << ", " << min_.y << ", " << min_.z << "}\n";
     return os;
 }
+
+hitpoint Box::intersect(Ray const& ray, float& t) {
+    
+}
