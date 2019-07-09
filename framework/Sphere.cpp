@@ -1,6 +1,7 @@
 #include "Sphere.hpp"
 #include <math.h>
 #include <string>
+#include "material.hpp"
 
 Sphere::Sphere():
     Shape(),
@@ -8,7 +9,7 @@ Sphere::Sphere():
     radius_{0.0f}
     {};
 
-Sphere::Sphere(std::string name, Color color, glm::vec3 center, float radius):
+Sphere::Sphere(std::string name, std::shared_ptr<Material> color, glm::vec3 center, float radius):
     Shape{name, color},
     center_{center},
     radius_{radius}
