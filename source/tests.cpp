@@ -130,8 +130,9 @@ TEST_CASE("intersect Box", "[Task 6.3]") {
 }
 
 TEST_CASE("input Datei", "[Task 6.5]") {
+  Scene* obj;
   std::string s = "Beispiel-Datei.sdf";
-  input(s);
+  input(s, obj);
 }
 
 int main(int argc, char *argv[])
