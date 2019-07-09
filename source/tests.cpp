@@ -8,7 +8,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
 #include "../framework/material.hpp"
+#include "scene.hpp"
 #include <memory>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <iostream>
 
 /*TEST_CASE("sphere: area() & volume()", "[sphere]"){
   std::cout<<"Task 1\n\n";
@@ -124,7 +129,45 @@ TEST_CASE("intersect Box", "[Task 6.3]") {
   REQUIRE(a.distance == 1.0f);
 }
 
+TEST_CASE("input Datei", "[Task 6.5]") {
+  std::string s = "Beispiel-Datei.sdf";
+  input(s);
+}
+
 int main(int argc, char *argv[])
 {
+    // std::ifstream f;    
+    // std::string s;
+    // f.open(argv[1], std::ios::in);
+    // while(!(f.eof())){
+    //     getline(f, s);
+    //     std::cout << s << std::endl;
+    // }
+    // f.close();
+
+    // std::fstream f;  
+    // char cstring[256];
+    // f.open(argv[1], std::ios::in);
+    // while(!(f.eof())){
+    //     f.getline(cstring, sizeof(cstring));
+    //     std::cout << cstring << std::endl;
+    // }
+    // f.close();
+
+    // std::vector<std::string> textFile;
+    // std::string fileLine;
+    // std::ifstream file;
+
+    // file.open("Beispiel-Datei.sdf");
+    // if(file.is_open() == true){
+    //    std::cout << "huhu";
+    //   while(std::getline(file, fileLine)){
+    //     textFile.push_back(fileLine);
+    //     std::cout << fileLine;
+    //   }
+    //   file.close();
+    // }
+   
+
   return Catch::Session().run(argc, argv);
 }
