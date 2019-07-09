@@ -30,7 +30,7 @@ float Box::volume(){
 
 std::ostream& Box::print (std::ostream& os) const{ //<< überladen 
     Shape::print(os);
-    os << ", { " << max_.x << ", " << max_.y << ", " << max_.z << "}, {" 
+    os << "Max: { " << max_.x << ", " << max_.y << ", " << max_.z << "}\nMin: {" 
     << min_.x << ", " << min_.y << ", " << min_.z << "}\n";
     return os;
 }

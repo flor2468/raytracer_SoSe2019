@@ -18,7 +18,9 @@ Shape::~Shape(){
 
 std::ostream& Shape::print (std::ostream& os ) const {
     os <<"Name: " << name_ << "\n"
-    << color_ << "\n";
+    <<"ka: " << color_->ka.r << ", "<< color_->ka.g << ", " << color_->ka.b << "\n"
+    <<"kd: " << color_->kd.r << ", "<< color_->kd.g << ", " << color_->kd.b << "\n"
+    <<"ks: " << color_->ks.r << ", "<< color_->ks.g << ", " << color_->ks.b << "\n";
     return os;
 }
 
