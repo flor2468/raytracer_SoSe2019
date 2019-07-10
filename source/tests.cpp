@@ -127,6 +127,7 @@ TEST_CASE("intersect Box", "[Task 6.3]") {
   hitpoint a = b1.intersect(ray1);
   std::cout <<"\n" << b1;
   REQUIRE(a.distance == 1.0f);
+  REQUIRE(a.cut == true);
 }
 
 TEST_CASE("input Datei", "[Task 6.5]") {
