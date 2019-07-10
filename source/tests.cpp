@@ -130,10 +130,85 @@ TEST_CASE("intersect Box", "[Task 6.3]") {
 }
 
 TEST_CASE("input Datei", "[Task 6.5]") {
-  Scene* obj;
+  Scene obj;
   std::string s = "Beispiel-Datei.sdf";
-  input(s, obj);
+  obj = input(s, obj);
+  //std::cout << obj.container1.at(0)->ka.r;
 }
+
+TEST_CASE("find_vector", "[Task 6.5]"){
+  Scene obj;
+  std::string s = "Beispiel-Datei.sdf";
+  obj = input(s, obj);
+  std::string test = "green";
+  auto p = obj.find_vector(test);
+  REQUIRE(p->name_ == test);
+  REQUIRE(p->m == 50);
+
+  std::string test2 = "red";
+  auto p2 = obj.find_vector(test2);
+  REQUIRE(p2->name_ == test2);
+  REQUIRE(p2->m == 20);
+
+  std::string test3 = "blue";
+  auto p3 = obj.find_vector(test3);
+  REQUIRE(p3->name_ == test3);
+  REQUIRE(p3->m == 10);
+
+  std::string test4 = "yellow";
+  auto p4 = obj.find_vector(test4);
+  REQUIRE(p4 == nullptr);
+}
+
+TEST_CASE("find_set", "[Task 6.5]"){
+  Scene obj;
+  std::string s = "Beispiel-Datei.sdf";
+  obj = input(s, obj);
+  std::string test = "green";
+  auto p = obj.find_set(test);
+  REQUIRE(p->name_ == test);
+  REQUIRE(p->m == 50);
+
+  std::string test2 = "red";
+  auto p2 = obj.find_set(test2);
+  REQUIRE(p2->name_ == test2);
+  REQUIRE(p2->m == 20);
+
+  std::string test3 = "blue";
+  auto p3 = obj.find_set(test3);
+  REQUIRE(p3->name_ == test3);
+  REQUIRE(p3->m == 10);
+
+  std::string test4 = "yellow";
+  auto p4 = obj.find_set(test4);
+  REQUIRE(p4 == nullptr);
+}
+
+
+TEST_CASE("find_map", "[Task 6.5]"){
+  Scene obj;
+  std::string s = "Beispiel-Datei.sdf";
+  obj = input(s, obj);
+  std::string test = "green";
+  auto p = obj.find_map(test);
+  REQUIRE(p->name_ == test);
+  REQUIRE(p->m == 50);
+
+  std::string test2 = "red";
+  auto p2 = obj.find_map(test2);
+  REQUIRE(p2->name_ == test2);
+  REQUIRE(p2->m == 20);
+
+  std::string test3 = "blue";
+  auto p3 = obj.find_map(test3);
+  REQUIRE(p3->name_ == test3);
+  REQUIRE(p3->m == 10);
+
+  std::string test4 = "yellow";
+  auto p4 = obj.find_map(test4);
+  REQUIRE(p4 == nullptr);
+}
+
 
 int main(int argc, char *argv[])
 {
