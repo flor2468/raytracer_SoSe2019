@@ -24,12 +24,18 @@ void Renderer::render()
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
       Pixel p(x,y);
+
+      /* 
       if ( ((x/checker_pattern_size)%2) != ((y/checker_pattern_size)%2)) {
         p.color = Color(0.0, 1.0, float(x)/height_);
       } else {
         p.color = Color(1.0, 0.0, float(y)/width_);
       }
+  */
 
+      if(x > width_/ 2) { 
+        p.color = Color(1.0, 0.0, 0.0);
+      }
       write(p);
     }
   }

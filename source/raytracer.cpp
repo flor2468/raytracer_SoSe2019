@@ -1,5 +1,6 @@
 #include <renderer.hpp>
 #include <window.hpp>
+#include "scene.hpp"
 
 #include <GLFW/glfw3.h>
 #include <thread>
@@ -11,8 +12,12 @@ int main(int argc, char* argv[])
   unsigned const image_width = 800;
   unsigned const image_height = 600;
   std::string const filename = "./checkerboard.ppm";
+  
+  std::string const filename2 = "Beispiel1.sdf";
 
   Renderer renderer{image_width, image_height, filename};
+
+  Scene scene1 = Scene {};
 
   //create separate thread to see updates of pixels while rendering
   std::thread render_thread([&renderer]() {renderer.render();});

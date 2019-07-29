@@ -13,30 +13,31 @@
 
 
 struct Scene{
-    std::vector<std::shared_ptr<Material>> container1;
-    std::set<std::shared_ptr<Material>> container2;
-    std::map<std::string, std::shared_ptr<Material>> container3;
+    // std::vector<std::shared_ptr<Material>> container1;
+    // std::set<std::shared_ptr<Material>> container2;
+    std::map<std::string, std::shared_ptr<Material>> materials;
+    std::vector<std::shared_ptr<Shape>> shapes;
 
-    std::shared_ptr<Material> find_vector(std::string color_name){
-      for(std::vector<std::shared_ptr<Material>>::size_type i = 0; i!= container1.size(); i++){
-        if(container1.at(i)->name_ == color_name){ 
-          return container1.at(i);
-        }
-      }
-      return nullptr;
-    }
+    // std::shared_ptr<Material> find_vector(std::string color_name){
+    //   for(std::vector<std::shared_ptr<Material>>::size_type i = 0; i!= container1.size(); i++){
+    //     if(container1.at(i)->name_ == color_name){ 
+    //       return container1.at(i);
+    //     }
+    //   }
+    //   return nullptr;
+    // }
 
-    std::shared_ptr<Material> find_set(std::string color_name){
-      for(auto element : container2){
-        if(element->name_ == color_name){
-          return element;
-        }
-      }
-      return nullptr;
-    }
+    // std::shared_ptr<Material> find_set(std::string color_name){
+    //   for(auto element : container2){
+    //     if(element->name_ == color_name){
+    //       return element;
+    //     }
+    //   }
+    //   return nullptr;
+    // }
 
     std::shared_ptr<Material> find_map(std::string color_name){
-      for(std::pair<std::string, std::shared_ptr<Material>> element : container3){
+      for(std::pair<std::string, std::shared_ptr<Material>> element : materials){
         if(element.first == color_name){
           return element.second;
         }
@@ -63,7 +64,7 @@ Scene input(std::string datei_name, Scene scene) {
     std::vector<std::string> textFile;
     std::string fileLine;
     std::ifstream file;
-    file.open("Beispiel-Datei.sdf");
+    file.open(datei_name);
     if(file.is_open() == true){
     //    std::cout << "huhu";
       while(std::getline(file, fileLine)){
@@ -96,9 +97,9 @@ Scene input(std::string datei_name, Scene scene) {
               mat = {name, ka, kd, ks, m};
               //std::cout <<name << " " << mat.ka.r << " " << m << "\n";
               auto mat_ptr = std::make_shared<Material>(mat);
-              scene.container1.push_back(mat_ptr);
-              scene.container2.insert(mat_ptr);
-              scene.container3.emplace(name, mat_ptr);
+              // scene.container1.push_back(mat_ptr);
+              // scene.container2.insert(mat_ptr);
+              scene.materials.emplace(name, mat_ptr);
               // std::cout << mat.ka.r << " " << mat.ka.g << " " << mat.ka.b;
 
             }
