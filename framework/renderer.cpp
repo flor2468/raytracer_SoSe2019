@@ -8,6 +8,10 @@
 // -----------------------------------------------------------------------------
 
 #include "renderer.hpp"
+#include "ray.hpp"
+#include "shape.hpp"
+#include "scene.hpp"
+#include <cmath>
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
   : width_(w)
@@ -34,7 +38,7 @@ void Renderer::render()
   */
 
       if(x > width_/ 2) { 
-        p.color = Color(1.0, 0.0, 0.0);
+        p.color = Color(1.0, 0.0, 1.0);
       }
       write(p);
     }
@@ -56,4 +60,17 @@ void Renderer::write(Pixel const& p)
   }
 
   ppm_.write(p);
+}
+
+Color Renderer::trace(Ray const& strahl, Scene const& scene) {
+  float smallest_distance = INFINITY;
+  for(auto element : scene.shapes) {
+    if((element->intersect(strahl)).cut == true){
+      return shade(element->intersect(strahl), scene);
+    }
+  }
+}
+
+Color Renderer::shade(hitpoint const& h, Scene const& scene) {
+
 }

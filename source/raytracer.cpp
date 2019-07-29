@@ -1,6 +1,9 @@
 #include <renderer.hpp>
 #include <window.hpp>
 #include "scene.hpp"
+#include "shape.hpp"
+#include "Sphere.hpp"
+#include "box.hpp"
 
 #include <GLFW/glfw3.h>
 #include <thread>
@@ -18,6 +21,11 @@ int main(int argc, char* argv[])
   Renderer renderer{image_width, image_height, filename};
 
   Scene scene1 = Scene {};
+  Material mat1{"mat1", Color{1.0f, 0.0f, 0.0f}, Color{1.0f, 0.0f, 0.0f}, Color{1.0f, 0.0f, 0.0f}, 2.0f};
+  auto mat_ptr1 = std::make_shared<Material>(mat1);
+  Sphere sphere1{"Kugel 1", mat_ptr1, {0.0f, 0.0f, 0.0f}, 1.0f};
+  std::shared_ptr<Shape> sphere_ptr1 = std::make_shared<Sphere>(sphere1);
+  scene1.shapes.push_back(sphere_ptr1);
 
   //create separate thread to see updates of pixels while rendering
   std::thread render_thread([&renderer]() {renderer.render();});

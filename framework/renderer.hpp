@@ -12,6 +12,8 @@
 
 #include "color.hpp"
 #include "pixel.hpp"
+#include "ray.hpp"
+#include "scene.hpp"
 #include "ppmwriter.hpp"
 #include <string>
 #include <glm/glm.hpp>
@@ -23,6 +25,8 @@ public:
 
   void render();
   void write(Pixel const& p);
+  Color trace(Ray const& strahl, Scene const& scene);
+  Color shade(hitpoint const& h, Scene const& scene);
 
   inline std::vector<Color> const& color_buffer() const
   {
