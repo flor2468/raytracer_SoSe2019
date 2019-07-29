@@ -37,8 +37,14 @@ void Renderer::render()
       }
   */
 
-      if(x > width_/ 2) { 
-        p.color = Color(1.0, 0.0, 1.0);
+      if(y > height_/ 3) { 
+        p.color = Color(1.0, 0.0, 0.0);
+      }
+      if(y < (height_/ 3)){
+        p.color = Color(1.0f, 1.0f, 0.0f);
+      }
+      if(y > height_ * 2/3) {
+        p.color = Color{0.0f, 0.0f, 0.0f};
       }
       write(p);
     }
@@ -63,12 +69,16 @@ void Renderer::write(Pixel const& p)
 }
 
 Color Renderer::trace(Ray const& strahl, Scene const& scene) {
-  float smallest_distance = INFINITY;
+  hitpoint smallest;
   for(auto element : scene.shapes) {
     if((element->intersect(strahl)).cut == true){
-      return shade(element->intersect(strahl), scene);
+      // if(element->intersect(strahl).distance < smallest.distance){
+      //   return shade(element->intersect(strahl), scene);
+      // }
+      return {1.0f, 1.0f, 1.0f};
     }
   }
+  return {0.0f, 0.0f, 0.0f};
 }
 
 Color Renderer::shade(hitpoint const& h, Scene const& scene) {
