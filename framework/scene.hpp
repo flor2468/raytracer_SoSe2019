@@ -44,19 +44,12 @@ struct Scene{
           return element.second;
         }
       }
-      return nullptr;
-      
+      return nullptr; 
     }
-
-
 };
 
 bool operator<(std::shared_ptr<Material> const& lhs, std::shared_ptr<Material> const& rhs);
 
-
-
 Scene input(std::string datei_name, Scene scene);
-
-
 
 #endif

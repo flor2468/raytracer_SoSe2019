@@ -6,15 +6,15 @@
 
 class Camera {
     public:
-        Camera();
-        Camera(int breite_, int laenge_);
-        Ray calcEyeRay(int x, int y);
+        Camera(unsigned int breite = 800, unsigned int hoehe = 600, float oeffnungswinkel = 60.0f);
+        Ray calcEyeRay(unsigned int x, unsigned int y);
 
     private: 
-        int breite_; // breite und leange = aufloesung
-        int laenge_;
-        int oeffnungswinkel_ = 60;
+        unsigned int breite_; // breite und leange = aufloesung
+        unsigned int hoehe_;
+        float oeffnungswinkel_;
         glm::vec3 startpunkt_ = {0.0f, 0.0f, 0.0f};
+        float d;
 };
 
 #endif

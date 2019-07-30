@@ -6,12 +6,14 @@
 
 class Light {
     public:
+        Light();
 
     private:
         std::string name_;
         glm::vec3 position_;
         Color farbe_;
         float helligkeit_ = 1.0f;
+        
 };
 
 #endif

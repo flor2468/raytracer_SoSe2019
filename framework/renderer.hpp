@@ -14,6 +14,7 @@
 #include "pixel.hpp"
 #include "ray.hpp"
 #include "scene.hpp"
+#include "camera.hpp"
 #include "ppmwriter.hpp"
 #include <string>
 #include <glm/glm.hpp>
@@ -23,7 +24,7 @@ class Renderer
 public:
   Renderer(unsigned w, unsigned h, std::string const& file);
 
-  void render();
+  void render(Camera const& camera1, Scene const& s1);
   void write(Pixel const& p);
   Color trace(Ray const& strahl, Scene const& scene);
   Color shade(hitpoint const& h, Scene const& scene);

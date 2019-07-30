@@ -20,10 +20,11 @@ int main(int argc, char* argv[])
 
   Renderer renderer{image_width, image_height, filename};
 
+  Camera /*const&*/ cam1{};
   Scene scene1 = Scene {};
-  Material mat1{"mat1", Color{1.0f, 0.0f, 0.0f}, Color{1.0f, 0.0f, 0.0f}, Color{1.0f, 0.0f, 0.0f}, 2.0f};
+  Material mat1{"mat1", Color{1.0f, 1.0f, 1.0f}, Color{1.0f, 1.0f, 1.0f}, Color{1.0f, 1.0f, 1.0f}, 2.0f};
   auto mat_ptr1 = std::make_shared<Material>(mat1);
-  Sphere sphere1{"Kugel 1", mat_ptr1, {0.0f, 0.0f, 0.0f}, 1.0f};
+  Sphere sphere1{"Kugel 1", mat_ptr1, {0.0f, 0.0f, -5.0f}, 1.0f};
   std::shared_ptr<Shape> sphere_ptr1 = std::make_shared<Sphere>(sphere1);
   scene1.shapes.push_back(sphere_ptr1);
 

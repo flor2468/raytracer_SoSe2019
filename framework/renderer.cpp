@@ -21,9 +21,11 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
   , ppm_(width_, height_)
 {}
 
-void Renderer::render()
+void Renderer::render(Camera const& camera1, Scene const& s1)
 {
   std::size_t const checker_pattern_size = 20;
+
+  Camera cam = camera1;
 
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
@@ -46,6 +48,10 @@ void Renderer::render()
       if(y > height_ * 2/3) {
         p.color = Color{0.0f, 0.0f, 0.0f};
       }
+
+      Ray strahlcurrent = cam.calcEyeRay(x, y);
+      trace(strahlcurrent, s1);
+
       write(p);
     }
   }
