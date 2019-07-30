@@ -13,19 +13,22 @@
 #include "scene.hpp"
 #include <cmath>
 
-Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
+Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene scene)
   : width_(w)
   , height_(h)
   , color_buffer_(w*h, Color(0.0, 0.0, 0.0))
   , filename_(file)
   , ppm_(width_, height_)
+  , scene_(scene)
 {}
 
-void Renderer::render(Camera const& camera1, Scene const& s1)
+// void Renderer::render(Camera const& camera1, Scene const& s1)
+void Renderer::render()
 {
   std::size_t const checker_pattern_size = 20;
 
-  Camera cam = camera1;
+  // Camera cam = camera1;
+  Camera cam;
 
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
@@ -50,7 +53,7 @@ void Renderer::render(Camera const& camera1, Scene const& s1)
       }
 
       Ray strahlcurrent = cam.calcEyeRay(x, y);
-      trace(strahlcurrent, s1);
+      trace(strahlcurrent, scene_);
 
       write(p);
     }

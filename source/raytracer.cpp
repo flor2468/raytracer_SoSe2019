@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
   
   std::string const filename2 = "Beispiel1.sdf";
 
-  Renderer renderer{image_width, image_height, filename};
+  // Renderer renderer{image_width, image_height, filename};
 
   Camera /*const&*/ cam1{};
   Scene scene1 = Scene {};
@@ -27,6 +27,14 @@ int main(int argc, char* argv[])
   Sphere sphere1{"Kugel 1", mat_ptr1, {0.0f, 0.0f, -5.0f}, 1.0f};
   std::shared_ptr<Shape> sphere_ptr1 = std::make_shared<Sphere>(sphere1);
   scene1.shapes.push_back(sphere_ptr1);
+
+  Renderer renderer{image_width, image_height, filename, scene1};
+
+  // // TEST Anfang
+  // Ray testray;
+  // renderer.trace(testray, scene1);
+  // renderer.render();
+  // // TEST Ende
 
   //create separate thread to see updates of pixels while rendering
   std::thread render_thread([&renderer]() {renderer.render();});
