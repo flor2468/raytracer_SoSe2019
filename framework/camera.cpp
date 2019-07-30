@@ -1,4 +1,6 @@
 #include "camera.hpp"
+#include <glm/vec3.hpp>
+#include <glm/glm.hpp>
 #include <cmath>
 
 
@@ -12,19 +14,16 @@ Camera::Camera(unsigned int breite, unsigned int hoehe, float oeffnungswinkel) :
     };
 
 Ray Camera::calcEyeRay(unsigned int x, unsigned int y) {
-    float distanceMitte = 0.0f;
-    distanceMitte = (breite_/ 2.0) / (std::tan(oeffnungswinkel_/ 2));
 
     Ray strahl;
-    // mittelstrahl.origin = startpunkt_;
-    // mittelstrahl.direction = {0.0f, 0.0f, -distanceMitte};
 
     // strahl = {0.0f, 0.0f, 0.0f} + t * {x - (width/ 2), y - (height/ 2), -d}
-    float strahlx = x - (breite_ / 2);
-    float strahly = y - (hoehe_ / 2);
+    float strahlx = x - (breite_ / 2.0f);
+    float strahly = y - (hoehe_ / 2.0f);
     float strahlz = -d;
     strahl.origin = startpunkt_;
-    strahl.direction = {strahlx, strahly, strahlz};
+    glm::vec3 normstrahl = {strahlx, strahly, strahlz};
+    strahl.direction = glm::normalize(normstrahl);
     
     return strahl;
 }
