@@ -42,18 +42,20 @@ void Renderer::render()
       }
   */
 
-      if(y > height_/ 3) { 
-        p.color = Color(1.0, 0.0, 0.0);
-      }
-      if(y < (height_/ 3)){
-        p.color = Color(1.0f, 1.0f, 0.0f);
-      }
-      if(y > height_ * 2/3) {
-        p.color = Color{0.0f, 0.0f, 0.0f};
-      }
+      // if(y > height_/ 3) { 
+      //   p.color = Color(1.0, 0.0, 0.0);
+      // }
+      // if(y < (height_/ 3)){
+      //   p.color = Color(1.0f, 1.0f, 0.0f);
+      // }
+      // if(y > height_ * 2/3) {
+      //   p.color = Color{0.0f, 0.0f, 0.0f};
+      // }
+
+      p.color = Color(0.0f, 0.0f, 0.0f);
 
       Ray strahlcurrent = cam.calcEyeRay(x, y);
-      trace(strahlcurrent, scene_);
+      p.color = trace(strahlcurrent, scene_);
 
       write(p);
     }
