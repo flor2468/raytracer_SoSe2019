@@ -133,7 +133,7 @@ TEST_CASE("intersect Box", "[Task 6.3]") {
 TEST_CASE("input Datei", "[Task 6.5]") {
   Scene obj;
   std::string s = "Beispiel1.sdf";
-  obj = input(s, obj);
+  obj = input(s/*, obj*/);
   //std::cout << obj.container1.at(0)->ka.r;
 }
 
@@ -191,7 +191,7 @@ TEST_CASE("find_map", "[Task 6.5]"){
   std::cout << "Task 6.5 find-map-Funktion" << std::endl;
   Scene obj;
   std::string s = "Beispiel-Datei.sdf";
-  obj = input(s, obj);
+  obj = input(s/*, obj*/);
   std::string test = "green";
   auto p = obj.find_map(test);
   REQUIRE(p->name_ == test);

@@ -50,6 +50,6 @@ struct Scene{
 
 bool operator<(std::shared_ptr<Material> const& lhs, std::shared_ptr<Material> const& rhs);
 
-Scene input(std::string datei_name, Scene scene);
+Scene input(std::string datei_name/*, Scene scene*/);
 
 #endif

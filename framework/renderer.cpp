@@ -93,5 +93,5 @@ Color Renderer::trace(Ray const& strahl, Scene const& scene) {
 }
 
 Color Renderer::shade(hitpoint const& h, Scene const& scene) {
-
+  
 }

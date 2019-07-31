@@ -1,24 +1,29 @@
 #include "scene.hpp"
-
+#include "box.hpp"
+#include "Sphere.hpp"
 
 bool operator<(std::shared_ptr<Material> const& lhs, std::shared_ptr<Material> const& rhs)
 {
   return lhs->name_ < rhs-> name_;
 };
 
-
-Scene input(std::string datei_name, Scene scene)
+Scene input(std::string datei_name/*, Scene scene*/)
  {
-    std::string name;
-    float ka_r, ka_g, ka_b, kd_r, kd_g,kd_b, ks_r, ks_g, ks_b, m; 
-    Color ka{ka_r, ka_g, ka_b,};
-    Color kd{ kd_r, kd_g,kd_b};
-    Color ks{ks_r, ks_g, ks_b};
-    Material mat{name, ka, kd, ks, m};
-    std::vector<std::string> textFile;
+   Scene scene{};
+
+    // std::string name;
+    // float ka_r, ka_g, ka_b, kd_r, kd_g,kd_b, ks_r, ks_g, ks_b, m; 
+    // Color ka{ka_r, ka_g, ka_b,};
+    // Color kd{ kd_r, kd_g,kd_b};
+    // Color ks{ks_r, ks_g, ks_b};
+    // Material mat{name, ka, kd, ks, m};
+
+    // std::vector<std::string> textFile;
+    
     std::string fileLine;
-    std::ifstream file;
-    file.open(datei_name);
+    // std::ifstream file;
+    // file.open(datei_name);
+    std::ifstream file(datei_name);
     if(file.is_open() == true){
     //    std::cout << "huhu";
       while(std::getline(file, fileLine)){
@@ -28,8 +33,10 @@ Scene input(std::string datei_name, Scene scene)
         //line_stream.str(fileLine);
         line_stream >> identifier;
         std::cout <<fileLine << "\n"; 
+
         if("define" == identifier){
             line_stream >>identifier;
+
             if("material" == identifier){
               std::string name;
               line_stream >> name;
@@ -44,11 +51,11 @@ Scene input(std::string datei_name, Scene scene)
               line_stream >> ks_g;
               line_stream >> ks_b;
               line_stream >> m;
-              ka = {ka_r, ka_g, ka_b,};
-              kd = { kd_r, kd_g,kd_b};
-              ks = {ks_r, ks_g, ks_b};
+              Color ka = {ka_r, ka_g, ka_b,};
+              Color kd = { kd_r, kd_g,kd_b};
+              Color ks = {ks_r, ks_g, ks_b};
               
-              mat = {name, ka, kd, ks, m};
+              Material mat = {name, ka, kd, ks, m};
               //std::cout <<name << " " << mat.ka.r << " " << m << "\n";
               auto mat_ptr = std::make_shared<Material>(mat);
               // scene.container1.push_back(mat_ptr);
@@ -57,6 +64,58 @@ Scene input(std::string datei_name, Scene scene)
               // std::cout << mat.ka.r << " " << mat.ka.g << " " << mat.ka.b;
 
             }
+
+            if("shape" == identifier) {
+              line_stream >> identifier;
+
+              if("box" == identifier) {
+                std::string name;
+                line_stream >> name;
+                float minx, miny, minz, maxx, maxy, maxz;
+                line_stream >> minx;
+                line_stream >> miny;
+                line_stream >> minz;
+                line_stream >> maxx;
+                line_stream >> maxy;
+                line_stream >> maxz;
+                glm::vec3 min = {minx, miny, minz};
+                glm::vec3 max = {maxx, maxy, maxz};
+
+                line_stream >> identifier;
+                std::map<std::string, std::shared_ptr<Material>>::iterator it;
+                it = scene.materials.find(identifier);
+                auto mat_ptr = it->second;
+
+                Box box = {name, mat_ptr, min, max};
+
+                auto box_ptr = std::make_shared<Box>(box);
+                scene.shapes.push_back(box_ptr);
+              }
+
+              if("sphere" == identifier) {
+                std::string name;
+                line_stream >> name;
+                float centerx, centery, centerz, radius;
+                line_stream >> centerx;
+                line_stream >> centery;
+                line_stream >> centerz;
+                line_stream >> radius;
+                glm::vec3 center = {centerx, centery, centerz};
+
+                line_stream >> identifier;
+                std::map<std::string, std::shared_ptr<Material>>::iterator it;
+                it = scene.materials.find(identifier);
+                auto mat_ptr = it->second;
+
+                Sphere sphere = {name, mat_ptr, center, radius};
+
+                auto sphere_ptr = std::make_shared<Sphere>(sphere);
+                scene.shapes.push_back(sphere_ptr);
+
+              }
+
+            }
+
         }
         //textFile.push_back(fileLine);
         //std::cout << fileLine << " \n";
@@ -66,6 +125,7 @@ Scene input(std::string datei_name, Scene scene)
         //strcpy(str,fileLine.c_str());
         //ptr = std::strtok(str, delimiter);
       }
+      // std::cout << "fertig" << std::endl;
       file.close();
       return scene;
     }
