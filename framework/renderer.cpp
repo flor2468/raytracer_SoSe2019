@@ -11,6 +11,7 @@
 #include "ray.hpp"
 #include "shape.hpp"
 #include "scene.hpp"
+#include "hitpont.hpp"
 #include <cmath>
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene scene)
@@ -80,16 +81,22 @@ void Renderer::write(Pixel const& p)
 }
 
 Color Renderer::trace(Ray const& strahl, Scene const& scene) {
-  hitpoint smallest;
+  hitpoint closest_hit = hitpoint();
+  float closest_dist = std::numeric_limits<float>::max();
   for(auto element : scene.shapes) {
-    if((element->intersect(strahl)).cut == true){
+    hitpoint hit = element->intersect(strahl);
+    if(hit.cut == true){
+      if(hit.distance < closest_dist){
+        closest_dist = hit.distance;
+        closest_hit = hit;
+      }
       // if(element->intersect(strahl).distance < smallest.distance){
       //   return shade(element->intersect(strahl), scene);
       // }
-      return {1.0f, 1.0f, 1.0f};
+      //return {1.0f, 1.0f, 1.0f};
     }
   }
-  return {0.0f, 0.0f, 0.0f};
+  return closest_hit.col->kd;
 }
 
 Color Renderer::shade(hitpoint const& h, Scene const& scene) {

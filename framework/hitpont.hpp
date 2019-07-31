@@ -8,10 +8,10 @@
 #include <memory>
 
 struct hitpoint{
-    bool cut  = {false};
+    bool cut  = false;
     float distance = {std::numeric_limits<float>::max()};
     std::string name = {" "};
-    std::shared_ptr<Material> col;
+    std::shared_ptr<Material> col = std::make_shared<Material>(Material{"black",{0,0,0},{0,0,0},{0,0,0},0});
     glm::vec3 point3d = {0.0f, 0.0f, 0.0f};
     glm::vec3 direction = {0.0f, 0.0f, 0.0f};
 

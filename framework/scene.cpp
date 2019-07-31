@@ -20,13 +20,18 @@ Scene input(std::string datei_name/*, Scene scene*/)
 
     // std::vector<std::string> textFile;
     
+    std::cout << "halloooo" << std::endl;
+
     std::string fileLine;
-    // std::ifstream file;
-    // file.open(datei_name);
-    std::ifstream file(datei_name);
+    std::ifstream file;
+    file.open(datei_name);
+    // std::ifstream file(datei_name);
     if(file.is_open() == true){
     //    std::cout << "huhu";
       while(std::getline(file, fileLine)){
+
+        std::cout << "test" << std::endl;
+
         //std::getline(file, fileLine);
         std::istringstream line_stream(fileLine);
         std::string identifier;
@@ -90,6 +95,7 @@ Scene input(std::string datei_name/*, Scene scene*/)
 
                 auto box_ptr = std::make_shared<Box>(box);
                 scene.shapes.push_back(box_ptr);
+                std::cout << "box added" << std::endl;
               }
 
               if("sphere" == identifier) {
@@ -111,6 +117,7 @@ Scene input(std::string datei_name/*, Scene scene*/)
 
                 auto sphere_ptr = std::make_shared<Sphere>(sphere);
                 scene.shapes.push_back(sphere_ptr);
+                std::cout << "sphere added" << std::endl;
 
               }
 

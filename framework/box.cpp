@@ -52,7 +52,7 @@ hitpoint Box::intersect(Ray const& ray) {
     glm::vec3 sp5 = ray.origin + tymax * ray.direction; 
     glm::vec3 sp6 = ray.origin + tzmax * ray.direction; 
 
-    std::cout << "INF: " << std::numeric_limits<float>::infinity() << std::endl;
+    // std::cout << "INF: " << std::numeric_limits<float>::infinity() << std::endl;
 
     if(sp1.y > min_.y && sp1.y < max_.y && sp1.z > min_.z && sp1.z < max_.z) {
         h.cut = true;

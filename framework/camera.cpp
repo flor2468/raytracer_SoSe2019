@@ -10,7 +10,7 @@ Camera::Camera(unsigned int breite, unsigned int hoehe, float oeffnungswinkel) :
     oeffnungswinkel_{oeffnungswinkel}
     {
         // d = Abstand vom Startpunkt zur "Pixelwand"
-        d = (breite_/ 2.0f) / (std::tan((oeffnungswinkel_ * (180 / M_PI)) / 2.0f));
+        d = (breite_/ 2.0f) / std::tan(oeffnungswinkel_  /* * (180 / M_PI)) / 2.0f)*/ / 2.0f * M_PI / 180);
     };
 
 Ray Camera::calcEyeRay(unsigned int x, unsigned int y) {
