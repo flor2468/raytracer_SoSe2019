@@ -34,10 +34,6 @@ void Renderer::render()
 
   // Camera cam = camera1;
   Camera cam;
-  Light light;
-  std::shared_ptr<Light> light_ptr;
-  light_ptr = std::make_shared<Light>(light);
-  scene_.lights.push_back(light_ptr);
 
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
@@ -89,7 +85,9 @@ void Renderer::write(Pixel const& p)
 }
 
 Color Renderer::trace(Ray const& strahl, Scene const& scene) {
+  Color result{1, 1, 0.6};
   hitpoint closest_hit = hitpoint();
+  std::shared_ptr<Shape> first = nullptr;
   float closest_dist = std::numeric_limits<float>::max();
   for(auto element : scene.shapes) {
     hitpoint hit = element->intersect(strahl);
@@ -97,7 +95,7 @@ Color Renderer::trace(Ray const& strahl, Scene const& scene) {
       if(hit.distance < closest_dist){
         closest_dist = hit.distance;
         closest_hit = hit;
-        closest_hit.col->kd = shade(closest_hit, scene, element);
+        first = element;
       }
       
       // std::cout << closest_hit.col->kd.r << ", " << closest_hit.col->kd.g << ", " << closest_hit.col->kd.b << std::endl;
@@ -111,8 +109,9 @@ Color Renderer::trace(Ray const& strahl, Scene const& scene) {
     //   closest_hit.col->kd = Color{1.0f, 0.5f, 0.5f};
     // }
   }
+  if (closest_hit.cut) {result = shade(closest_hit, scene, first);}
   
-  return closest_hit.col->kd;
+  return result;
 }
 
 Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Shape> const& shape_ptr) {
@@ -121,22 +120,28 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
 
   // std::cout << h.distance << std::endl;
 
-  // for(auto it = scene.lights.begin(); it != scene.lights.end(); ++it) {
+  Color result{0,0,0};
+
+  for(auto it = scene.lights.begin(); it != scene.lights.end(); ++it) {
     
-  // }
 
-
-  glm::vec3 richtung_licht = (scene.lights[0])->position_;
+  glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
   
-
+  
   glm::vec3 normal = shape_ptr->get_normal(h);
-  float angle = glm::angle(normal, richtung_licht);
-  float value = cos(angle);
+  float cos_angle = glm::cos(glm::angle(glm::normalize(normal), glm::normalize(richtung_licht)));
+  //std::cout << angle << std::endl;
 
-  float shade_r = scene.lights[0]->farbe_.r * h.col->kd.r /* + (h.distance + h.col->kd.r) */;
-  float shade_g = scene.lights[0]->farbe_.g * h.col->kd.g /* + (h.distance + h.col->kd.g) */;
-  float shade_b = (scene.lights[0]->farbe_.b * h.col->kd.b /* + (h.distance + h.col->kd.b) */ );
+  if (cos_angle > 0) {
+    float value = cos_angle * scene.lights[0]->intensitaet_;
 
+    float shade_r = (*it)->farbe_.r * h.col->kd.r * value /* + (h.distance + h.col->kd.r) */;
+    float shade_g = (*it)->farbe_.g * h.col->kd.g * value/* + (h.distance + h.col->kd.g) */;
+    float shade_b = (*it)->farbe_.b * h.col->kd.b * value/* + (h.distance + h.col->kd.b) */;
+    // std::cout << value << std::endl;
+
+    result += Color{shade_r, shade_g, shade_b};
+  }}
   // float shade_r = h.col->kd.r / (h.distance + h.col->kd.r);
   // float shade_g = h.col->kd.g / (h.distance + h.col->kd.g);
   // float shade_b = h.col->kd.b / (h.distance + h.col->kd.b);
@@ -145,9 +150,9 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
 
   // std::cout << shade_r << ", " << shade_g << ", " << shade_b << std::endl; 
 
-  float shade_normalize = sqrt(shade_r * shade_r + shade_g * shade_g + shade_b * shade_b);
+  // float shade_normalize = sqrt(shade_r * shade_r + shade_g * shade_g + shade_b * shade_b);
 
-  Color shade_col = {(shade_r / shade_normalize) * value, (shade_g / shade_normalize) * value, (shade_b / shade_normalize) * value};
+  // Color shade_col = {(shade_r / shade_normalize), (shade_g / shade_normalize) * value, (shade_b / shade_normalize) * value};
 
   // Color shade_col = {shade_r/sum, shade_g/sum, shade_b/sum};
 
@@ -156,5 +161,5 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
 
   // Color shade_col = {shade_r, shade_g, shade_b};
   // shade_col = glm::normalize(shade_col);
-  return shade_col;
+  return result;
 }

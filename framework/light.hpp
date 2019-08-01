@@ -20,7 +20,7 @@
 struct Light /* : public Ambient*/ {
 
     // Light();
-    Light(std::string name = " ", glm::vec3 position = {0,0,0}, Color farbe = {1,1,1}, float intensitaet = 1.0f) : name_{name}, position_{position}, farbe_{farbe}, intensitaet_{intensitaet} {}
+    Light(std::string name = " ", glm::vec3 position = {0,0,0}, Color farbe = {0.2,0.2,0.4}, float intensitaet = 0.5f) : name_{name}, position_{position}, farbe_{farbe}, intensitaet_{intensitaet} {}
 
     std::string name_ = " ";
     glm::vec3 position_ = {0,0,0};
