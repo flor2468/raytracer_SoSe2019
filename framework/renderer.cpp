@@ -53,7 +53,7 @@ void Renderer::render()
       //   p.color = Color{0.0f, 0.0f, 0.0f};
       // }
 
-      p.color = Color(0.0f, 0.0f, 0.0f);
+      // p.color = Color(0.0f, 1.0f, 0.0f);
 
       Ray strahlcurrent = cam.calcEyeRay(x, y);
       p.color = trace(strahlcurrent, scene_);
@@ -89,16 +89,51 @@ Color Renderer::trace(Ray const& strahl, Scene const& scene) {
       if(hit.distance < closest_dist){
         closest_dist = hit.distance;
         closest_hit = hit;
+        closest_hit.col->kd = shade(closest_hit, scene);
       }
+      
+      // std::cout << closest_hit.col->kd.r << ", " << closest_hit.col->kd.g << ", " << closest_hit.col->kd.b << std::endl;
+
       // if(element->intersect(strahl).distance < smallest.distance){
       //   return shade(element->intersect(strahl), scene);
       // }
       //return {1.0f, 1.0f, 1.0f};
     }
+    // else{
+    //   closest_hit.col->kd = Color{1.0f, 0.5f, 0.5f};
+    // }
   }
+  
   return closest_hit.col->kd;
 }
 
 Color Renderer::shade(hitpoint const& h, Scene const& scene) {
-  
+
+  // std::cout << h.col->kd.r << ", " << h.col->kd.g << ", " << h.col->kd.b << std::endl;
+
+  // std::cout << h.distance << std::endl;
+
+  float shade_r = scene.ambient->standard_.r * h.col->kd.r /* + (h.distance + h.col->kd.r) */;
+  float shade_g = scene.ambient->standard_.g * h.col->kd.g /* + (h.distance + h.col->kd.g) */;
+  float shade_b = (scene.ambient->standard_.b * h.col->kd.b /* + (h.distance + h.col->kd.b) */ + h.distance) / 100;
+
+  // float shade_r = h.col->kd.r / (h.distance + h.col->kd.r);
+  // float shade_g = h.col->kd.g / (h.distance + h.col->kd.g);
+  // float shade_b = h.col->kd.b / (h.distance + h.col->kd.b);
+
+
+  // std::cout << shade_r << ", " << shade_g << ", " << shade_b << std::endl; 
+
+  // float shade_normalize = sqrt(shade_r * shade_r + shade_g * shade_g + shade_b * shade_b);
+
+  // Color shade_col = {shade_r / shade_normalize, shade_g / shade_normalize, shade_b / shade_normalize};
+
+  Color shade_col = {shade_r, shade_g, shade_b};
+
+  // std::cout << shade_col.r << ", " << shade_col.g << ", " << shade_col.b << std::endl; 
+  // std::cout << "fertig" << std::endl;
+
+  // Color shade_col = {shade_r, shade_g, shade_b};
+  // shade_col = glm::normalize(shade_col);
+  return shade_col;
 }

@@ -7,6 +7,7 @@
 #include <set>
 #include "material.hpp"
 #include "shape.hpp"
+#include "ambient.hpp"
 #include <stdio.h>
 #include <string.h>
 #include <memory>
@@ -19,6 +20,7 @@ struct Scene{
     // std::set<std::shared_ptr<Material>> container2;
     std::map<std::string, std::shared_ptr<Material>> materials;
     std::vector<std::shared_ptr<Shape>> shapes;
+    std::shared_ptr<Ambient> ambient;
 
     // std::shared_ptr<Material> find_vector(std::string color_name){
     //   for(std::vector<std::shared_ptr<Material>>::size_type i = 0; i!= container1.size(); i++){

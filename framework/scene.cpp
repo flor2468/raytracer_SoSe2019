@@ -124,6 +124,19 @@ Scene input(std::string datei_name/*, Scene scene*/)
             }
 
         }
+
+        if("ambient" == identifier) {
+          float r, g, b;
+          line_stream >> r;
+          line_stream >> g;
+          line_stream >> b;
+          Color ambient_col = {r, g, b};
+          Ambient amb = {ambient_col};
+          auto ambient_ptr = std::make_shared<Ambient>(amb);
+
+          scene.ambient = ambient_ptr;
+        }
+
         //textFile.push_back(fileLine);
         //std::cout << fileLine << " \n";
         //char delimiter[] = " ";

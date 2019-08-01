@@ -4,8 +4,8 @@
 #include "light.hpp"
 
 struct Ambient /*: public Light*/ {
-    Color standard_;
-    Ambient(Color standard) : standard_(standard) {}
+    Color standard_ = {0.1f, 0.1f, 0.1f};
+    Ambient(Color standard = {0.1f, 0.1f, 0.1f}) : standard_(standard) {}
 };
 
 #endif
