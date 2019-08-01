@@ -54,3 +54,8 @@ hitpoint Sphere::intersect(Ray const& ray/*, float& distance*/){
     }
 
 }
+
+glm::vec3 Sphere::get_normal(hitpoint const& h) {
+    glm::vec3 normale = h.point3d - center_;
+    return normale;
+}

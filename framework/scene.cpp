@@ -123,6 +123,28 @@ Scene input(std::string datei_name/*, Scene scene*/)
 
             }
 
+            if("light" == identifier) {
+              std::string name;
+              line_stream >> name;
+              float x, y, z, r, g, b, intensitaet;
+              line_stream >> x;
+              line_stream >> y;
+              line_stream >> z;
+              line_stream >> r;
+              line_stream >> g;
+              line_stream >> b;
+              line_stream >> intensitaet;
+              glm::vec3 position = {x, y, z};
+              Color farbe = {r, g, b};
+              Light licht = {name, position, farbe, intensitaet};
+
+              auto light_ptr = std::make_shared<Light>(licht);
+              scene.lights.push_back(light_ptr);
+              std::cout << "light added" << std::endl;
+
+            }
+
+
         }
 
         if("ambient" == identifier) {

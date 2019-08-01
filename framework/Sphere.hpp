@@ -17,6 +17,7 @@ class Sphere: public Shape{
         virtual float volume() override;
         virtual std::ostream& print (std::ostream& os) const override;
         hitpoint intersect(Ray const& ray) override;
+        glm::vec3 get_normal(hitpoint const& h) override;
 
     private:
         glm::vec3 center_;

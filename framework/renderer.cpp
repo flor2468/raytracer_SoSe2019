@@ -12,7 +12,11 @@
 #include "shape.hpp"
 #include "scene.hpp"
 #include "hitpont.hpp"
+#include "light.hpp"
+#include <glm/gtx/vector_angle.hpp>
 #include <cmath>
+#include <iterator>
+#include <vector>
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene scene)
   : width_(w)
@@ -30,6 +34,10 @@ void Renderer::render()
 
   // Camera cam = camera1;
   Camera cam;
+  Light light;
+  std::shared_ptr<Light> light_ptr;
+  light_ptr = std::make_shared<Light>(light);
+  scene_.lights.push_back(light_ptr);
 
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
@@ -89,7 +97,7 @@ Color Renderer::trace(Ray const& strahl, Scene const& scene) {
       if(hit.distance < closest_dist){
         closest_dist = hit.distance;
         closest_hit = hit;
-        closest_hit.col->kd = shade(closest_hit, scene);
+        closest_hit.col->kd = shade(closest_hit, scene, element);
       }
       
       // std::cout << closest_hit.col->kd.r << ", " << closest_hit.col->kd.g << ", " << closest_hit.col->kd.b << std::endl;
@@ -107,28 +115,41 @@ Color Renderer::trace(Ray const& strahl, Scene const& scene) {
   return closest_hit.col->kd;
 }
 
-Color Renderer::shade(hitpoint const& h, Scene const& scene) {
+Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Shape> const& shape_ptr) {
 
   // std::cout << h.col->kd.r << ", " << h.col->kd.g << ", " << h.col->kd.b << std::endl;
 
   // std::cout << h.distance << std::endl;
 
-  float shade_r = scene.ambient->standard_.r * h.col->kd.r /* + (h.distance + h.col->kd.r) */;
-  float shade_g = scene.ambient->standard_.g * h.col->kd.g /* + (h.distance + h.col->kd.g) */;
-  float shade_b = (scene.ambient->standard_.b * h.col->kd.b /* + (h.distance + h.col->kd.b) */ + h.distance) / 100;
+  // for(auto it = scene.lights.begin(); it != scene.lights.end(); ++it) {
+    
+  // }
+
+
+  glm::vec3 richtung_licht = (scene.lights[0])->position_;
+  
+
+  glm::vec3 normal = shape_ptr->get_normal(h);
+  float angle = glm::angle(normal, richtung_licht);
+  float value = cos(angle);
+
+  float shade_r = scene.lights[0]->farbe_.r * h.col->kd.r /* + (h.distance + h.col->kd.r) */;
+  float shade_g = scene.lights[0]->farbe_.g * h.col->kd.g /* + (h.distance + h.col->kd.g) */;
+  float shade_b = (scene.lights[0]->farbe_.b * h.col->kd.b /* + (h.distance + h.col->kd.b) */ );
 
   // float shade_r = h.col->kd.r / (h.distance + h.col->kd.r);
   // float shade_g = h.col->kd.g / (h.distance + h.col->kd.g);
   // float shade_b = h.col->kd.b / (h.distance + h.col->kd.b);
 
+  // float sum = shade_r + shade_g + shade_b;
 
   // std::cout << shade_r << ", " << shade_g << ", " << shade_b << std::endl; 
 
-  // float shade_normalize = sqrt(shade_r * shade_r + shade_g * shade_g + shade_b * shade_b);
+  float shade_normalize = sqrt(shade_r * shade_r + shade_g * shade_g + shade_b * shade_b);
 
-  // Color shade_col = {shade_r / shade_normalize, shade_g / shade_normalize, shade_b / shade_normalize};
+  Color shade_col = {(shade_r / shade_normalize) * value, (shade_g / shade_normalize) * value, (shade_b / shade_normalize) * value};
 
-  Color shade_col = {shade_r, shade_g, shade_b};
+  // Color shade_col = {shade_r/sum, shade_g/sum, shade_b/sum};
 
   // std::cout << shade_col.r << ", " << shade_col.g << ", " << shade_col.b << std::endl; 
   // std::cout << "fertig" << std::endl;

@@ -140,3 +140,8 @@ hitpoint Box::intersect(Ray const& ray) {
 
     return h;
 }
+
+glm::vec3 Box::get_normal(hitpoint const& h) {
+    glm::vec3 a = {0,0,0};
+    return a;
+}
