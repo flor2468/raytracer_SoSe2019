@@ -128,7 +128,7 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
   glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
   
   
-  glm::vec3 normal = shape_ptr->get_normal(h);
+  glm::vec3 normal = h.normale_; //shape_ptr->get_normal(h);
   float cos_angle = glm::cos(glm::angle(glm::normalize(normal), glm::normalize(richtung_licht)));
   //std::cout << angle << std::endl;
 

@@ -16,6 +16,6 @@ struct hitpoint{
     std::shared_ptr<Material> col = std::make_shared<Material>(Material{"yellow",{1.0f, 1.0f, 0.6f},{1.0f, 1.0f, 0.6f},{1.0f, 1.0f, 0.6f},0});
     glm::vec3 point3d = {0.0f, 0.0f, 0.0f};
     glm::vec3 direction = {0.0f, 0.0f, 0.0f};
-
+    glm::vec3 normale_ = {0.0f, 0.0f, 0.0f};
 };
 #endif
