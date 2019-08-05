@@ -31,6 +31,7 @@ public:
   void write(Pixel const& p);
   Color trace(Ray const& strahl, Scene const& scene);
   Color shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Shape> const& shape_ptr);
+  Color shadow(hitpoint const& h, Scene const& scene);
 
   inline std::vector<Color> const& color_buffer() const
   {

@@ -88,6 +88,8 @@ Color Renderer::trace(Ray const& strahl, Scene const& scene) {
   Color result{1, 1, 0.6};
   hitpoint closest_hit = hitpoint();
   std::shared_ptr<Shape> first = nullptr;
+  Color schatten_col = {0.0f, 0.0f, 0.0f};
+
   float closest_dist = std::numeric_limits<float>::max();
   for(auto element : scene.shapes) {
     hitpoint hit = element->intersect(strahl);
@@ -105,11 +107,15 @@ Color Renderer::trace(Ray const& strahl, Scene const& scene) {
       // }
       //return {1.0f, 1.0f, 1.0f};
     }
+    schatten_col = shadow(hit, scene);
+    
     // else{
     //   closest_hit.col->kd = Color{1.0f, 0.5f, 0.5f};
     // }
   }
-  if (closest_hit.cut) {result = shade(closest_hit, scene, first);}
+  if (closest_hit.cut) {
+    result = shade(closest_hit, scene, first);
+  }
   
   return result;
 }
@@ -125,23 +131,24 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
   for(auto it = scene.lights.begin(); it != scene.lights.end(); ++it) {
     
 
-  glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
-  
-  
-  glm::vec3 normal = h.normale_; //shape_ptr->get_normal(h);
-  float cos_angle = glm::cos(glm::angle(glm::normalize(normal), glm::normalize(richtung_licht)));
-  //std::cout << angle << std::endl;
+    glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
+    
+    
+    glm::vec3 normal = h.normale_; //shape_ptr->get_normal(h);
+    float cos_angle = glm::cos(glm::angle(glm::normalize(normal), glm::normalize(richtung_licht)));
+    //std::cout << angle << std::endl;
 
-  if (cos_angle > 0) {
-    float value = cos_angle * scene.lights[0]->intensitaet_;
+    if (cos_angle > 0) {
+      float value = cos_angle * scene.lights[0]->intensitaet_;
 
-    float shade_r = (*it)->farbe_.r * h.col->kd.r * value /* + (h.distance + h.col->kd.r) */;
-    float shade_g = (*it)->farbe_.g * h.col->kd.g * value/* + (h.distance + h.col->kd.g) */;
-    float shade_b = (*it)->farbe_.b * h.col->kd.b * value/* + (h.distance + h.col->kd.b) */;
-    // std::cout << value << std::endl;
+      float shade_r = (*it)->farbe_.r * h.col->kd.r * value /* + (h.distance + h.col->kd.r) */;
+      float shade_g = (*it)->farbe_.g * h.col->kd.g * value/* + (h.distance + h.col->kd.g) */;
+      float shade_b = (*it)->farbe_.b * h.col->kd.b * value/* + (h.distance + h.col->kd.b) */;
+      // std::cout << value << std::endl;
 
-    result += Color{shade_r, shade_g, shade_b};
-  }}
+      result += Color{shade_r, shade_g, shade_b};
+    }
+  }
   // float shade_r = h.col->kd.r / (h.distance + h.col->kd.r);
   // float shade_g = h.col->kd.g / (h.distance + h.col->kd.g);
   // float shade_b = h.col->kd.b / (h.distance + h.col->kd.b);
@@ -162,4 +169,36 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
   // Color shade_col = {shade_r, shade_g, shade_b};
   // shade_col = glm::normalize(shade_col);
   return result;
+}
+
+Color Renderer::shadow(hitpoint const& h, Scene const& scene) {
+  Color schatten = {0.0f, 0.0f, 0.0f};
+  Color farbe = {0.0f, 0.0f, 0.0f};
+  float shadow_r = 1;
+  float shadow_g = 1;
+  float shadow_b = 1;
+
+  for(auto light : scene.lights) {
+    glm::vec3 strahl_objekt_zu_lichtquelle = light->position_ - h.point3d;
+    Ray strahl{};
+    strahl.origin = h.point3d;
+    strahl.direction = strahl_objekt_zu_lichtquelle;
+    for(auto shape : scene.shapes) {
+      hitpoint object_point = shape->intersect(strahl);
+      farbe += light->farbe_;
+      if(object_point.cut == true) {
+        // h.col->kd = glm::normalize(h.col->kd + schatten + scene.ambient->standard_);
+        // return h.col->kd;
+        
+        float cos_angle = glm::cos(glm::angle(glm::normalize(h.normale_), glm::normalize(strahl_objekt_zu_lichtquelle)));
+        float value = cos_angle * scene.lights[0]->intensitaet_;
+
+        // return schatten + scene.ambient->standard_;
+        shadow_r *= light->farbe_.r * h.col->kd.r * value;
+        shadow_g *= light->farbe_.g * h.col->kd.g * value;
+        shadow_b *= light->farbe_.b * h.col->kd.b * value;
+      }
+    }
+  }
+  return h.col->kd;
 }
