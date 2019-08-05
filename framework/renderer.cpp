@@ -127,13 +127,11 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
   // std::cout << h.distance << std::endl;
 
   Color result{0,0,0};
+  Color schatten_col{0,0,0};
 
   for(auto it = scene.lights.begin(); it != scene.lights.end(); ++it) {
     
-
     glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
-    
-    
     glm::vec3 normal = h.normale_; //shape_ptr->get_normal(h);
     float cos_angle = glm::cos(glm::angle(glm::normalize(normal), glm::normalize(richtung_licht)));
     //std::cout << angle << std::endl;
@@ -145,10 +143,15 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
       float shade_g = (*it)->farbe_.g * h.col->kd.g * value/* + (h.distance + h.col->kd.g) */;
       float shade_b = (*it)->farbe_.b * h.col->kd.b * value/* + (h.distance + h.col->kd.b) */;
       // std::cout << value << std::endl;
-
+      schatten_col = shadow(h, scene);
       result += Color{shade_r, shade_g, shade_b};
+      
     }
   }
+  
+  result += schatten_col;
+
+
   // float shade_r = h.col->kd.r / (h.distance + h.col->kd.r);
   // float shade_g = h.col->kd.g / (h.distance + h.col->kd.g);
   // float shade_b = h.col->kd.b / (h.distance + h.col->kd.b);
@@ -172,16 +175,18 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
 }
 
 Color Renderer::shadow(hitpoint const& h, Scene const& scene) {
-  Color schatten = {0.0f, 0.0f, 0.0f};
+  Color schatten = {1.0f, 1.0f, 1.0f};
   Color farbe = {0.0f, 0.0f, 0.0f};
   float shadow_r = 1;
   float shadow_g = 1;
   float shadow_b = 1;
+  bool we_see_light = false;
 
   for(auto light : scene.lights) {
-    glm::vec3 strahl_objekt_zu_lichtquelle = light->position_ - h.point3d;
+    we_see_light = true;
+    glm::vec3 strahl_objekt_zu_lichtquelle = glm::normalize(light->position_ - h.point3d);
     Ray strahl{};
-    strahl.origin = h.point3d;
+    strahl.origin = h.point3d + 0.1f * h.normale_; // + 0.1f * h.normale gegen Rundungsfehler (Punkt koennte innerhalb des Objektes liegen)
     strahl.direction = strahl_objekt_zu_lichtquelle;
     for(auto shape : scene.shapes) {
       hitpoint object_point = shape->intersect(strahl);
@@ -189,14 +194,58 @@ Color Renderer::shadow(hitpoint const& h, Scene const& scene) {
       if(object_point.cut == true) {
         // h.col->kd = glm::normalize(h.col->kd + schatten + scene.ambient->standard_);
         // return h.col->kd;
-        
-        float cos_angle = glm::cos(glm::angle(glm::normalize(h.normale_), glm::normalize(strahl_objekt_zu_lichtquelle)));
-        float value = cos_angle * scene.lights[0]->intensitaet_;
+        we_see_light = false;
+        break;
+        // float cos_angle = glm::cos(glm::angle(glm::normalize(h.normale_), glm::normalize(strahl_objekt_zu_lichtquelle)));
+        // float value = cos_angle * scene.lights[0]->intensitaet_;
 
-        // return schatten + scene.ambient->standard_;
-        shadow_r *= light->farbe_.r * h.col->kd.r * value;
-        shadow_g *= light->farbe_.g * h.col->kd.g * value;
-        shadow_b *= light->farbe_.b * h.col->kd.b * value;
+        // // return schatten + scene.ambient->standard_;
+        // shadow_r *= light->farbe_.r * h.col->kd.r * value;
+        // shadow_g *= light->farbe_.g * h.col->kd.g * value;
+        // shadow_b *= light->farbe_.b * h.col->kd.b * value;
+      }
+    }
+
+    if(we_see_light == true) {
+      float skalarprodukt = (h.normale_.x * strahl_objekt_zu_lichtquelle.x + h.normale_.y * strahl_objekt_zu_lichtquelle.y + h.normale_.z * strahl_objekt_zu_lichtquelle.z);
+      if(skalarprodukt > 0) {
+        // std::cout << "huhu";
+        // std::cout << skalarprodukt << " ";
+        float r = h.col->kd.r * light->intensitaet_ * skalarprodukt;
+        float g = h.col->kd.g * light->intensitaet_ * skalarprodukt;
+        float b = h.col->kd.b * light->intensitaet_ * skalarprodukt;
+        Color current_farbe = {r, g, b};
+        schatten.r += current_farbe.r;
+        schatten.g += current_farbe.g;
+        schatten.b += current_farbe.b;
+
+        schatten.r *= 0.1f;
+        schatten.g *= 0.1f;
+        schatten.b *= 0.1f;
+
+        // std::cout << "Rot: " << schatten.r << " Gruen: " << schatten.g << " Blau: " << schatten.b;
+
+        // if(schatten.r > 1) {
+        //   schatten.r = 1;
+        // }
+        // else if(schatten.r < 0) {
+        //   schatten.r = 0;
+        // }
+        // if(schatten.g > 1) {
+        //   schatten.g = 1;
+        // }
+        // else if(schatten.g < 0) {
+        //   schatten.g = 0;
+        // }
+        // if(schatten.b > 1) {
+        //   schatten.b = 1;
+        // }
+        // else if(schatten.b < 0) {
+        //   schatten.b = 0;
+        // }
+
+        return schatten;
+        // return farbe;
       }
     }
   }
