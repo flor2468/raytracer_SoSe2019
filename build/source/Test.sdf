@@ -1,0 +1,33 @@
+# materials
+define material red 1 0 0 1 0 0 1 0 0 10
+define material blue 0 0 1 0 0 1 0 0 1 10
+define material white 1 1 1 1 1 1 1 1 1 10
+define material tuerkis 0.5 0.9 0.7 0.5 0.9 0.7 0.5 0.9 0.7 10
+# geometry
+define shape box rbottom 10 -20 -100 50 -10 -50 red
+
+#define shape sphere bsphere 0 0 -100 20 blue
+#define shape sphere bsphere 0 0 -30 5 blue
+#define shape sphere bsphere 0 0 -30 5 tuerkis
+# composite
+define shape composite root rbottom bsphere
+# scene xform
+transform rbottom rotate 45 0 0 1
+transform rbottom translate 0 0 -10
+transform bsphere rotate 45 0 0 1
+transform bsphere translate 0 0 -10
+# lights
+define light l1 0 0 0 1.0 1.0 1.0 1
+#define light l1 -500 400 100 1.0 1.0 1.0 1
+#define light sun -800 -800 0 .8 .8 .8 1
+#define light spot1 800 -800 0 .8 .8 .8 1
+#define light spot2 800 800 0 .8 .8 .8 1
+#define light spot3 -800 800 0 .8 .8 .8 1
+ambient 0.1 0.1 0.1
+# camera
+define camera eye 60.0
+# camera xform
+transform eye rotate -45 0 1 0
+transform eye translate 100 0 100
+# ... and go
+render eye image . ppm 480 320
