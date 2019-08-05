@@ -8,6 +8,9 @@
 #include <memory>
 
 struct hitpoint{
+
+    /* Hitpoint = Schnittpunkt */
+
     bool cut  = false;
     float distance = {std::numeric_limits<float>::max()};
     std::string name = {" "};

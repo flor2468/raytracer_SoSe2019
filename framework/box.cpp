@@ -63,6 +63,8 @@ hitpoint Box::intersect(Ray const& ray) {
             h.point3d.x = ray.origin.x + txmin * ray.direction.x;
             h.point3d.y = ray.origin.y + txmin * ray.direction.y;
             h.point3d.z = ray.origin.z + txmin * ray.direction.z;
+
+            /* Normale des Hitpoints (statt der getNormale-Funktion), da txmin der minimale x-Wert ist*/
             h.normale_ = {-1,0,0};
         }
         h.name = name_;
@@ -78,6 +80,8 @@ hitpoint Box::intersect(Ray const& ray) {
             h.point3d.x = ray.origin.x + tymin * ray.direction.x;
             h.point3d.y = ray.origin.y + tymin * ray.direction.y;
             h.point3d.z = ray.origin.z + tymin * ray.direction.z;
+
+            /* Normale des Hitpoints */
             h.normale_ = {0,-1,0};
         }
         h.name = name_;
@@ -94,6 +98,8 @@ hitpoint Box::intersect(Ray const& ray) {
             h.point3d.x = ray.origin.x + tzmin * ray.direction.x;
             h.point3d.y = ray.origin.y + tzmin * ray.direction.y;
             h.point3d.z = ray.origin.z + tzmin * ray.direction.z;
+
+            /* Normale des Hitpoints */
             h.normale_ = {0,0,-1};
         }
         h.name = name_;
@@ -110,6 +116,8 @@ hitpoint Box::intersect(Ray const& ray) {
             h.point3d.x = ray.origin.x + txmax * ray.direction.x;
             h.point3d.y = ray.origin.y + txmax * ray.direction.y;
             h.point3d.z = ray.origin.z + txmax * ray.direction.z;
+
+            /* Normale des Hitpoints */
             h.normale_ = {1,0,0};
         }
         h.name = name_;
@@ -126,6 +134,8 @@ hitpoint Box::intersect(Ray const& ray) {
             h.point3d.x = ray.origin.x + tymax * ray.direction.x;
             h.point3d.y = ray.origin.y + tymax * ray.direction.y;
             h.point3d.z = ray.origin.z + tymax * ray.direction.z;
+
+            /* Normale des Hitpoints */
             h.normale_ = {0,1,0};
         }
         h.name = name_;
@@ -142,6 +152,8 @@ hitpoint Box::intersect(Ray const& ray) {
             h.point3d.x = ray.origin.x + tzmax * ray.direction.x;
             h.point3d.y = ray.origin.y + tzmax * ray.direction.y;
             h.point3d.z = ray.origin.z + tzmax * ray.direction.z;
+
+            /* Normale des Hitpoints */
             h.normale_ = {0,0,1};
         }
         h.name = name_;
@@ -194,3 +206,7 @@ glm::vec3 Box::get_normal(hitpoint const& hit) {
     
     return normale;
 }
+
+ std::shared_ptr<Material> Box::get_Material() {
+     return color_;
+ }

@@ -18,6 +18,7 @@ class Sphere: public Shape{
         virtual std::ostream& print (std::ostream& os) const override;
         hitpoint intersect(Ray const& ray) override;
         glm::vec3 get_normal(hitpoint const& h) override;
+        std::shared_ptr<Material> get_Material() override;
 
     private:
         glm::vec3 center_;

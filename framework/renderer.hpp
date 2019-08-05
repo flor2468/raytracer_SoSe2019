@@ -32,6 +32,8 @@ public:
   Color trace(Ray const& strahl, Scene const& scene);
   Color shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Shape> const& shape_ptr);
   Color shadow(hitpoint const& h, Scene const& scene);
+  Color calculate_ambient(std::shared_ptr<Shape> shape, Scene const& scene);
+  Color tone_mapping(Color& color);
 
   inline std::vector<Color> const& color_buffer() const
   {

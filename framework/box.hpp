@@ -14,6 +14,7 @@ class Box: public Shape{
         virtual std::ostream& print (std::ostream& os) const override;
         virtual hitpoint intersect(Ray const& ray) override;
         virtual glm::vec3 get_normal(hitpoint const& h) override;
+        virtual std::shared_ptr<Material> get_Material() override;
 
     private:
         glm::vec3 min_;

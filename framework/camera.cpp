@@ -15,6 +15,8 @@ Camera::Camera(unsigned int breite, unsigned int hoehe, float oeffnungswinkel) :
 
 Ray Camera::calcEyeRay(unsigned int x, unsigned int y) {
 
+    /* Die Strahlen von der Kamera zu allen Pixeln werden berechnet */
+
     Ray strahl;
 
     // strahl = {0.0f, 0.0f, 0.0f} + t * {x - (width/ 2), y - (height/ 2), -d}

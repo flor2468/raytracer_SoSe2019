@@ -50,6 +50,8 @@ hitpoint Sphere::intersect(Ray const& ray/*, float& distance*/){
         h.point3d.y = ray.origin.y + h.distance * ray.direction.y;
         h.point3d.z = ray.origin.z + h.distance * ray.direction.z;
         h.direction = ray.direction;
+
+        /* Normale des Hitpoints zeigt von center_ zum Schnittpunkt (Hitpoint) auf der Kugel */
         h.normale_ = h.point3d - center_;
         return h;
     }
@@ -59,4 +61,8 @@ hitpoint Sphere::intersect(Ray const& ray/*, float& distance*/){
 glm::vec3 Sphere::get_normal(hitpoint const& h) {
     glm::vec3 normale = h.point3d - center_;
     return normale;
+}
+
+std::shared_ptr<Material> Sphere::get_Material() {
+    return color_;
 }

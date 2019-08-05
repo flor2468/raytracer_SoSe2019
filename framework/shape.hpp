@@ -18,6 +18,7 @@ class Shape{
         virtual std::ostream& print (std::ostream& os ) const;
         virtual hitpoint intersect(Ray const& ray) = 0;
         virtual glm::vec3 get_normal(hitpoint const& h) = 0;
+        virtual std::shared_ptr<Material> get_Material() = 0;
         
     protected:
         std::string name_;

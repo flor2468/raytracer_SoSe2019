@@ -7,30 +7,23 @@ bool operator<(std::shared_ptr<Material> const& lhs, std::shared_ptr<Material> c
   return lhs->name_ < rhs-> name_;
 };
 
-Scene input(std::string datei_name/*, Scene scene*/)
- {
-   Scene scene{};
+Scene input(std::string datei_name/*, Scene scene*/) {
 
-    // std::string name;
-    // float ka_r, ka_g, ka_b, kd_r, kd_g,kd_b, ks_r, ks_g, ks_b, m; 
-    // Color ka{ka_r, ka_g, ka_b,};
-    // Color kd{ kd_r, kd_g,kd_b};
-    // Color ks{ks_r, ks_g, ks_b};
-    // Material mat{name, ka, kd, ks, m};
+  /* Funktion zum Einlesen einer Szene aus einer SDF-Datei  */
 
-    // std::vector<std::string> textFile;
+  Scene scene{};
     
-    std::cout << "halloooo" << std::endl;
+  // std::cout << "halloooo" << std::endl;
 
-    std::string fileLine;
-    std::ifstream file;
-    file.open(datei_name);
-    // std::ifstream file(datei_name);
-    if(file.is_open() == true){
-    //    std::cout << "huhu";
-      while(std::getline(file, fileLine)){
+   std::string fileLine;
+   std::ifstream file;
+   file.open(datei_name);
+   // std::ifstream file(datei_name);
+   if(file.is_open() == true){
+   //    std::cout << "huhu";
+     while(std::getline(file, fileLine)){
 
-        std::cout << "test" << std::endl;
+        // std::cout << "test" << std::endl;
 
         //std::getline(file, fileLine);
         std::istringstream line_stream(fileLine);
