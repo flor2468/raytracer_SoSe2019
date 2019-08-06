@@ -23,6 +23,8 @@ class Shape{
     protected:
         std::string name_;
         std::shared_ptr<Material> color_;
+        glm::mat4 world_transformation_;
+        glm::mat4 world_transformation_invers_;
 };
 
 std::ostream& operator<<(std::ostream& os, Shape const& s);

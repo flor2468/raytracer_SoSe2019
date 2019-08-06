@@ -5,6 +5,7 @@
 #include <glm/gtx/intersect.hpp>
 #include "hitpont.hpp"
 #include "ray.hpp"
+#include "scene.hpp"
 
 class Sphere: public Shape{
     
@@ -19,6 +20,8 @@ class Sphere: public Shape{
         hitpoint intersect(Ray const& ray) override;
         glm::vec3 get_normal(hitpoint const& h) override;
         std::shared_ptr<Material> get_Material() override;
+        Sphere translate(std::shared_ptr<Sphere> const& s, Scene const& scene, glm::vec3 verschiebung);
+        glm::vec3 get_Center();
 
     private:
         glm::vec3 center_;

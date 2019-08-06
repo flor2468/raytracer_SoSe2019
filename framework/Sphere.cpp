@@ -66,3 +66,17 @@ glm::vec3 Sphere::get_normal(hitpoint const& h) {
 std::shared_ptr<Material> Sphere::get_Material() {
     return color_;
 }
+
+glm::vec3 Sphere::get_Center() {
+    return center_;
+}
+
+Sphere Sphere::translate(std::shared_ptr<Sphere> const& s, Scene const& scene, glm::vec3 verschiebung) {
+    glm::vec3 center = s->get_Center();
+    glm::vec4 p;
+    p.w = center.x;
+    p.x = center.y;
+    p.y = center.z;
+    p.z = 1;
+    
+}
