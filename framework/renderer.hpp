@@ -33,8 +33,8 @@ public:
   Color shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Shape> const& shape_ptr);
   Color shadow(hitpoint const& h, Scene const& scene);
   Color calculate_ambient(std::shared_ptr<Shape> shape, Scene const& scene);
-  Color calculate_diffus(std::shared_ptr<Shape> shape, Scene const& scene);
-  Color calculate_specular(std::shared_ptr<Shape> shape, Scene const& scene);
+  Color calculate_diffus(std::shared_ptr<Shape> shape, Scene const& scene, hitpoint const& h);
+  Color calculate_specular(std::shared_ptr<Shape> shape, Scene const& scene, hitpoint const& h);
   Color tone_mapping(Color& color);
 
   inline std::vector<Color> const& color_buffer() const

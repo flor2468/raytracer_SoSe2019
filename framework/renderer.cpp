@@ -119,31 +119,9 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
   /* Funktion zum "Schattieren" der Objekte, um einen 3D-Effekt zu erzeugen (-> z.B. sieht man statt eines Kreises eine Kugel :D) */
 
   Color result{0,0,0};
-  Color schatten_col{0,0,0};
-  Color sum{0,0,0};
-  float intersect = 1;
+  Color diffus = calculate_diffus(shape_ptr, scene, h);
+  Color specular = calculate_specular(shape_ptr, scene, h);
 
-
-  for(auto it = scene.lights.begin(); it != scene.lights.end(); ++it) {
-    
-    /* fuer alle Lichtquellen wird ein Strahl vom Schnittpunkt auf dem Objekt zur Lichtquelle geschickt */
-
-    glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
-    glm::vec3 normal = h.normale_; 
-    float cos_angle = glm::cos(glm::angle(glm::normalize(normal), glm::normalize(richtung_licht)));
-
-    if (cos_angle > 0) {
-      float value = cos_angle * scene.lights[0]->intensitaet_;
-
-      float shade_r = (*it)->farbe_.r * h.col->kd.r * value;
-      float shade_g = (*it)->farbe_.g * h.col->kd.g * value;
-      float shade_b = (*it)->farbe_.b * h.col->kd.b * value;
-
-      sum += Color{shade_r, shade_g, shade_b};
-    }
-  }
-
-  // "provisorische" shadow-Funktion ;)
   for(auto shape : scene.shapes){
     
     if(shape != shape_ptr) {
@@ -158,15 +136,18 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
         hitpoint hit = shape->intersect(strahl);
 
         // Berechnung der Farben = Ambient + Diffus + Specular 
-        if (hit.cut == false || hit.distance < 0) {//if(hit.cut == false) {
+        if (hit.cut == false || hit.distance < 0) {
           result *= light->farbe_;
-          result += sum;
+          result += diffus;
+          result += specular; // -> irgendwann hier einfügen :) **x1
+
         }
       }
     }
   }
 
-  result += calculate_ambient(shape_ptr, scene);
+  result += calculate_ambient(shape_ptr, scene); 
+  // **x1 oder hier
 
   return result;
 }
@@ -267,7 +248,52 @@ Color Renderer::calculate_ambient(std::shared_ptr<Shape> shape, Scene const& sce
   return Color{amb_r, amb_g, amb_b};
 } 
 
+Color Renderer::calculate_diffus(std::shared_ptr<Shape> shape, Scene const& scene, hitpoint const& h) {
 
+  Color sum{0,0,0};
+
+  for(auto it = scene.lights.begin(); it != scene.lights.end(); ++it) {
+    
+    /* fuer alle Lichtquellen wird ein Strahl vom Schnittpunkt auf dem Objekt zur Lichtquelle geschickt */
+    /* Berechnung des diffuses Lichts (Schattierung -> d.h. man sieht eine Kugel anstatt eines Kreises) */
+
+    glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
+    glm::vec3 normal = h.normale_; 
+    float cos_angle = glm::cos(glm::angle(glm::normalize(normal), glm::normalize(richtung_licht)));
+
+    if (cos_angle > 0) {
+      float value = cos_angle * scene.lights[0]->intensitaet_;
+
+      float shade_r = (*it)->farbe_.r * h.col->kd.r * value;
+      float shade_g = (*it)->farbe_.g * h.col->kd.g * value;
+      float shade_b = (*it)->farbe_.b * h.col->kd.b * value;
+
+      sum += Color{shade_r, shade_g, shade_b};
+    }
+  }
+
+  return sum;
+}
+
+Color Renderer::calculate_specular(std::shared_ptr<Shape> shape, Scene const& scene, hitpoint const& h) {
+  Color sum{0,0,0};
+
+  for(auto it = scene.lights.begin(); it != scene.lights.end(); ++it) {
+
+    glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
+    glm::vec3 hilfsvektor = {2,2,2}; // statt 2 * (h.normale_ * richtung_licht) * h.normale_;
+    glm::vec3 r = hilfsvektor * (h.normale_ * richtung_licht) * h.normale_;
+    richtung_licht = glm::normalize(richtung_licht);
+    r = glm::normalize(r);
+    float cos_beta = std::pow(glm::dot(r, richtung_licht), h.col->m);
+
+    sum.r += (*it)->farbe_.r * h.col->ks.r *cos_beta;
+    sum.g += (*it)->farbe_.g * h.col->ks.g *cos_beta;
+    sum.b += (*it)->farbe_.b * h.col->ks.b *cos_beta;
+
+  }
+  return sum;
+}
 
 Color Renderer::tone_mapping(Color& color){
   float tone_r = color.r / (color.r + 1);
