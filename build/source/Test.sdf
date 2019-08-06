@@ -26,7 +26,7 @@ define light l1 -500 400 100 1.0 1.0 1.0 1
 #define light spot1 800 -800 0 0.8 0.8 0.8 1
 #define light spot2 800 800 0 0.8 0.8 0.8 1
 #define light spot3 -800 800 0 0.8 0.8 0.8 1
-ambient 0.1 0.1 0.1
+ambient 0.4 0.4 0.4
 # camera
 define camera eye 60.0
 # camera xform

@@ -7,8 +7,8 @@ struct Ambient /*: public Light*/ {
 
     /* Grundbeleuchtung in der Szene */
 
-    Color standard_ = {0.1f, 0.1f, 0.1f};
-    Ambient(Color standard = {0.1f, 0.1f, 0.1f}) : standard_(standard) {}
+    Color standard_ = {0.9f, 0.9f, 0.9f};
+    Ambient(Color standard = {0.9f, 0.9f, 0.9f}) : standard_(standard) {}
 };
 
 #endif

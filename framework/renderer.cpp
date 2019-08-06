@@ -104,25 +104,9 @@ Color result{1, 1, 0.6};
       }
     }
 
-    // schatten_col = shadow(hit, scene);
-
-      // if(element->intersect(strahl).distance < smallest.distance){
-      //   return shade(element->intersect(strahl), scene);
-      // }
-      //return {1.0f, 1.0f, 1.0f};
   }
   if (closest_hit.cut) {
     result = shade(closest_hit, scene, first);
-
-    // Normieren (3D-Effekte waren weg)
-    // float sum = result.r + result.g + result.b;
-    // result.r = result.r / sum;
-    // result.g = result.g / sum;
-    // result.b = result.b / sum;
-
-    // result.r *= 0.1f;
-    // result.g *= 0.1f;
-    // result.b *= 0.1f;
 
     // result = tone_mapping(result); // -> wieder einfuegen!
   }
@@ -136,6 +120,9 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
 
   Color result{0,0,0};
   Color schatten_col{0,0,0};
+  Color sum{0,0,0};
+  float intersect = 1;
+
 
   for(auto it = scene.lights.begin(); it != scene.lights.end(); ++it) {
     
@@ -144,9 +131,6 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
     glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
     glm::vec3 normal = h.normale_; 
     float cos_angle = glm::cos(glm::angle(glm::normalize(normal), glm::normalize(richtung_licht)));
-    // Ray strahl = {h.point3d + h.normale_ * 0.1f, richtung_licht};
-
-    // hitpoint hit = shape_ptr->intersect(strahl);
 
     if (cos_angle > 0) {
       float value = cos_angle * scene.lights[0]->intensitaet_;
@@ -154,62 +138,35 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
       float shade_r = (*it)->farbe_.r * h.col->kd.r * value;
       float shade_g = (*it)->farbe_.g * h.col->kd.g * value;
       float shade_b = (*it)->farbe_.b * h.col->kd.b * value;
-      // std::cout << "{" << shade_r << ", " << shade_g << ", " << shade_b << "}\n";
 
-      // schatten_col = shadow(h, scene); // -> wieder einfuegen!
-      result += Color{shade_r, shade_g, shade_b};
-      
-      // if(hit.cut == true) { 
-       
-      //   // result.r = 1;
-      //   // result.g = 1;
-      //   result.b = 1; 
-        
-        
-      // }
-      // std::cout << result.b << "\n";
+      sum += Color{shade_r, shade_g, shade_b};
     }
   }
-  // std::cout << result;
-
 
   // "provisorische" shadow-Funktion ;)
   for(auto shape : scene.shapes){
-    if(shape == shape_ptr){
-      // continue;
-    }
-    else{
+    
+    if(shape != shape_ptr) {
 
-      // Strahl wird vom Schnittpunkt des Objekts zur Lichtquelle geschossen
-      glm::vec3 richtung_licht = (scene.lights[0])->position_ - h.point3d;
-      Ray strahl = {h.point3d + h.normale_ * 0.1f, richtung_licht};
+      for(auto light : scene.lights) {
 
-      // ueberpruefen, ob ein (anderes) Objekt zwischen dem Schnittpunkt (des Objekts) und der Lichtquelle liegt
-      hitpoint hit = shape->intersect(strahl);
+        // Strahl wird vom Schnittpunkt des Objekts zur Lichtquelle geschossen
+        glm::vec3 richtung_licht = light->position_ - h.point3d;
+        Ray strahl = {h.point3d + h.normale_ * 0.1f, richtung_licht};
 
-      if (hit.cut == true){
-        result.b *= 0.8;
-        result.r *= 0.8;
-        result.g *= 0.8;
-        // shape_ptr->print(std::cout);
+        // ueberpruefen, ob ein (anderes) Objekt zwischen dem Schnittpunkt (des Objekts) und der Lichtquelle liegt
+        hitpoint hit = shape->intersect(strahl);
+
+        // Berechnung der Farben = Ambient + Diffus + Specular 
+        if (hit.cut == false || hit.distance < 0) {//if(hit.cut == false) {
+          result *= light->farbe_;
+          result += sum;
+        }
       }
     }
   }
-  
 
-
-  // Schatten
-  // result.r = result.r * schatten_col.r;
-  // result.g = result.g * schatten_col.g;
-  // result.b = result.b * schatten_col.b;
-  // result += schatten_col; // -> wieder einfuegen!
-
-  // Ambiente Beleuchtung dazuaddieren
-  // result += calculate_ambient(shape_ptr, scene);
-
-  // float shade_r = h.col->kd.r / (h.distance + h.col->kd.r);
-  // float shade_g = h.col->kd.g / (h.distance + h.col->kd.g);
-  // float shade_b = h.col->kd.b / (h.distance + h.col->kd.b);
+  result += calculate_ambient(shape_ptr, scene);
 
   return result;
 }
@@ -309,6 +266,8 @@ Color Renderer::calculate_ambient(std::shared_ptr<Shape> shape, Scene const& sce
 
   return Color{amb_r, amb_g, amb_b};
 } 
+
+
 
 Color Renderer::tone_mapping(Color& color){
   float tone_r = color.r / (color.r + 1);
