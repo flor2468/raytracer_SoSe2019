@@ -4,14 +4,29 @@
 #include <cmath>
 
 
-Camera::Camera(unsigned int breite, unsigned int hoehe, float oeffnungswinkel) :
+Camera::Camera(std::string name, float oeffnungswinkel, unsigned int breite, unsigned int hoehe, glm::vec3 blickrichtung, glm::vec3 up_vektor) :
+    name_{name},
+    oeffnungswinkel_{oeffnungswinkel},
     breite_{breite},
     hoehe_{hoehe},
-    oeffnungswinkel_{oeffnungswinkel}
+    blickrichtung_{blickrichtung},
+    up_vektor_{up_vektor}
     {
         // d = Abstand vom Startpunkt zur "Pixelwand"
         d = (breite_/ 2.0f) / std::tan(oeffnungswinkel_  /* * (180 / M_PI)) / 2.0f)*/ / 2.0f * M_PI / 180);
     };
+
+// Camera::Camera(std::string name, float oeffnungswinkel) :
+//     name_{name},
+//     breite_{800},
+//     hoehe_{600},
+//     oeffnungswinkel_{oeffnungswinkel},
+//     blickrichtung_{glm::vec3 {0,0,-1}},
+//     up_vektor_{glm::vec3 {0,1,0}}
+//     {
+//         // d = Abstand vom Startpunkt zur "Pixelwand"
+//         d = (breite_/ 2.0f) / std::tan(oeffnungswinkel_  /* * (180 / M_PI)) / 2.0f)*/ / 2.0f * M_PI / 180);
+//     };
 
 Ray Camera::calcEyeRay(unsigned int x, unsigned int y) {
 

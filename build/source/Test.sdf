@@ -22,10 +22,10 @@ transform bsphere translate 0 0 -10
 #define light l1 -10 20 10 1.0 1.0 1.0 1
 #define light sun 0 0 0 1.0 1.0 1.0 2
 define light l1 -500 400 100 1.0 1.0 1.0 1
-#define light sun -800 -800 0 .8 .8 .8 1
-#define light spot1 800 -800 0 .8 .8 .8 1
-#define light spot2 800 800 0 .8 .8 .8 1
-#define light spot3 -800 800 0 .8 .8 .8 1
+#define light sun -800 -800 0 0.8 0.8 0.8 1
+#define light spot1 800 -800 0 0.8 0.8 0.8 1
+#define light spot2 800 800 0 0.8 0.8 0.8 1
+#define light spot3 -800 800 0 0.8 0.8 0.8 1
 ambient 0.1 0.1 0.1
 # camera
 define camera eye 60.0

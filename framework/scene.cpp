@@ -1,6 +1,7 @@
 #include "scene.hpp"
 #include "box.hpp"
 #include "Sphere.hpp"
+#include "camera.hpp"
 
 bool operator<(std::shared_ptr<Material> const& lhs, std::shared_ptr<Material> const& rhs)
 {
@@ -137,6 +138,15 @@ Scene input(std::string datei_name/*, Scene scene*/) {
 
             }
 
+            if("camera" == identifier) {
+              std::string name;
+              line_stream >> name;
+              float oeffnungswinkel;
+              line_stream >> oeffnungswinkel;
+
+              Camera cam{name, oeffnungswinkel};
+              std::cout << "camera added" << std::endl;
+            }
 
         }
 

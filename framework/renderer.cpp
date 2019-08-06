@@ -172,19 +172,26 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
   }
   // std::cout << result;
 
+
+  // "provisorische" shadow-Funktion ;)
   for(auto shape : scene.shapes){
     if(shape == shape_ptr){
-      continue;
+      // continue;
     }
     else{
+
+      // Strahl wird vom Schnittpunkt des Objekts zur Lichtquelle geschossen
       glm::vec3 richtung_licht = (scene.lights[0])->position_ - h.point3d;
       Ray strahl = {h.point3d + h.normale_ * 0.1f, richtung_licht};
+
+      // ueberpruefen, ob ein (anderes) Objekt zwischen dem Schnittpunkt (des Objekts) und der Lichtquelle liegt
       hitpoint hit = shape->intersect(strahl);
 
       if (hit.cut == true){
         result.b *= 0.8;
         result.r *= 0.8;
         result.g *= 0.8;
+        // shape_ptr->print(std::cout);
       }
     }
   }
