@@ -144,6 +144,9 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
     glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
     glm::vec3 normal = h.normale_; 
     float cos_angle = glm::cos(glm::angle(glm::normalize(normal), glm::normalize(richtung_licht)));
+    // Ray strahl = {h.point3d + h.normale_ * 0.1f, richtung_licht};
+
+    // hitpoint hit = shape_ptr->intersect(strahl);
 
     if (cos_angle > 0) {
       float value = cos_angle * scene.lights[0]->intensitaet_;
@@ -151,13 +154,47 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
       float shade_r = (*it)->farbe_.r * h.col->kd.r * value;
       float shade_g = (*it)->farbe_.g * h.col->kd.g * value;
       float shade_b = (*it)->farbe_.b * h.col->kd.b * value;
+      // std::cout << "{" << shade_r << ", " << shade_g << ", " << shade_b << "}\n";
 
       // schatten_col = shadow(h, scene); // -> wieder einfuegen!
       result += Color{shade_r, shade_g, shade_b};
       
+      // if(hit.cut == true) { 
+       
+      //   // result.r = 1;
+      //   // result.g = 1;
+      //   result.b = 1; 
+        
+        
+      // }
+      // std::cout << result.b << "\n";
     }
   }
+  // std::cout << result;
+
+  for(auto shape : scene.shapes){
+    if(shape == shape_ptr){
+      continue;
+    }
+    else{
+      glm::vec3 richtung_licht = (scene.lights[0])->position_ - h.point3d;
+      Ray strahl = {h.point3d + h.normale_ * 0.1f, richtung_licht};
+      hitpoint hit = shape->intersect(strahl);
+
+      if (hit.cut == true){
+        result.b *= 0.8;
+        result.r *= 0.8;
+        result.g *= 0.8;
+      }
+    }
+  }
+  
+
+
   // Schatten
+  // result.r = result.r * schatten_col.r;
+  // result.g = result.g * schatten_col.g;
+  // result.b = result.b * schatten_col.b;
   // result += schatten_col; // -> wieder einfuegen!
 
   // Ambiente Beleuchtung dazuaddieren
@@ -189,7 +226,7 @@ Color Renderer::shadow(hitpoint const& h, Scene const& scene) {
     strahl.direction = strahl_objekt_zu_lichtquelle;
     for(auto shape : scene.shapes) {
       hitpoint object_point = shape->intersect(strahl);
-     
+   
       if(object_point.cut == true) {
 
         // h.col->kd = glm::normalize(h.col->kd + schatten + scene.ambient->standard_);
@@ -203,7 +240,7 @@ Color Renderer::shadow(hitpoint const& h, Scene const& scene) {
     }
 
     if(we_see_light == true) {
-
+      // std::cout << "we see light";
       // farbe += light->farbe_;
       
       float skalarprodukt = (h.normale_.x * strahl_objekt_zu_lichtquelle.x + h.normale_.y * strahl_objekt_zu_lichtquelle.y + h.normale_.z * strahl_objekt_zu_lichtquelle.z);
@@ -245,12 +282,14 @@ Color Renderer::shadow(hitpoint const& h, Scene const& scene) {
         //   schatten.b = 0;
         // }
 
-        return schatten;
+        // return schatten;
+        return Color{1,1,1};
         // return farbe;
       }
     }
   }
-  return h.col->kd;
+  return Color{0,0,0};
+  // return h.col->kd;
 }
 
 Color Renderer::calculate_ambient(std::shared_ptr<Shape> shape, Scene const& scene) {
