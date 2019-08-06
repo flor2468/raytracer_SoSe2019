@@ -71,7 +71,11 @@ glm::vec3 Sphere::get_Center() {
     return center_;
 }
 
-Sphere Sphere::translate(std::shared_ptr<Sphere> const& s, Scene const& scene, glm::vec3 verschiebung) {
+Ray Sphere::transformRay(glm::mat4 const& mat, Ray const& ray) {
+    // Transformation des Strahls = Strahl in die andere Richtung schießen?
+}
+
+Sphere translate(std::shared_ptr<Sphere> const& s, Scene const& scene, glm::vec3 verschiebung) {
     glm::vec3 center = s->get_Center();
     glm::vec4 p;
     p.w = center.x;
@@ -80,3 +84,4 @@ Sphere Sphere::translate(std::shared_ptr<Sphere> const& s, Scene const& scene, g
     p.z = 1;
     
 }
+

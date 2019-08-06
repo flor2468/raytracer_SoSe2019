@@ -1,6 +1,7 @@
 #ifndef SPHERE_HPP
 #define SPHERE_HPP
 #include "shape.hpp"
+#include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include <glm/gtx/intersect.hpp>
 #include "hitpont.hpp"
@@ -22,6 +23,7 @@ class Sphere: public Shape{
         std::shared_ptr<Material> get_Material() override;
         Sphere translate(std::shared_ptr<Sphere> const& s, Scene const& scene, glm::vec3 verschiebung);
         glm::vec3 get_Center();
+        Ray transformRay(glm::mat4 const& mat, Ray const& ray) override;
 
     private:
         glm::vec3 center_;
