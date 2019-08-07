@@ -52,7 +52,7 @@ hitpoint Sphere::intersect(Ray const& ray/*, float& distance*/){
         h.direction = ray.direction;
 
         /* Normale des Hitpoints zeigt von center_ zum Schnittpunkt (Hitpoint) auf der Kugel */
-        h.normale_ = h.point3d - center_;
+        h.normale_ = glm::normalize(h.point3d - center_);
         return h;
     }
 

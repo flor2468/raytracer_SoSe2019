@@ -2,7 +2,7 @@
 define material red 1 0 0 1 0 0 1 0 0 10
 define material blue 0 0 1 0 0 1 0 0 1 10
 define material white 1 1 1 1 1 1 1 1 1 10
-define material tuerkis 0.5 0.9 0.7 0.5 0.9 0.7 0.5 0.9 0.7 10
+define material tuerkis 0.5 0.9 0.7 0.5 0.9 0.7 0.5 0.9 0.7 4
 define material pink 0.8 0.1 0.5 0.8 0.1 0.5 0.8 0.1 0.5 10
 # geometry
 define shape box rbottom 10 -20 -100 50 -10 -50 pink
@@ -22,7 +22,7 @@ transform bsphere translate 0 0 -10
 #define light l1 -10 20 10 1.0 1.0 1.0 1
 #define light sun 0 0 0 1.0 1.0 1.0 2
 define light l1 -500 400 100 1.0 1.0 1.0 1
-#define light l2 -300 400 70 1.0 1.0 1.0 0.5
+#define light l2 0 0 -55 1.0 1.0 1.0 0.5
 #define light sun -800 -800 0 0.8 0.8 0.8 1
 #define light spot1 800 -800 0 0.8 0.8 0.8 1
 #define light spot2 800 800 0 0.8 0.8 0.8 1
