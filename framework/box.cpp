@@ -211,10 +211,10 @@ glm::vec3 Box::get_normal(hitpoint const& hit) {
      return color_;
  }
 
- Ray Box::transformRay(glm::mat4 const& mat, Ray const& ray) {
+//  Ray Box::transformRay(glm::mat4 const& mat, Ray const& ray) {
     
-}
+// }
 
-Box Box::translate(std::shared_ptr<Box> const& s, Scene const& scene, glm::vec3 verschiebung) {
+// Box Box::translate(std::shared_ptr<Box> const& s, Scene const& scene, glm::vec3 verschiebung) {
 
-}
+// }

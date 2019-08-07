@@ -44,3 +44,7 @@ Ray Camera::calcEyeRay(unsigned int x, unsigned int y) {
     
     return strahl;
 }
+
+glm::vec3 Camera::get_Startpunkt() {
+    return startpunkt_;
+}

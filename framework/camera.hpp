@@ -13,6 +13,7 @@ class Camera {
         // Camera(std::string name = "Kamera", float oeffnungswinkel = 60.0f);
 
         Ray calcEyeRay(unsigned int x, unsigned int y);
+        glm::vec3 get_Startpunkt();
 
     private: 
         unsigned int breite_; // breite und leange = aufloesung
@@ -23,6 +24,7 @@ class Camera {
         std::string name_; // <name>
         glm::vec3 blickrichtung_; // <dir>
         glm::vec3 up_vektor_; // <up>
+        
 };
 
 #endif

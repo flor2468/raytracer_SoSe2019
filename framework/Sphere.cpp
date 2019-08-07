@@ -71,17 +71,39 @@ glm::vec3 Sphere::get_Center() {
     return center_;
 }
 
-Ray Sphere::transformRay(glm::mat4 const& mat, Ray const& ray) {
-    // Transformation des Strahls = Strahl in die andere Richtung schießen?
-}
+// Ray Sphere::transformRay(glm::mat4 const& mat, Ray const& ray) {
+//     // Transformation des Strahls = Strahl in die andere Richtung schießen?
+// }
 
-Sphere translate(std::shared_ptr<Sphere> const& s, Scene const& scene, glm::vec3 verschiebung) {
-    glm::vec3 center = s->get_Center();
-    glm::vec4 p;
-    p.w = center.x;
-    p.x = center.y;
-    p.y = center.z;
-    p.z = 1;
+// void Sphere::translate(std::shared_ptr<Sphere> const& s, Scene const& scene, glm::vec3 verschiebung) {
+//     /* Verschiebung des Objekts */
+
+//     glm::vec3 center = s->get_Center();
+//     glm::vec4 p;
+//     glm::vec4 center_verschoben;
+//     p.w = center.x;
+//     p.x = center.y;
+//     p.y = center.z;
+//     p.z = 1;
     
-}
+//     glm::mat4 matrix = {
+//         glm::vec4 {1, 0, 0, 0},
+//         glm::vec4 {0, 1, 0, 0},
+//         glm::vec4 {0, 0, 1, 0},
+//         glm::vec4 {verschiebung.x, verschiebung.y, verschiebung.z, 1}
+//     };
 
+//     center_verschoben = matrix * p;
+
+//     center_.x = center_verschoben.w;
+//     center_.y = center_verschoben.x;
+//     center_.z = center_verschoben.y;
+    
+//     // center.x = center_verschoben.w;
+//     // center.y = center_verschoben.x;
+//     // center.z = center_verschoben.y;
+// }
+
+// void Sphere::set_Center(glm::vec3 c) {
+//     center_ = c;
+// }

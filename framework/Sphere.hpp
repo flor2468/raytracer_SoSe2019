@@ -21,9 +21,10 @@ class Sphere: public Shape{
         hitpoint intersect(Ray const& ray) override;
         glm::vec3 get_normal(hitpoint const& h) override;
         std::shared_ptr<Material> get_Material() override;
-        Sphere translate(std::shared_ptr<Sphere> const& s, Scene const& scene, glm::vec3 verschiebung);
+        // void translate(std::shared_ptr<Sphere> const& s, Scene const& scene, glm::vec3 verschiebung);
         glm::vec3 get_Center();
-        Ray transformRay(glm::mat4 const& mat, Ray const& ray) override;
+        void set_Center(glm::vec3 c);
+        // Ray transformRay(glm::mat4 const& mat, Ray const& ray) override;
 
     private:
         glm::vec3 center_;

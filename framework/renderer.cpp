@@ -119,6 +119,7 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
   /* Funktion zum "Schattieren" der Objekte, um einen 3D-Effekt zu erzeugen (-> z.B. sieht man statt eines Kreises eine Kugel :D) */
 
   Color result{0,0,0};
+  Color ambient = calculate_ambient(shape_ptr, scene); 
   Color diffus = calculate_diffus(shape_ptr, scene, h);
   Color specular = calculate_specular(shape_ptr, scene, h);
 
@@ -137,17 +138,22 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
 
         // Berechnung der Farben = Ambient + Diffus + Specular 
         if (hit.cut == false || hit.distance < 0) {
-          result *= light->farbe_;
-          result += diffus;
-          result += specular; // -> irgendwann hier einfügen :) **x1
+          // result *= light->farbe_;
+          // result += diffus;
+          // result += specular;
+
+          result.r = result.r + (light->farbe_.r * (diffus.r + specular.r));
+          result.g = result.g + (light->farbe_.g * (diffus.g + specular.g));
+          result.b = result.b + (light->farbe_.b * (diffus.b + specular.b));
+
+          // result = tone_mapping(result);
 
         }
       }
     }
   }
 
-  result += calculate_ambient(shape_ptr, scene); 
-  // **x1 oder hier
+  result += ambient;
 
   return result;
 }
@@ -281,15 +287,26 @@ Color Renderer::calculate_specular(std::shared_ptr<Shape> shape, Scene const& sc
   for(auto it = scene.lights.begin(); it != scene.lights.end(); ++it) {
 
     glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
-    glm::vec3 hilfsvektor = {2,2,2}; // statt 2 * (h.normale_ * richtung_licht) * h.normale_;
-    glm::vec3 r = hilfsvektor * (h.normale_ * richtung_licht) * h.normale_;
+    // glm::vec3 hilfsvektor = {2,2,2}; // statt 2 * (h.normale_ * richtung_licht) * h.normale_;
     richtung_licht = glm::normalize(richtung_licht);
-    r = glm::normalize(r);
-    float cos_beta = std::pow(glm::dot(r, richtung_licht), h.col->m);
+    glm::vec3 r = {}; //(hilfsvektor * (h.normale_ * richtung_licht) * h.normale_) - richtung_licht;
 
-    sum.r += (*it)->farbe_.r * h.col->ks.r *cos_beta;
-    sum.g += (*it)->farbe_.g * h.col->ks.g *cos_beta;
-    sum.b += (*it)->farbe_.b * h.col->ks.b *cos_beta;
+    r.r = (2 * (h.normale_.r * richtung_licht.r) * h.normale_.r) - richtung_licht.r;
+    r.g = (2 * (h.normale_.g * richtung_licht.g) * h.normale_.g) - richtung_licht.g;
+    r.b = (2 * (h.normale_.b * richtung_licht.b) * h.normale_.b) - richtung_licht.b;
+
+    r = glm::normalize(r);
+
+    // glm::vec3 v = scene.camera->get_Startpunkt();
+    glm::vec3 v = {0,0,0};
+    v = v - h.point3d;
+    v = glm::normalize(v);
+
+    float cos_beta = std::pow(glm::dot(r, v), h.col->m);
+
+    sum.r += (/*(*it)->farbe_.r * */ h.col->ks.r * cos_beta);
+    sum.g += (/*(*it)->farbe_.g * */ h.col->ks.g * cos_beta);
+    sum.b += (/*(*it)->farbe_.b * */ h.col->ks.b * cos_beta);
 
   }
   return sum;
@@ -301,4 +318,26 @@ Color Renderer::tone_mapping(Color& color){
   float tone_b = color.b / (color.b + 1);
 
   return Color{tone_r, tone_g, tone_b};
+}
+
+Ray transformRay(glm::mat4 const& mat, Ray const& ray) {
+
+  glm::vec4 origin_homogen = {ray.origin.x, ray.origin.y, ray.origin.z, 1};
+  glm::vec4 direction_homogen = {ray.direction.x, ray.direction.y, ray.direction.z, 0};
+
+  origin_homogen = mat * origin_homogen;
+  direction_homogen = mat * direction_homogen;
+
+  glm::vec3 transform_origin = {origin_homogen.w, origin_homogen.x, origin_homogen.y}; 
+  glm::vec3 transform_direction = {direction_homogen.w, direction_homogen.x, direction_homogen.y}; 
+
+  return Ray{transform_origin, transform_direction};
+}
+
+void translate(std::shared_ptr<Shape> const& s, Scene const& scene, glm::vec3 verschiebung) {
+  /* Verschiebung des Objekts */
+
+  s->world_transformation_invers_ = glm::inverse(s->world_transformation_);
+  
+
 }
