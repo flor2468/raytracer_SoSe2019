@@ -16,18 +16,6 @@ Camera::Camera(std::string name, float oeffnungswinkel, unsigned int breite, uns
         d = (breite_/ 2.0f) / std::tan(oeffnungswinkel_  /* * (180 / M_PI)) / 2.0f)*/ / 2.0f * M_PI / 180);
     };
 
-// Camera::Camera(std::string name, float oeffnungswinkel) :
-//     name_{name},
-//     breite_{800},
-//     hoehe_{600},
-//     oeffnungswinkel_{oeffnungswinkel},
-//     blickrichtung_{glm::vec3 {0,0,-1}},
-//     up_vektor_{glm::vec3 {0,1,0}}
-//     {
-//         // d = Abstand vom Startpunkt zur "Pixelwand"
-//         d = (breite_/ 2.0f) / std::tan(oeffnungswinkel_  /* * (180 / M_PI)) / 2.0f)*/ / 2.0f * M_PI / 180);
-//     };
-
 Ray Camera::calcEyeRay(unsigned int x, unsigned int y) {
 
     /* Die Strahlen von der Kamera zu allen Pixeln werden berechnet */

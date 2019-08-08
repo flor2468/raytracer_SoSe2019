@@ -14,10 +14,10 @@ define shape sphere bsphere -5 0 -60 5 tuerkis
 # composite
 define shape composite root rbottom bsphere
 # scene xform
-transform rbottom rotate 45 0 0 1
-transform rbottom translate 0 0 -10
-transform bsphere rotate 45 0 0 1
-transform bsphere translate 0 0 -10
+#transform rbottom rotate 45 0 0 1
+#transform rbottom translate 0 0 -10
+#transform bsphere rotate 45 0 0 1
+#transform bsphere translate 0 0 -10
 # lights
 #define light l1 -10 20 10 1.0 1.0 1.0 1
 #define light sun 0 0 0 1.0 1.0 1.0 2
@@ -31,7 +31,7 @@ ambient 0.4 0.4 0.4
 # camera
 define camera eye 60.0
 # camera xform
-transform eye rotate -45 0 1 0
-transform eye translate 100 0 100
+#transform eye rotate -45 0 1 0
+#transform eye translate 100 0 100
 # ... and go
 render eye image . ppm 480 320

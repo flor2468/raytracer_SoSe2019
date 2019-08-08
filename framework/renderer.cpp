@@ -256,17 +256,31 @@ Ray transformRay(glm::mat4 const& mat, Ray const& ray) {
   origin_homogen = mat * origin_homogen;
   direction_homogen = mat * direction_homogen;
 
-  glm::vec3 transform_origin = {origin_homogen.w, origin_homogen.x, origin_homogen.y}; 
-  glm::vec3 transform_direction = {direction_homogen.w, direction_homogen.x, direction_homogen.y}; 
+  glm::vec3 transform_origin = {origin_homogen.x, origin_homogen.y, origin_homogen.z}; 
+  glm::vec3 transform_direction = {direction_homogen.x, direction_homogen.y, direction_homogen.z}; 
 
   return Ray{transform_origin, transform_direction};
 }
 
-void transformation(std::shared_ptr<Shape> const& s, Scene const& scene, glm::vec3 verschiebung) {
-  /* Verschiebung des Objekts */
+void Renderer::transformation(std::shared_ptr<Shape> const& s, Scene const& scene, glm::vec3 verschiebung) {
+  /* Verschiebung des Objekts || Zoomen des Objekts || Drehen des Objekts */
 
   // Berechnen: Vektoren, Punkte und Normalen
 
+}
+
+glm::vec3 reTransformPoint(glm::vec4 const& p) {
+  return glm::vec3{p.x, p.y, p.z};
+}
+
+glm::vec3 reTransformVector(glm::vec4 const& v) {
+  return glm::vec3{v.x, v.y, v.z};
+}
+
+glm::vec3 reTransformNormale(glm::vec4 const& n, glm::mat4 inverse) {
+  // Transponierte inverse world_transformation_matrix
+
+  glm::mat4 transponierte_inverse = glm::transpose(inverse);
   
 
 }

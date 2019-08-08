@@ -2,6 +2,7 @@
 #include <math.h>
 #include <string>
 #include "material.hpp"
+#include "renderer.hpp"
 
 Sphere::Sphere():
     Shape(),
@@ -34,16 +35,25 @@ std::ostream& Sphere::print (std::ostream& os) const{
     return os;
 }
 
-hitpoint Sphere::intersect(Ray const& ray/*, float& distance*/){
+hitpoint Sphere::intersect(Ray const& original_ray/*, float& distance*/){
     hitpoint h{};
     
-    h.cut = glm::intersectRaySphere(ray.origin, glm::normalize(ray.direction), center_, radius_*radius_, h.distance);
+    h.cut = glm::intersectRaySphere(original_ray.origin, glm::normalize(original_ray.direction), center_, radius_*radius_, h.distance);
     if(h.cut == false){ //wenn sie sich nicht schneiden
         return h;
     }
     else{
         // h.distance = distance;
         // std::cout << "Test" << std::endl;
+
+        Ray ray = transformRay(world_transformation_invers_, original_ray);
+        // Ray ray = original_ray;
+        
+        if(original_ray.direction != ray.direction) {
+            std::cout << "Ray: {" << original_ray.direction.x << ", " << original_ray.direction.y << ", " << original_ray.direction.z << "}" << " || Hilfsray: {" << ray.direction.x << ", " << ray.direction.y << ", " << ray.direction.z << "}" << std::endl;
+            
+        }
+
         h.name = name_;
         h.col = color_;
         h.point3d.x = ray.origin.x + h.distance * ray.direction.x;
@@ -53,6 +63,7 @@ hitpoint Sphere::intersect(Ray const& ray/*, float& distance*/){
 
         /* Normale des Hitpoints zeigt von center_ zum Schnittpunkt (Hitpoint) auf der Kugel */
         h.normale_ = glm::normalize(h.point3d - center_);
+
         return h;
     }
 

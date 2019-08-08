@@ -1,4 +1,5 @@
 #include "box.hpp"
+#include "renderer.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -37,9 +38,12 @@ std::ostream& Box::print (std::ostream& os) const{ //<< überladen
     return os;
 }
 
-hitpoint Box::intersect(Ray const& ray) {
+hitpoint Box::intersect(Ray const& original_ray) {
     hitpoint h{};
 
+    // Ray ray = original_ray;
+    Ray ray = transformRay(world_transformation_invers_, original_ray);
+    
     float txmin = (min_.x - ray.origin.x) / ray.direction.x;
     float tymin = (min_.y - ray.origin.y) / ray.direction.y;
     float tzmin = (min_.z - ray.origin.z) / ray.direction.z;
