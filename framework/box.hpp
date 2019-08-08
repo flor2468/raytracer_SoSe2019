@@ -14,7 +14,7 @@ class Box: public Shape{
         virtual float volume() override;
         virtual std::ostream& print (std::ostream& os) const override;
         virtual hitpoint intersect(Ray const& ray) override;
-        virtual glm::vec3 get_normal(hitpoint const& h) override;
+        virtual std::string get_name() override;
         virtual std::shared_ptr<Material> get_Material() override;
         // virtual Ray transformRay(glm::mat4 const& mat, Ray const& ray) override;
         // Box translate(std::shared_ptr<Box> const& s, Scene const& scene, glm::vec3 verschiebung);

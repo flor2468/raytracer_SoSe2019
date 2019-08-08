@@ -13,23 +13,18 @@ Scene input(std::string datei_name/*, Scene scene*/) {
   /* Funktion zum Einlesen einer Szene aus einer SDF-Datei  */
 
   Scene scene{};
-    
-  // std::cout << "halloooo" << std::endl;
 
    std::string fileLine;
    std::ifstream file;
    file.open(datei_name);
-   // std::ifstream file(datei_name);
+
    if(file.is_open() == true){
-   //    std::cout << "huhu";
+
      while(std::getline(file, fileLine)){
 
-        // std::cout << "test" << std::endl;
-
-        //std::getline(file, fileLine);
         std::istringstream line_stream(fileLine);
         std::string identifier;
-        //line_stream.str(fileLine);
+
         line_stream >> identifier;
         std::cout <<fileLine << "\n"; 
 
@@ -162,14 +157,168 @@ Scene input(std::string datei_name/*, Scene scene*/) {
           scene.ambient = ambient_ptr;
         }
 
-        //textFile.push_back(fileLine);
-        //std::cout << fileLine << " \n";
-        //char delimiter[] = " ";
-        //char *ptr;
-        //char str[1024];
-        //strcpy(str,fileLine.c_str());
-        //ptr = std::strtok(str, delimiter);
+        if("transform" == identifier) {
+          Transformation t{};
+          line_stream >> t.objekt_name_;
+          line_stream >> t.transformationsart_;
+          
+          if("translate" == t.transformationsart_) {
+            float a, b, c;
+            line_stream >> a;
+            line_stream >> b;
+            line_stream >> c;
+            // t.verschiebung_ = {a, b, c};
+
+            t.transformationsmatrix_ = {
+              glm::vec4 {1, 0, 0, 0},
+              glm::vec4 {0, 1, 0, 0},
+              glm::vec4 {0, 0, 1, 0},
+              glm::vec4 {a, b, c, 1}
+            };
+
+            std::cout << "translation added" << std::endl;
+          }
+
+          if("scale" == t.transformationsart_) {
+            float x, y, z;
+            line_stream >> x;
+            line_stream >> y;
+            line_stream >> z;
+            // t.zoom_ = {x, y, z};
+
+            t.transformationsmatrix_ = {
+              glm::vec4 {x, 0, 0, 0},
+              glm::vec4 {0, y, 0, 0},
+              glm::vec4 {0, 0, z, 0},
+              glm::vec4 {0, 0, 0, 1}
+            };
+
+            std::cout << "scale added" << std::endl;
+          }
+
+          if("rotate" == t.transformationsart_) {
+            // line_stream >> t.winkel_;
+            // line_stream >> t.rotationsachse_.x;
+            // line_stream >> t.rotationsachse_.y;
+            // line_stream >> t.rotationsachse_.z;
+            float winkel, x, y, z;
+            line_stream >> winkel;
+            line_stream >> x;
+            line_stream >> y;
+            line_stream >> z;
+
+            if(x == 1 && y == 0 && z == 0) {
+
+              t.transformationsmatrix_ = {
+              glm::vec4 {1, 0, 0, 0},
+              glm::vec4 {0, (std::cos(winkel) / 2.0f * M_PI / 180), (std::sin(winkel) / 2.0f * M_PI / 180), 0},
+              glm::vec4 {0, -(std::sin(winkel) / 2.0f * M_PI / 180), (std::cos(winkel) / 2.0f * M_PI / 180), 0},
+              glm::vec4 {0, 0, 0, 1}
+              };
+
+            }
+
+            if(x == 0 && y == 1 && z == 0) {
+
+              t.transformationsmatrix_ = {
+              glm::vec4 {(std::cos(winkel) / 2.0f * M_PI / 180), 0, -(std::sin(winkel) / 2.0f * M_PI / 180), 0},
+              glm::vec4 {0, 1, 0, 0},
+              glm::vec4 {(std::sin(winkel) / 2.0f * M_PI / 180), 0, (std::cos(winkel) / 2.0f * M_PI / 180), 0},
+              glm::vec4 {0, 0, 0, 1}
+              };
+
+            }
+
+            if(x == 0 && y == 0 && z == 1) {
+
+              t.transformationsmatrix_ = {
+              glm::vec4 {(std::cos(winkel) / 2.0f * M_PI / 180), (std::sin(winkel) / 2.0f * M_PI / 180), 0, 0},
+              glm::vec4 {-(std::sin(winkel) / 2.0f * M_PI / 180), (std::cos(winkel) / 2.0f * M_PI / 180), 0, 0},
+              glm::vec4 {0, 0, 1, 0},
+              glm::vec4 {0, 0, 0, 1}
+              };
+
+            }
+
+            std::cout << "rotation added" << std::endl;
+          }
+
+          auto transformation_ptr = std::make_shared<Transformation>(t);
+          scene.transformations.push_back(transformation_ptr);
+
+        }
       }
+
+      for(auto el : scene.transformations) {
+
+        // glm::mat4 hilfsmatrix = el->transformationsmatrix_;
+        glm::mat4 translate = {
+          glm::vec4 {1, 0, 0, 0},
+          glm::vec4 {0, 1, 0, 0},
+          glm::vec4 {0, 0, 1, 0},
+          glm::vec4 {0, 0, 0, 1}
+        };
+        glm::mat4 rotate = translate;
+        glm::mat4 scale = translate;
+
+        if(el->transformationsart_ == "translate") {
+          translate = el->transformationsmatrix_;
+        }
+
+        if(el->transformationsart_ == "scale") {
+          scale = el->transformationsmatrix_;
+        }
+
+        if(el->transformationsart_ == "rotate") {
+          rotate = el->transformationsmatrix_;
+        }
+
+        for(auto element : scene.transformations) {
+
+          if(el != element && el->objekt_name_ == element->objekt_name_) {
+
+            if(element->transformationsart_ == "translate") {
+              translate = element->transformationsmatrix_;
+            }
+
+            if(element->transformationsart_ == "scale") {
+              scale = element->transformationsmatrix_;
+            }
+
+            if(element->transformationsart_ == "rotate") {
+              rotate = element->transformationsmatrix_;
+            }
+          }
+
+          for(auto e : scene.transformations) {
+
+            if(el != element && el != e && element != e && el->objekt_name_ == element->objekt_name_ && element->objekt_name_ == e->objekt_name_) {
+            
+              if(e->transformationsart_ == "translate") {
+                translate = e->transformationsmatrix_;
+              }
+
+              if(e->transformationsart_ == "scale") {
+                scale = e->transformationsmatrix_;
+              }
+
+              if(e->transformationsart_ == "rotate") {
+                rotate = e->transformationsmatrix_;
+              }
+            }
+          }
+        }  
+
+        for(auto s : scene.shapes) {
+          if(s->get_name() == el->objekt_name_) {
+            s->world_transformation_ = translate * rotate;
+            s->world_transformation_ = s->world_transformation_ * scale;
+            s->world_transformation_invers_ = glm::inverse(s->world_transformation_);
+          }
+        }
+      }
+
+
       // std::cout << "fertig" << std::endl;
       file.close();
       return scene;

@@ -11,6 +11,9 @@ struct Transformation {
     glm::vec3 zoom_;
     glm::vec3 rotationsachse_;
     std::string objekt_name_; // Objekt, dass transformiert werden soll
+    glm::mat4 transformationsmatrix_;
+
+    
 
 };
 

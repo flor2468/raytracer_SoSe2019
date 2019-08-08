@@ -265,6 +265,8 @@ Ray transformRay(glm::mat4 const& mat, Ray const& ray) {
 void transformation(std::shared_ptr<Shape> const& s, Scene const& scene, glm::vec3 verschiebung) {
   /* Verschiebung des Objekts */
 
-  s->world_transformation_invers_ = glm::inverse(s->world_transformation_);
   // Berechnen: Vektoren, Punkte und Normalen
+
+  
+
 }

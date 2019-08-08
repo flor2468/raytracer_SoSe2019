@@ -26,7 +26,7 @@ struct Scene{
     std::shared_ptr<Ambient> ambient;
     std::vector<std::shared_ptr<Light>> lights;
     std::shared_ptr<Camera> camera;
-    std::map<std::string, std::shared_ptr<Transformation>> transformations; 
+    std::vector<std::shared_ptr<Transformation>> transformations; 
 
     // std::shared_ptr<Material> find_vector(std::string color_name){
     //   for(std::vector<std::shared_ptr<Material>>::size_type i = 0; i!= container1.size(); i++){

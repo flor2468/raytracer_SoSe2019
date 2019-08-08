@@ -19,7 +19,7 @@ class Sphere: public Shape{
         virtual float volume() override;
         virtual std::ostream& print (std::ostream& os) const override;
         hitpoint intersect(Ray const& ray) override;
-        glm::vec3 get_normal(hitpoint const& h) override;
+        std::string get_name() override;
         std::shared_ptr<Material> get_Material() override;
         // void translate(std::shared_ptr<Sphere> const& s, Scene const& scene, glm::vec3 verschiebung);
         glm::vec3 get_Center();
