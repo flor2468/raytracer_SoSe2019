@@ -14,10 +14,13 @@ define shape sphere bsphere -5 0 -60 5 tuerkis
 # composite
 define shape composite root rbottom bsphere
 # scene xform
-#transform rbottom rotate 45 0 0 1
+#transform rbottom rotate 3 0 0 1
 #transform rbottom translate 0 0 -10
 #transform bsphere rotate 45 0 0 1
-#transform bsphere translate 0 0 -10
+#transform bsphere translate 0 0 -30
+#transform rbottom scale 2 4 2
+#transform bsphere scale 10 10 10 
+
 # lights
 #define light l1 -10 20 10 1.0 1.0 1.0 1
 #define light sun 0 0 0 1.0 1.0 1.0 2

@@ -269,18 +269,21 @@ void Renderer::transformation(std::shared_ptr<Shape> const& s, Scene const& scen
 
 }
 
-glm::vec3 reTransformPoint(glm::vec4 const& p) {
-  return glm::vec3{p.x, p.y, p.z};
+glm::vec3 reTransformPoint(glm::vec4 const& p, glm::mat4 mat) {
+  glm::vec4 punkt_retransformiert = mat * p;
+  return glm::vec3{punkt_retransformiert.x, punkt_retransformiert.y, punkt_retransformiert.z};
 }
 
-glm::vec3 reTransformVector(glm::vec4 const& v) {
-  return glm::vec3{v.x, v.y, v.z};
+glm::vec3 reTransformVector(glm::vec4 const& v, glm::mat4 mat) {
+  glm::vec4 vector_retransformiert = mat * v;
+  return glm::vec3{vector_retransformiert.x, vector_retransformiert.y, vector_retransformiert.z};
 }
 
-glm::vec3 reTransformNormale(glm::vec4 const& n, glm::mat4 inverse) {
+glm::vec3 reTransformNormale(glm::vec3 const& n, glm::mat4 inverse) {
   // Transponierte inverse world_transformation_matrix
 
   glm::mat4 transponierte_inverse = glm::transpose(inverse);
-  
-
+  glm::vec4 normale_retransformiert = {n.x, n.y, n.z, 0};
+  normale_retransformiert = transponierte_inverse * normale_retransformiert;
+  return glm::vec3{n.x, n.y, n.z};
 }

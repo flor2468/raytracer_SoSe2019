@@ -55,8 +55,8 @@ private:
 };
 
 Ray transformRay(glm::mat4 const& mat, Ray const& ray);
-glm::vec3 reTransformPoint(glm::vec4 const& p);
-glm::vec3 reTransformVector(glm::vec4 const& v);
-glm::vec3 reTransformNormale(glm::vec4 const& n);
+glm::vec3 reTransformPoint(glm::vec3 const& p, glm::mat4 mat);
+glm::vec3 reTransformVector(glm::vec3 const& v, glm::mat4 mat);
+glm::vec3 reTransformNormale(glm::vec3 const& n, glm::mat4 mat);
 
 #endif // #ifndef BUW_RENDERER_HPP

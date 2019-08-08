@@ -37,8 +37,11 @@ std::ostream& Sphere::print (std::ostream& os) const{
 
 hitpoint Sphere::intersect(Ray const& original_ray/*, float& distance*/){
     hitpoint h{};
-    
-    h.cut = glm::intersectRaySphere(original_ray.origin, glm::normalize(original_ray.direction), center_, radius_*radius_, h.distance);
+
+    Ray ray = transformRay(world_transformation_invers_, original_ray);
+    // Ray ray = original_ray;
+
+    h.cut = glm::intersectRaySphere(ray.origin, glm::normalize(ray.direction), center_, radius_*radius_, h.distance);
     if(h.cut == false){ //wenn sie sich nicht schneiden
         return h;
     }
@@ -46,13 +49,12 @@ hitpoint Sphere::intersect(Ray const& original_ray/*, float& distance*/){
         // h.distance = distance;
         // std::cout << "Test" << std::endl;
 
-        Ray ray = transformRay(world_transformation_invers_, original_ray);
-        // Ray ray = original_ray;
         
-        if(original_ray.direction != ray.direction) {
-            std::cout << "Ray: {" << original_ray.direction.x << ", " << original_ray.direction.y << ", " << original_ray.direction.z << "}" << " || Hilfsray: {" << ray.direction.x << ", " << ray.direction.y << ", " << ray.direction.z << "}" << std::endl;
+        
+        // if(original_ray.direction != ray.direction) {
+        //     std::cout << "Ray: {" << original_ray.direction.x << ", " << original_ray.direction.y << ", " << original_ray.direction.z << "}" << " || Hilfsray: {" << ray.direction.x << ", " << ray.direction.y << ", " << ray.direction.z << "}" << std::endl;
             
-        }
+        // }
 
         h.name = name_;
         h.col = color_;
@@ -62,7 +64,12 @@ hitpoint Sphere::intersect(Ray const& original_ray/*, float& distance*/){
         h.direction = ray.direction;
 
         /* Normale des Hitpoints zeigt von center_ zum Schnittpunkt (Hitpoint) auf der Kugel */
+        // h.normale_ = reTransformNormale((h.point3d - center_), world_transformation_invers_);
         h.normale_ = glm::normalize(h.point3d - center_);
+        h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
+
+        // h.point3d = reTransformPoint(h.point3d, world_transformation_);
+        // h.direction = reTransformVector(h.direction, world_transformation_);
 
         return h;
     }
