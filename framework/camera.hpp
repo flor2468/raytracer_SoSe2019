@@ -1,6 +1,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 #include <glm/vec3.hpp>
+#include <glm/glm.hpp>
 #include "ray.hpp"
 #include <string>
 
@@ -14,6 +15,7 @@ class Camera {
 
         Ray calcEyeRay(unsigned int x, unsigned int y);
         glm::vec3 get_Startpunkt();
+        glm::mat4 camera_transformation();
 
     private: 
         unsigned int breite_; // breite und leange = aufloesung

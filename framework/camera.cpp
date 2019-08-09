@@ -1,6 +1,7 @@
 #include "camera.hpp"
+#include "renderer.hpp"
 #include <glm/vec3.hpp>
-#include <glm/glm.hpp>
+// #include <glm/glm.hpp>
 #include <cmath>
 
 
@@ -30,9 +31,29 @@ Ray Camera::calcEyeRay(unsigned int x, unsigned int y) {
     glm::vec3 normstrahl = {strahlx, strahly, strahlz};
     strahl.direction = glm::normalize(normstrahl);
     
+    glm::mat4 matrix = camera_transformation();
+    strahl = transformRay(matrix, strahl);
+
     return strahl;
+    
 }
 
 glm::vec3 Camera::get_Startpunkt() {
     return startpunkt_;
+}
+
+glm::mat4 Camera::camera_transformation() {
+    glm::vec3 n = glm::normalize(blickrichtung_);
+    glm::vec3 e = startpunkt_;
+    glm::vec3 u = glm::normalize(glm::cross(n, up_vektor_));
+    glm::vec3 v = glm::normalize(glm::cross(u, n));
+
+    glm::mat4 c = {
+        glm::vec4 {u.x, u.y, u.z, 0},
+        glm::vec4 {v.x, v.y, v.z, 0},
+        glm::vec4 {-1 * n.x, -1 * n.y, -1 * n.z, 0},
+        glm::vec4 {e.x, e.y, e.z, 1}
+    };
+    
+    return c;
 }

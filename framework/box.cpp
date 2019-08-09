@@ -173,8 +173,8 @@ hitpoint Box::intersect(Ray const& original_ray) {
         
     }
 
-    // h.point3d = reTransformPoint(h.point3d, world_transformation_);
-    // h.direction = reTransformVector(h.direction, world_transformation_);
+    h.point3d = reTransformPoint(h.point3d, world_transformation_);
+    h.direction = reTransformVector(h.direction, world_transformation_);
 
     return h;
 }

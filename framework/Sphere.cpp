@@ -68,8 +68,8 @@ hitpoint Sphere::intersect(Ray const& original_ray/*, float& distance*/){
         h.normale_ = glm::normalize(h.point3d - center_);
         h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
 
-        // h.point3d = reTransformPoint(h.point3d, world_transformation_);
-        // h.direction = reTransformVector(h.direction, world_transformation_);
+        h.point3d = reTransformPoint(h.point3d, world_transformation_);
+        h.direction = reTransformVector(h.direction, world_transformation_);
 
         return h;
     }

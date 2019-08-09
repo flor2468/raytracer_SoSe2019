@@ -269,13 +269,31 @@ void Renderer::transformation(std::shared_ptr<Shape> const& s, Scene const& scen
 
 }
 
-glm::vec3 reTransformPoint(glm::vec4 const& p, glm::mat4 mat) {
-  glm::vec4 punkt_retransformiert = mat * p;
+glm::vec3 reTransformPoint(glm::vec3 const& p, glm::mat4 mat) {
+  glm::vec4 p_homogen = {p.x, p.y, p.z, 1};
+  glm::vec4 punkt_retransformiert = mat * p_homogen;
   return glm::vec3{punkt_retransformiert.x, punkt_retransformiert.y, punkt_retransformiert.z};
 }
 
-glm::vec3 reTransformVector(glm::vec4 const& v, glm::mat4 mat) {
-  glm::vec4 vector_retransformiert = mat * v;
+glm::vec3 reTransformVector(glm::vec3 const& v, glm::mat4 mat) {
+  glm::vec4 v_homogen = {v.x, v.y, v.z, 0};
+
+  // glm::mat4 testmatrix = {
+  //   glm::vec4 {1, 0, 0, 0},
+  //   glm::vec4 {0, 1, 0, 0},
+  //   glm::vec4 {0, 0, 1, 0},
+  //   glm::vec4 {0, 0, 0, 1},
+  // };
+
+  // testmatrix[0][1] = 2;
+  // testmatrix[0][2] = 3;
+  // testmatrix[0][3] = 4;
+
+  // std::cout << "{" << testmatrix[0].x << ", " << testmatrix[0].y << ", " << testmatrix[0].z << ", " << testmatrix[0].w << "}" << std::endl;
+
+  mat[0][0] = 1;
+
+  glm::vec4 vector_retransformiert = mat * v_homogen;
   return glm::vec3{vector_retransformiert.x, vector_retransformiert.y, vector_retransformiert.z};
 }
 

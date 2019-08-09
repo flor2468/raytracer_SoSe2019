@@ -212,7 +212,7 @@ Scene input(std::string datei_name/*, Scene scene*/) {
               t.transformationsmatrix_ = {
               glm::vec4 {1, 0, 0, 0},
               glm::vec4 {0, (std::cos(winkel) / 2.0f * M_PI / 180), (std::sin(winkel) / 2.0f * M_PI / 180), 0},
-              glm::vec4 {0, -(std::sin(winkel) / 2.0f * M_PI / 180), (std::cos(winkel) / 2.0f * M_PI / 180), 0},
+              glm::vec4 {0, -1 * (std::sin(winkel) / 2.0f * M_PI / 180), (std::cos(winkel) / 2.0f * M_PI / 180), 0},
               glm::vec4 {0, 0, 0, 1}
               };
 
@@ -221,7 +221,7 @@ Scene input(std::string datei_name/*, Scene scene*/) {
             if(x == 0 && y == 1 && z == 0) {
 
               t.transformationsmatrix_ = {
-              glm::vec4 {(std::cos(winkel) / 2.0f * M_PI / 180), 0, -(std::sin(winkel) / 2.0f * M_PI / 180), 0},
+              glm::vec4 {(std::cos(winkel) / 2.0f * M_PI / 180), 0, -1 * (std::sin(winkel) / 2.0f * M_PI / 180), 0},
               glm::vec4 {0, 1, 0, 0},
               glm::vec4 {(std::sin(winkel) / 2.0f * M_PI / 180), 0, (std::cos(winkel) / 2.0f * M_PI / 180), 0},
               glm::vec4 {0, 0, 0, 1}
@@ -233,7 +233,7 @@ Scene input(std::string datei_name/*, Scene scene*/) {
 
               t.transformationsmatrix_ = {
               glm::vec4 {(std::cos(winkel) / 2.0f * M_PI / 180), (std::sin(winkel) / 2.0f * M_PI / 180), 0, 0},
-              glm::vec4 {-(std::sin(winkel) / 2.0f * M_PI / 180), (std::cos(winkel) / 2.0f * M_PI / 180), 0, 0},
+              glm::vec4 {- 1 * (std::sin(winkel) / 2.0f * M_PI / 180), (std::cos(winkel) / 2.0f * M_PI / 180), 0, 0},
               glm::vec4 {0, 0, 1, 0},
               glm::vec4 {0, 0, 0, 1}
               };
