@@ -39,7 +39,9 @@ int main(int argc, char* argv[])
   // // TEST Ende
 
   //create separate thread to see updates of pixels while rendering
-  std::thread render_thread([&renderer]() {renderer.render();});
+  //std::thread render_thread([&renderer]() {renderer.render();});
+
+  renderer.render();
 
   Window window{{image_width, image_height}};
 
@@ -51,6 +53,6 @@ int main(int argc, char* argv[])
   }
 
   //"join" threads, i.e. synchronize main thread with render_thread
-  render_thread.join();
+  //render_thread.join();
   return 0;
 }

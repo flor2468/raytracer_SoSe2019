@@ -2,10 +2,11 @@
 define material red 1 0 0 1 0 0 1 0 0 10
 define material blue 0 0 1 0 0 1 0 0 1 10
 define material white 1 1 1 1 1 1 1 1 1 10
-define material tuerkis 0.5 0.9 0.7 0.5 0.9 0.7 0.5 0.9 0.7 4
-define material pink 0.8 0.1 0.5 0.8 0.1 0.5 0.8 0.1 0.5 10
+define material tuerkis 0.5 0.9 0.7 0.5 0.9 0.7 0.5 0.9 0.7 400
+define material pink 0.8 0.1 0.5 0.8 0.1 0.5 0.8 0.1 0.5 500
 # geometry
-define shape box rbottom 10 -20 -100 50 -10 -50 pink
+#define shape box rbottom 10 -20 -100 50 -10 -50 pink
+define shape box rbottom -1 -1 -1 1 1 1 pink
 
 #define shape sphere bsphere 0 0 -100 20 blue
 #define shape sphere bsphere 0 0 -30 5 blue
@@ -18,13 +19,18 @@ define shape composite root rbottom bsphere
 #transform rbottom translate 0 0 -10
 #transform bsphere rotate 45 0 0 1
 #transform bsphere translate 0 0 -30
-#transform rbottom scale 2 4 2
-#transform bsphere scale 10 10 10 
+#transform rbottom scale 2 1 0.5
+transform rbottom rotate 30 0 0 1
+transform rbottom translate 2 0 -10.5
+#transform bsphere scale 3 0.2 1 
+#transform bsphere translate 20 -10 0
 
 # lights
 #define light l1 -10 20 10 1.0 1.0 1.0 1
 #define light sun 0 0 0 1.0 1.0 1.0 2
 define light l1 -500 400 100 1.0 1.0 1.0 1
+define light eye_light 0 100 -10 1.0 1.0 1.0 1
+
 #define light l2 0 0 -55 1.0 1.0 1.0 0.5
 #define light sun -800 -800 0 0.8 0.8 0.8 1
 #define light spot1 800 -800 0 0.8 0.8 0.8 1

@@ -291,7 +291,7 @@ glm::vec3 reTransformVector(glm::vec3 const& v, glm::mat4 mat) {
 
   // std::cout << "{" << testmatrix[0].x << ", " << testmatrix[0].y << ", " << testmatrix[0].z << ", " << testmatrix[0].w << "}" << std::endl;
 
-  mat[0][0] = 1;
+  // mat[0][0] = 1;
 
   glm::vec4 vector_retransformiert = mat * v_homogen;
   return glm::vec3{vector_retransformiert.x, vector_retransformiert.y, vector_retransformiert.z};
