@@ -70,7 +70,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
 
             /* Normale des Hitpoints (statt der getNormale-Funktion), da txmin der minimale x-Wert ist*/
             h.normale_ = {-1,0,0};
-            h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
+            // h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
         }
         h.name = name_;
         h.col = color_;
@@ -88,7 +88,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
 
             /* Normale des Hitpoints */
             h.normale_ = {0,-1,0};
-            h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
+            // h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
         }
         h.name = name_;
         h.col = color_;
@@ -107,7 +107,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
 
             /* Normale des Hitpoints */
             h.normale_ = {0,0,-1};
-            h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
+            // h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
         }
         h.name = name_;
         h.col = color_;
@@ -126,7 +126,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
 
             /* Normale des Hitpoints */
             h.normale_ = {1,0,0};
-            h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
+            // h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
         }
         h.name = name_;
         h.col = color_;
@@ -145,7 +145,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
 
             /* Normale des Hitpoints */
             h.normale_ = {0,1,0};
-            h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
+            // h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
         }
         h.name = name_;
         h.col = color_;
@@ -164,7 +164,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
 
             /* Normale des Hitpoints */
             h.normale_ = {0,0,1};
-            h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
+            // h.normale_ = reTransformNormale(h.normale_, world_transformation_invers_);
         }
         h.name = name_;
         h.col = color_;

@@ -243,80 +243,111 @@ Scene input(std::string datei_name/*, Scene scene*/) {
             std::cout << "rotation added" << std::endl;
           }
 
-          auto transformation_ptr = std::make_shared<Transformation>(t);
-          scene.transformations.push_back(transformation_ptr);
+          // auto transformation_ptr = std::make_shared<Transformation>(t);
+          scene.transformations.push_back(t);
 
         }
       }
 
-      for(auto el : scene.transformations) {
-
-        // glm::mat4 hilfsmatrix = el->transformationsmatrix_;
+      for(auto s : scene.shapes) {
+        std::string name = s->get_name();
         glm::mat4 translate = {
-          glm::vec4 {1, 0, 0, 0},
-          glm::vec4 {0, 1, 0, 0},
-          glm::vec4 {0, 0, 1, 0},
-          glm::vec4 {0, 0, 0, 1}
+        glm::vec4 {1, 0, 0, 0},
+        glm::vec4 {0, 1, 0, 0},
+        glm::vec4 {0, 0, 1, 0},
+        glm::vec4 {0, 0, 0, 1}
         };
         glm::mat4 rotate = translate;
         glm::mat4 scale = translate;
 
-        if(el->transformationsart_ == "translate") {
-          translate = el->transformationsmatrix_;
-        }
-
-        if(el->transformationsart_ == "scale") {
-          scale = el->transformationsmatrix_;
-        }
-
-        if(el->transformationsart_ == "rotate") {
-          rotate = el->transformationsmatrix_;
-        }
-
-        for(auto element : scene.transformations) {
-
-          if(el != element && el->objekt_name_ == element->objekt_name_) {
-
-            if(element->transformationsart_ == "translate") {
-              translate = element->transformationsmatrix_;
+        for(auto t : scene.transformations) {
+          if(name == t.objekt_name_) {
+            if(t.transformationsart_ == "scale") {
+              scale *= t.transformationsmatrix_;
             }
-
-            if(element->transformationsart_ == "scale") {
-              scale = element->transformationsmatrix_;
+            if(t.transformationsart_ == "rotate") {
+              rotate *= t.transformationsmatrix_;
             }
-
-            if(element->transformationsart_ == "rotate") {
-              rotate = element->transformationsmatrix_;
+            if(t.transformationsart_ == "translate") {
+              translate *= t.transformationsmatrix_;
             }
           }
-
-          for(auto e : scene.transformations) {
-
-            if(el != element && el != e && element != e && el->objekt_name_ == element->objekt_name_ && element->objekt_name_ == e->objekt_name_) {
-            
-              if(e->transformationsart_ == "translate") {
-                translate = e->transformationsmatrix_;
-              }
-
-              if(e->transformationsart_ == "scale") {
-                scale = e->transformationsmatrix_;
-              }
-
-              if(e->transformationsart_ == "rotate") {
-                rotate = e->transformationsmatrix_;
-              }
-            }
-          }
-        }  
-
-        for(auto s : scene.shapes) {
-          if(s->get_name() == el->objekt_name_) {
-            s->world_transformation_ = translate * rotate;
-            s->world_transformation_ = s->world_transformation_ * scale;
-            s->world_transformation_invers_ = glm::inverse(s->world_transformation_);
-          }
         }
+
+        s->world_transformation_ = translate * rotate;
+        s->world_transformation_ = s->world_transformation_ * scale;
+        s->world_transformation_invers_ = glm::inverse(s->world_transformation_);
       }
+
+
+      // for(auto el : scene.transformations) {
+
+      //   // glm::mat4 hilfsmatrix = el->transformationsmatrix_;
+      //   glm::mat4 translate = {
+      //     glm::vec4 {1, 0, 0, 0},
+      //     glm::vec4 {0, 1, 0, 0},
+      //     glm::vec4 {0, 0, 1, 0},
+      //     glm::vec4 {0, 0, 0, 1}
+      //   };
+      //   glm::mat4 rotate = translate;
+      //   glm::mat4 scale = translate;
+
+      //   if(el->transformationsart_ == "translate") {
+      //     translate = el->transformationsmatrix_;
+      //   }
+
+      //   if(el->transformationsart_ == "scale") {
+      //     scale = el->transformationsmatrix_;
+      //   }
+
+      //   if(el->transformationsart_ == "rotate") {
+      //     rotate = el->transformationsmatrix_;
+      //   }
+
+      //   for(auto element : scene.transformations) {
+
+      //     if(el != element && el->objekt_name_ == element->objekt_name_) {
+
+      //       if(element->transformationsart_ == "translate") {
+      //         translate = element->transformationsmatrix_;
+      //       }
+
+      //       if(element->transformationsart_ == "scale") {
+      //         scale = element->transformationsmatrix_;
+      //       }
+
+      //       if(element->transformationsart_ == "rotate") {
+      //         rotate = element->transformationsmatrix_;
+      //       }
+      //     }
+
+      //     for(auto e : scene.transformations) {
+
+      //       if(el != element && el != e && element != e && el->objekt_name_ == element->objekt_name_ && element->objekt_name_ == e->objekt_name_) {
+            
+      //         if(e->transformationsart_ == "translate") {
+      //           translate = e->transformationsmatrix_;
+      //         }
+
+      //         if(e->transformationsart_ == "scale") {
+      //           scale = e->transformationsmatrix_;
+      //         }
+
+      //         if(e->transformationsart_ == "rotate") {
+      //           rotate = e->transformationsmatrix_;
+      //         }
+      //       }
+      //     }
+      //   }  
+
+      //   for(auto s : scene.shapes) {
+      //     if(s->get_name() == el->objekt_name_) {
+      //       s->world_transformation_ = translate * rotate;
+      //       s->world_transformation_ = s->world_transformation_ * scale;
+      //       s->world_transformation_invers_ = glm::inverse(s->world_transformation_);
+      //     }
+      //   }
+      // }
 
 
       // std::cout << "fertig" << std::endl;
