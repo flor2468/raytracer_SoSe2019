@@ -89,7 +89,7 @@ Color Renderer::trace(Ray const& strahl, Scene const& scene) {
 /* Die trace-Funktion sucht das vorderste Objekt in der Szene und ruft die shade-Funktion auf */
 
 Color result{1, 1, 0.6};
-  hitpoint closest_hit = hitpoint();
+  hitpoint closest_hit;
   std::shared_ptr<Shape> first = nullptr;
   Color schatten_col = {0.0f, 0.0f, 0.0f};
 
@@ -120,46 +120,101 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
 
   Color result{0,0,0};
   Color ambient = calculate_ambient(shape_ptr, scene); 
-  Color diffus = calculate_diffus(shape_ptr, scene, h);
-  Color specular = calculate_specular(shape_ptr, scene, h);
+  //Color diffus = calculate_diffus(shape_ptr, scene, h);
+  //Color specular = calculate_specular(shape_ptr, scene, h);
 
   for(auto light : scene.lights){
 
     bool light_visible = true;
 
+        // Strahl wird vom Schnittpunkt des Objekts zur Lichtquelle geschossen
+    glm::vec3 richtung_licht = glm::normalize(light->position_ - h.point3d);
+    Ray strahl = {h.point3d + h.normale_ * 0.1f, richtung_licht};
+    
     for(auto shape : scene.shapes) {
 
       hitpoint hit{};
 
       if(shape != shape_ptr) {
 
-        // Strahl wird vom Schnittpunkt des Objekts zur Lichtquelle geschossen
-        glm::vec3 richtung_licht = light->position_ - h.point3d;
-        Ray strahl = {h.point3d + h.normale_ * 0.1f, richtung_licht};
+
 
         // ueberpruefen, ob ein (anderes) Objekt zwischen dem Schnittpunkt (des Objekts) und der Lichtquelle liegt
         hit = shape->intersect(strahl);
 
         if(hit.cut == true){
           light_visible = false;
+          break;
         }
       }
 
       // Berechnung der Farben = Ambient + Diffus + Specular 
       //if (hit.cut == false || hit.distance < 0) {
-      if (light_visible == true || hit.distance < 0) {
+      if (light_visible == true) {
 
-        result.r = result.r + (light->farbe_.r * (diffus.r + specular.r));
-        result.g = result.g + (light->farbe_.g * (diffus.g + specular.g));
-        result.b = result.b + (light->farbe_.b * (diffus.b + specular.b));
+        glm::vec3 richtung_licht = light->position_ - h.point3d;
+        glm::vec3 normal = h.normale_; 
+        float cos_angle = glm::dot(glm::normalize(normal), glm::normalize(richtung_licht));
 
-        result = tone_mapping(result);
+        if (cos_angle > 0) {
+          float value = cos_angle * scene.lights[0]->intensitaet_;
+
+          float shade_r = light->farbe_.r * h.col->kd.r * value;
+          float shade_g = light->farbe_.g * h.col->kd.g * value;
+          float shade_b = light->farbe_.b * h.col->kd.b * value;
+
+          result += Color{shade_r, shade_g, shade_b};
+        }
+
+        glm::vec3 r = {};
+        
+        // r.x = (2 * (h.normale_.x * richtung_licht.x) * h.normale_.x) - richtung_licht.x;
+        // r.y = (2 * (h.normale_.y * richtung_licht.y) * h.normale_.y) - richtung_licht.y;
+        // r.z = (2 * (h.normale_.z * richtung_licht.z) * h.normale_.z) - richtung_licht.z;
+
+        //r = 2 * glm::dot(h.normale_, richtung_licht) * h.normale_ - richtung_licht;
+        r = glm::reflect(-richtung_licht, h.normale_);
+
+        r = glm::normalize(r);
+
+        glm::vec3 v = {0,0,0};
+        v = v - h.point3d;
+        v = glm::normalize(v);
+
+        float cos_beta;
+
+        if(glm::dot(r, v) > 0) {
+          cos_beta = std::pow(glm::dot(r, v), h.col->m);
+        }
+        else{
+          cos_beta = 0;
+        }
+
+        result.r += ((light)->farbe_.r * h.col->ks.r * cos_beta);
+        result.g += ((light)->farbe_.g * h.col->ks.g * cos_beta);
+        result.b += ((light)->farbe_.b * h.col->ks.b * cos_beta);
+
 
       }
     }
   }
 
   result += ambient;
+  result = tone_mapping(result);
+
+  // auto normalized_normal = glm::normalize(h.normale_);
+
+  // result = Color{(normalized_normal.x + 1) / 2.0, 
+  //                (normalized_normal.y + 1) / 2.0,
+  //                (normalized_normal.z + 1) / 2.0}; 
+
+  // result = Color{(h.point3d.x + 1) / 2.0, 
+  //                (h.point3d.y + 1) / 2.0,
+  //                (h.point3d.z + 1) / 2.0}; 
+
+  // result = Color{(h.distance / 20), 
+  //                (h.distance / 20),
+  //                (h.distance / 20)};  
 
   return result;
 }
@@ -186,7 +241,7 @@ Color Renderer::calculate_diffus(std::shared_ptr<Shape> shape, Scene const& scen
 
     glm::vec3 richtung_licht = (*it)->position_ - h.point3d;
     glm::vec3 normal = h.normale_; 
-    float cos_angle = glm::cos(glm::angle(glm::normalize(normal), glm::normalize(richtung_licht)));
+    float cos_angle = glm::dot(glm::normalize(normal), glm::normalize(richtung_licht));
 
     if (cos_angle > 0) {
       float value = cos_angle * scene.lights[0]->intensitaet_;
@@ -215,7 +270,8 @@ Color Renderer::calculate_specular(std::shared_ptr<Shape> shape, Scene const& sc
     // r.y = (2 * (h.normale_.y * richtung_licht.y) * h.normale_.y) - richtung_licht.y;
     // r.z = (2 * (h.normale_.z * richtung_licht.z) * h.normale_.z) - richtung_licht.z;
 
-    r = 2 * glm::dot(h.normale_, richtung_licht) * h.normale_ - richtung_licht;
+    //r = 2 * glm::dot(h.normale_, richtung_licht) * h.normale_ - richtung_licht;
+    r = glm::reflect(-richtung_licht, h.normale_);
 
     r = glm::normalize(r);
 

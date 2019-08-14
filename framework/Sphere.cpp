@@ -42,7 +42,7 @@ hitpoint Sphere::intersect(Ray const& original_ray/*, float& distance*/){
     // Ray ray = original_ray;
 
     h.cut = glm::intersectRaySphere(ray.origin, glm::normalize(ray.direction), center_, radius_*radius_, h.distance);
-    if(h.cut == false){ //wenn sie sich nicht schneiden
+    if(h.cut == false || h.distance < 0){ //wenn sie sich nicht schneiden
         return h;
     }
     else{
@@ -56,11 +56,12 @@ hitpoint Sphere::intersect(Ray const& original_ray/*, float& distance*/){
             
         // }
 
+        auto norm_ray_direction = glm::normalize(ray.direction);
         h.name = name_;
         h.col = color_;
-        h.point3d.x = ray.origin.x + h.distance * ray.direction.x;
-        h.point3d.y = ray.origin.y + h.distance * ray.direction.y;
-        h.point3d.z = ray.origin.z + h.distance * ray.direction.z;
+        h.point3d.x = ray.origin.x + h.distance * norm_ray_direction.x;
+        h.point3d.y = ray.origin.y + h.distance * norm_ray_direction.y;
+        h.point3d.z = ray.origin.z + h.distance * norm_ray_direction.z;
         h.direction = ray.direction;
 
         /* Normale des Hitpoints zeigt von center_ zum Schnittpunkt (Hitpoint) auf der Kugel */
