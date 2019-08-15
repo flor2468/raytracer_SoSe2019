@@ -2,6 +2,7 @@
 #include "box.hpp"
 #include "Sphere.hpp"
 #include "camera.hpp"
+#include "iostream"
 
 bool operator<(std::shared_ptr<Material> const& lhs, std::shared_ptr<Material> const& rhs)
 {
@@ -279,79 +280,35 @@ Scene input(std::string datei_name/*, Scene scene*/) {
         s->world_transformation_invers_ = glm::inverse(s->world_transformation_);
       }
 
-
-      // for(auto el : scene.transformations) {
-
-      //   // glm::mat4 hilfsmatrix = el->transformationsmatrix_;
-      //   glm::mat4 translate = {
-      //     glm::vec4 {1, 0, 0, 0},
-      //     glm::vec4 {0, 1, 0, 0},
-      //     glm::vec4 {0, 0, 1, 0},
-      //     glm::vec4 {0, 0, 0, 1}
-      //   };
-      //   glm::mat4 rotate = translate;
-      //   glm::mat4 scale = translate;
-
-      //   if(el->transformationsart_ == "translate") {
-      //     translate = el->transformationsmatrix_;
-      //   }
-
-      //   if(el->transformationsart_ == "scale") {
-      //     scale = el->transformationsmatrix_;
-      //   }
-
-      //   if(el->transformationsart_ == "rotate") {
-      //     rotate = el->transformationsmatrix_;
-      //   }
-
-      //   for(auto element : scene.transformations) {
-
-      //     if(el != element && el->objekt_name_ == element->objekt_name_) {
-
-      //       if(element->transformationsart_ == "translate") {
-      //         translate = element->transformationsmatrix_;
-      //       }
-
-      //       if(element->transformationsart_ == "scale") {
-      //         scale = element->transformationsmatrix_;
-      //       }
-
-      //       if(element->transformationsart_ == "rotate") {
-      //         rotate = element->transformationsmatrix_;
-      //       }
-      //     }
-
-      //     for(auto e : scene.transformations) {
-
-      //       if(el != element && el != e && element != e && el->objekt_name_ == element->objekt_name_ && element->objekt_name_ == e->objekt_name_) {
-            
-      //         if(e->transformationsart_ == "translate") {
-      //           translate = e->transformationsmatrix_;
-      //         }
-
-      //         if(e->transformationsart_ == "scale") {
-      //           scale = e->transformationsmatrix_;
-      //         }
-
-      //         if(e->transformationsart_ == "rotate") {
-      //           rotate = e->transformationsmatrix_;
-      //         }
-      //       }
-      //     }
-      //   }  
-
-      //   for(auto s : scene.shapes) {
-      //     if(s->get_name() == el->objekt_name_) {
-      //       s->world_transformation_ = translate * rotate;
-      //       s->world_transformation_ = s->world_transformation_ * scale;
-      //       s->world_transformation_invers_ = glm::inverse(s->world_transformation_);
-      //     }
-      //   }
-      // }
-
-
       // std::cout << "fertig" << std::endl;
       file.close();
       return scene;
     }
  }
+
+Scene output(std::string datei_name, float num) {
+
+  Scene scene;
+  std::ofstream file;
+  std::string fileLine;
+
+  file.open(datei_name);
+  
+  if(file.is_open() == true) {
+    file << "define material pink 0.8 0.1 0.5 0.8 0.1 0.5 0.8 0.1 0.5 800 \n";
+    file << "define shape box rbottom 1 -1 -11.5 3 1 -9.5 pink \n";
+    file << "transform rbottom rotate " << num * 2 << " 0 0 1 \n"; 
+    file << "define light lichtvonvorne 0 0 0 1 1 1 1 \n";
+    file << "ambient 0.4 0.4 0.4 \n";
+    file << "define camera eye 60.0 \n";
+    // file << "render eye image . ppm 480 320 \n";
+
+    file.close();
+  }
+  
+  scene = input(datei_name);
+
+  // file << "hallihallo :)";
+  
+  return scene;
+}

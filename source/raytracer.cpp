@@ -14,45 +14,64 @@ int main(int argc, char* argv[])
 {
   unsigned const image_width = 800;
   unsigned const image_height = 600;
-  std::string const filename = "./checkerboard.ppm";
+  std::string const bildname1 = "./checkerboard.ppm";
   
-  std::string const filename2 = "./Test.sdf";
+  std::string const filename1 = "./Test.sdf";
 
-  // Renderer renderer{image_width, image_height, filename};
+  for(int num = 0; num <= 10; ++num) {
 
-  // Camera /*const&*/ cam1{};
-  // Scene scene1 = Scene {};
-  // Material mat1{"mat1", Color{1.0f, 1.0f, 1.0f}, Color{1.0f, 1.0f, 1.0f}, Color{1.0f, 1.0f, 1.0f}, 2.0f};
-  // auto mat_ptr1 = std::make_shared<Material>(mat1);
-  // Sphere sphere1{"Kugel 1", mat_ptr1, {0.0f, 0.0f, -5.0f}, 1.0f};
-  // std::shared_ptr<Shape> sphere_ptr1 = std::make_shared<Sphere>(sphere1);
-  // scene1.shapes.push_back(sphere_ptr1);
+    std::stringstream s; // = "./Testbild" << num << ".ppm";
+    s << "./Testbild" << num << ".ppm";
 
-  Scene scene1 = input(filename2);
+    std::string const bildname2 = s.str();
+    
+    std::string const filename2 = "./Test2.sdf";
 
-  Renderer renderer{image_width, image_height, filename, scene1};
+    // Renderer renderer{image_width, image_height, filename};
 
-  // // TEST Anfang
-  // Ray testray;
-  // renderer.trace(testray, scene1);
-  // renderer.render();
-  // // TEST Ende
+    // Camera /*const&*/ cam1{};
+    // Scene scene1 = Scene {};
+    // Material mat1{"mat1", Color{1.0f, 1.0f, 1.0f}, Color{1.0f, 1.0f, 1.0f}, Color{1.0f, 1.0f, 1.0f}, 2.0f};
+    // auto mat_ptr1 = std::make_shared<Material>(mat1);
+    // Sphere sphere1{"Kugel 1", mat_ptr1, {0.0f, 0.0f, -5.0f}, 1.0f};
+    // std::shared_ptr<Shape> sphere_ptr1 = std::make_shared<Sphere>(sphere1);
+    // scene1.shapes.push_back(sphere_ptr1);
 
-  //create separate thread to see updates of pixels while rendering
-  //std::thread render_thread([&renderer]() {renderer.render();});
+    Scene scene1 = input(filename1);
 
-  renderer.render();
+    Scene scene2 = output(filename2, num);
 
-  Window window{{image_width, image_height}};
+    Renderer renderer{image_width, image_height, bildname1, scene1};
 
-  while (!window.should_close()) {
-    if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-      window.close();
-    }
-    window.show(renderer.color_buffer());
+    Renderer renderer_animation{image_width, image_height, bildname2, scene2};
+
+    
+    // // TEST Anfang
+    // Ray testray;
+    // renderer.trace(testray, scene1);
+    // renderer.render();
+    // // TEST Ende
+
+    //create separate thread to see updates of pixels while rendering
+    //std::thread render_thread([&renderer]() {renderer.render();});
+
+    renderer_animation.render();
+
+    // Window window{{image_width, image_height}};
+
+    // while (!window.should_close()) {
+    //   if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+    //     window.close();
+    //   }
+    //   window.show(renderer.color_buffer());
+    // // window.close();
+    // }
+
+    //"join" threads, i.e. synchronize main thread with render_thread
+    //render_thread.join();
+
+    std::cout << "hallooo";
+
   }
-
-  //"join" threads, i.e. synchronize main thread with render_thread
-  //render_thread.join();
   return 0;
 }
