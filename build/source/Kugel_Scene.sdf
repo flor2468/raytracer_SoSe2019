@@ -26,7 +26,7 @@ define shape sphere kugel16 9.5 2.4 -20 3.2 hellblau
 define shape sphere kugel17 7 4.9 -20 1.5 pink 
 define shape sphere kugel18 9 6.5 -20 3 gelb 
 define shape sphere startkugel 9 6.5 -18.5 2 grau 
-transform startkugel translate -7.5 0 0 
+transform startkugel translate 0.6 -4.5 0 
 define light lichtvonvorne 0 0 0 1 1 1 1 
 ambient 0.4 0.4 0.4 
 define camera eye 60.0 
