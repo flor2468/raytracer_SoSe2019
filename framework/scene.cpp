@@ -424,7 +424,7 @@ Scene output(std::string datei_name, float num) {
 
     if(num > 130 && num <= 230) {
       // file << "define shape sphere startkugel -6 2 -18.5 2 grau \n";
-      file << "transform startkugel translate " << -6 + 0.15 * (num - 99) << " " << /*tempy*/ "-4.5" << " 0 \n";
+      file << "transform startkugel translate " << -15 + 0.15 * (num - 129) << " " << /*tempy*/ "-4.5" << " 0 \n";
 
       if(num == 230) {
         tempx = 0.15 * num;
@@ -433,7 +433,7 @@ Scene output(std::string datei_name, float num) {
 
     if(num > 230 && num <= 260) {
       // file << "define shape sphere startkugel 9 2 -18.5 2 grau \n";
-      file << "transform startkugel translate " << /*tempx*/ "15" << " " << 2 - (-0.15 * (num - 99)) << " 0 \n";
+      file << "transform startkugel translate " << /*tempx*/ "15" << " " << -4.5 - (-0.15 * (num - 229)) << " 0 \n";
 
       if(num == 260) {
         tempy = -0.15 * num;
@@ -442,7 +442,7 @@ Scene output(std::string datei_name, float num) {
 
     if(num > 260 && num <= 360) {
       // file << "define shape sphere startkugel 9 -2.5 -18.5 2 grau \n";
-      file << "transform startkugel translate " << 9 + (-0.15 * (num - 99)) << " " << /*tempy*/ "-4.5" << " 0 \n";
+      file << "transform startkugel translate " << 9 + (-0.15 * (num - 259)) << " " << /*tempy*/ "-4.5" << " 0 \n";
     }
 
     file << "define light lichtvonvorne 0 0 0 1 1 1 1 \n";
