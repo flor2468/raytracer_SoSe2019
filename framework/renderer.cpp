@@ -123,7 +123,7 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
   //Color diffus = calculate_diffus(shape_ptr, scene, h);
   //Color specular = calculate_specular(shape_ptr, scene, h);
 
-  for(auto light : scene.lights){
+  for(auto const& light : scene.lights){
 
     bool light_visible = true;
 
@@ -135,7 +135,7 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
 
       hitpoint hit{};
 
-      if(shape != shape_ptr) {
+      //  if(shape != shape_ptr) {
 
 
 
@@ -146,13 +146,13 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
           light_visible = false;
           break;
         }
-      }
+      // }
 
       // Berechnung der Farben = Ambient + Diffus + Specular 
       //if (hit.cut == false || hit.distance < 0) {
       if (light_visible == true) {
 
-        glm::vec3 richtung_licht = light->position_ - h.point3d;
+        // glm::vec3 richtung_licht = light->position_ - h.point3d;
         glm::vec3 normal = h.normale_; 
         float cos_angle = glm::dot(glm::normalize(normal), glm::normalize(richtung_licht));
 
@@ -202,15 +202,19 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
   result += ambient;
   result = tone_mapping(result);
 
-  // auto normalized_normal = glm::normalize(h.normale_);
+   auto normalized_normal = glm::normalize(h.normale_);
 
-  // result = Color{(normalized_normal.x + 1) / 2.0, 
-  //                (normalized_normal.y + 1) / 2.0,
-  //                (normalized_normal.z + 1) / 2.0}; 
+    // result = Color{(normalized_normal.x + 1) / 2.0, 
+    //                (normalized_normal.y + 1) / 2.0,
+    //                (normalized_normal.z + 1) / 2.0}; 
 
   // result = Color{(h.point3d.x + 1) / 2.0, 
   //                (h.point3d.y + 1) / 2.0,
   //                (h.point3d.z + 1) / 2.0}; 
+
+  // result = Color{(h.point3d.x), 
+  //                (h.point3d.y),
+  //                (h.point3d.z)}; 
 
   // result = Color{(h.distance / 20), 
   //                (h.distance / 20),
@@ -359,5 +363,5 @@ glm::vec3 reTransformNormale(glm::vec3 const& n, glm::mat4 inverse) {
   glm::mat4 transponierte_inverse = glm::transpose(inverse);
   glm::vec4 normale_retransformiert = {n.x, n.y, n.z, 0};
   normale_retransformiert = transponierte_inverse * normale_retransformiert;
-  return glm::vec3{n.x, n.y, n.z};
+  return glm::vec3{normale_retransformiert.x, normale_retransformiert.y, normale_retransformiert.z};
 }

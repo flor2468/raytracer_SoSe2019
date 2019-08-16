@@ -295,13 +295,87 @@ Scene output(std::string datei_name, float num) {
   file.open(datei_name);
   
   if(file.is_open() == true) {
+    /*
+    // Test-Szene fuer Test_Animation.mp4 (Bilder: Testbild%d.ppm)
     file << "define material pink 0.8 0.1 0.5 0.8 0.1 0.5 0.8 0.1 0.5 800 \n";
     file << "define shape box rbottom 1 -1 -11.5 3 1 -9.5 pink \n";
     file << "transform rbottom rotate " << num * 2 << " 0 0 1 \n"; 
     file << "define light lichtvonvorne 0 0 0 1 1 1 1 \n";
     file << "ambient 0.4 0.4 0.4 \n";
     file << "define camera eye 60.0 \n";
-    // file << "render eye image . ppm 480 320 \n";
+    */
+
+    file << "define material gruen 0 0.9 0.1 0 0.9 0.1 0 0.9 0.1 50 \n";
+    file << "define material hellblau 0 0.8 0.9 0 0.8 0.9 0 0.8 0.9 50 \n";
+    file << "define material lila 0.7 0 0.5 0.7 0 0.5 0.7 0 0.5 50 \n";
+    file << "define material orange 1 0.3 0 1 0.3 0 1 0.3 0 50 \n";
+    file << "define material pink 1 0.4 0.7 1 0.4 0.7 1 0.4 0.7 50 \n";
+    file << "define material gelb 1 1 0 1 1 0 1 1 0 50 \n";
+    file << "define material rot 1 0 0.1 1 0 0.1 1 0 0.1 50 \n";
+    file << "define material blau 0.1 0.1 1 0.1 0.1 1 0.1 0.1 1 50 \n";
+    file << "define material grau 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 50 \n";
+
+    file << "define shape sphere kugel1 -7 -5 -20 5 gruen \n";
+    file << "define shape sphere kugel2 -9 0 -20 3 lila \n";
+    file << "define shape sphere kugel3 -8 6 -20 4 hellblau \n";
+    file << "define shape sphere kugel4 -11 3 -20 1 gelb \n";
+    file << "define shape sphere kugel5 -3.5 2 -20 3.5 pink \n";
+    file << "define shape sphere kugel6 -2.5 7.6 -20 2.7 orange \n";
+    file << "define shape sphere kugel7 -1 -7 -20 3 rot \n";
+    file << "define shape sphere kugel8 -1 -3 -20 4 gelb \n";
+    file << "define shape sphere kugel9 4 -6 -20 3.5 blau \n";
+    file << "define shape sphere kugel10 3 1 -20 4 rot \n";
+    file << "define shape sphere kugel11 1.3 5.9 -20 3 gruen \n";
+    file << "define shape sphere kugel12 4.8 6.8 -20 2.5 lila \n";
+    file << "define shape sphere kugel13 9 -7.5 -20 2.5 pink \n";
+    file << "define shape sphere kugel14 8 -2 -20 3.5 orange \n";
+    file << "define shape sphere kugel15 11 -5 -20 1.5 lila \n";
+    file << "define shape sphere kugel16 9.5 2.4 -20 3.2 hellblau \n";
+    file << "define shape sphere kugel17 7 4.9 -20 1.5 pink \n";
+    file << "define shape sphere kugel18 9 6.5 -20 3 gelb \n";
+    file << "define shape sphere startkugel 9 6.5 -18.5 2 grau \n";
+
+    float tempx, tempy, tempz;
+
+    if(num <= 100) {
+      file << "transform startkugel translate " << -0.15 * num << " 0 0 \n";
+
+      if(num == 100) {
+        tempx = -0.15 * num;
+      }
+    }
+
+    if(num > 100 && num <= 130) {
+      file << "transform startkugel translate " << tempx << " " << -0.15 * num << " 0 \n";
+
+      if(num == 130) {
+        tempy = -0.15 * num;
+      }
+    }
+
+    if(num > 130 && num <= 230) {
+      file << "transform startkugel translate " << 0.15 * num << " " << tempy << " 0 \n";
+
+      if(num == 230) {
+        tempx = 0.15 * num;
+      }
+    }
+
+    if(num > 230 && num <= 260) {
+      file << "transform startkugel translate " << tempx << " " << -0.15 * num << " 0 \n";
+
+      if(num == 260) {
+        tempy = -0.15 * num;
+      }
+    }
+
+    if(num > 260 && num <= 360) {
+      file << "transform startkugel translate " << -0.15 * num << " " << tempy << " 0 \n";
+    }
+
+    file << "define light lichtvonvorne 0 0 0 1 1 1 1 \n";
+    file << "ambient 0.4 0.4 0.4 \n";
+    file << "define camera eye 60.0 \n";
 
     file.close();
   }

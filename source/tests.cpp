@@ -63,8 +63,8 @@
 //   std::cout << s2;
 // }
 
-// TEST_CASE ( "intersect_ray_sphere","[intersect]" )
-// {
+TEST_CASE ( "intersect_ray_sphere","[intersect]" )
+{
 //   // Ray
 //   glm::vec3 ray_origin{0.0f , 0.0f , 0.0f }; //1
 //   // ray direction has to be normalized !
@@ -95,7 +95,17 @@
 //     hitpoint b = s2.intersect(ray2);
 //     REQUIRE (a.distance == 5.0f);
 //     // REQUIRE (b.cut == false);
-// }
+
+Material mat = {"mat", {1,1,1}, {1,1,1}, {1,1,1}, 400};
+auto m = std::make_shared<Material>(mat);
+Sphere s{"Kugel", m, glm::vec3{0,0,0}, 5.0f};
+Ray r = {{0,0,4}, {0,0,-1}};
+
+hitpoint h = s.intersect(r);
+std::cout << "xxx {" << h.point3d.x << ", " << h.point3d.y << ", " << h.point3d.z << "} \n"; 
+
+
+}
 
 // TEST_CASE("destruktor", "[destruktor]"){
 //   std::cout << "\nTask 8\n\n";

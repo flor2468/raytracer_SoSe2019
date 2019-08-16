@@ -1,0 +1,92 @@
+# materials
+define material red 1 0 0 1 0 0 1 1 1 10
+define material blue 0 0 1 0 0 1 1 0 1 10
+define material white 1 1 1 1 1 1 1 1 1 10
+
+define shape box untergrund -100000 -70000 -31.5 100000 500000 -31 red
+#voronoi spheres
+#define shape sphere xsphere 3 0 -10 5 red
+#define shape sphere bsphere -3 0 -10 5 blue
+#define shape sphere zsphere 0 3 -10 5 white
+
+#define shape sphere xsphere 0 0 -70 40 red
+#define shape sphere bsphere 0 0 -10 3 blue
+#define shape sphere zsphere 0 3 -10 5 white
+
+#define shape box rbottom -1 -1 -1 1 1 1 pink
+#define shape box untergrund -10 -1 -8 10 1 8 schoenes_grau
+#define shape box untergrund -400 -300 1 400 0 -50 schoenes_grau
+#define shape box untergrund -1 -1 -1 1 1 1 schoenes_grau
+#define shape box rbottom 1 -1 -11.5 3 1 -9.5 pink
+
+
+#define shape sphere bsphere 1 3 -10.5 1 mint_gruen
+#define shape sphere kugel2 -1.5 -1 -12 1.5 schoenes_blau
+#define shape sphere kugel3 8 3 -28 2 schoenes_rosa
+
+# composite
+#define shape composite root rbottom bsphere
+# scene xform
+
+#transformation: scale -> rotate -> translate 
+#transform rbottom rotate 3 0 0 1
+#transform rbottom translate 0 0 -10
+#transform bsphere rotate 45 0 0 1
+
+#transform bsphere translate 0 0 -10.5
+#transform bsphere translate 1 3 0
+
+#transform rbottom scale 2 1 0.5
+
+#transform rbottom rotate 30 0 0 1
+#transform rbottom rotate 30 1 0 0
+#transform rbottom translate 2 0 -10.5
+
+#transform bsphere scale 3 0.2 1 
+#transform bsphere translate 20 -10 0
+#transform kugel2 translate -1.5 -1 -12
+#transform untergrund translate 0 0 0
+#transform untergrund scale 5 5 10
+
+#transform untergrund translate 0 -6 -33
+#transform untergrund rotate 50 0 1 0
+#transform untergrund rotate 15 1 0 0
+#transform kugel3 translate 8 3 -28
+
+
+# lights
+#define light l1 -10 20 10 1.0 1.0 1.0 1
+#define light sun 0 0 0 1.0 1.0 1.0 2
+
+# vorher drinnen gewesen
+#define light l1 -500 500 100 1.0 1.0 1.0 1
+
+#define light eye_light 0 100 -10 1.0 1.0 1.0 1
+#define light inbox 0 0 0 1 1 1 1
+#define light test 2 4 -1 1 1 1 1
+
+# vorher drinnen gewesen
+#define light rosa_kugel_licht 8 20 -28 1 1 1 3
+
+#define light l 1 5 -10.5 1 1 1 1
+#define light neues_licht 1 4 -9 1 1 1 0.5
+
+#define light lichtvonoben 0 15 -10 1 1 1 1
+define light cam_light -1 0 0 1 1 1 1
+define light cam_light2 1 0 0 1 1 1 1
+define light cam_light3 1.5 0 0 1 1 1 1
+
+#define light l2 0 0 -55 1.0 1.0 1.0 0.5
+#define light sun -800 -800 0 0.8 0.8 0.8 1
+#define light spot1 800 -800 0 0.8 0.8 0.8 1
+#define light spot2 800 800 0 0.8 0.8 0.8 1
+#define light spot3 -800 800 0 0.8 0.8 0.8 1
+ambient 0.0 0.0 0.0
+#ambient 0.4 0.4 0.4
+# camera
+define camera eye 60.0
+# camera xform
+#transform eye rotate -45 0 1 0
+#transform eye translate 100 0 100
+# ... and go
+render eye image . ppm 480 320

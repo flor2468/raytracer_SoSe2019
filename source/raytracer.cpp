@@ -16,16 +16,22 @@ int main(int argc, char* argv[])
   unsigned const image_height = 600;
   std::string const bildname1 = "./checkerboard.ppm";
   
-  std::string const filename1 = "./Test.sdf";
+  std::string filename1 = "./Test.sdf";
+  
+  if(argc > 1) {
+    filename1 = argv[1];
+  }
 
-  for(int num = 0; num <= 10; ++num) {
+
+
+  for(int num = 0; num <= 360; ++num) {
 
     std::stringstream s; // = "./Testbild" << num << ".ppm";
-    s << "./Testbild" << num << ".ppm";
+    s << "./Kugelbild" << num << ".ppm";
 
     std::string const bildname2 = s.str();
     
-    std::string const filename2 = "./Test2.sdf";
+    std::string const filename2 = "./Kugel_Scene.sdf";
 
     // Renderer renderer{image_width, image_height, filename};
 

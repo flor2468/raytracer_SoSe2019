@@ -41,7 +41,9 @@ hitpoint Sphere::intersect(Ray const& original_ray/*, float& distance*/){
     Ray ray = transformRay(world_transformation_invers_, original_ray);
     // Ray ray = original_ray;
 
-    h.cut = glm::intersectRaySphere(ray.origin, glm::normalize(ray.direction), center_, radius_*radius_, h.distance);
+    auto norm_ray_direction = glm::normalize(ray.direction);
+
+    h.cut = glm::intersectRaySphere(ray.origin, norm_ray_direction, center_, radius_*radius_, h.distance);
     if(h.cut == false || h.distance < 0){ //wenn sie sich nicht schneiden
         return h;
     }
@@ -56,7 +58,7 @@ hitpoint Sphere::intersect(Ray const& original_ray/*, float& distance*/){
             
         // }
 
-        auto norm_ray_direction = glm::normalize(ray.direction);
+
         h.name = name_;
         h.col = color_;
         h.point3d.x = ray.origin.x + h.distance * norm_ray_direction.x;
