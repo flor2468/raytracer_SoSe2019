@@ -337,64 +337,6 @@ Scene output(std::string datei_name, float num) {
 
     float tempx, tempy, tempz;
 
-    
-      // if(num <= 100) {
-      //   for(int i = 0; i <= 100; ++i) {
-      //     file << "transform startkugel translate " << -0.15 * i << " 0 0 \n";
-      //   }
-      // }  
-      
-      // if(num > 100 && num <= 130) {
-      //   for(int j = 0; j <= 30; ++j) {
-      //     file << "transform startkugel translate 0 " << -0.15 * j << " 0 \n";
-      //   }
-      // }
-
-      // if(num > 130 && num <= 230) {
-      //   for(int i = 0; i <= 100; ++i) {
-      //     file << "transform startkugel translate " << 0.15 * i << " 0 0 \n";
-      //   }
-      // }
-      
-      // if(num > 230 && num <= 260) {
-      //   for(int j = 0; j <= 30; ++j) {
-      //     file << "transform startkugel translate 0 " << -0.15 * j << " 0 \n";
-      //   }
-      // }
-
-      // if(num > 260 && num <= 360) {
-      //   for(int i = 0; i <= 100; ++i) {
-      //     file << "transform startkugel translate " << -0.15 * i << "0 0 \n";
-      //   }
-      // }
-
-      
-
-
-    // if(num <= 100) {
-    //   file << "transform startkugel translate " << -0.15 * num << " 0 0 \n";
-
-    //   // if(num == 100) {
-    //   //   tempx = -0.15 * 100;
-    //   // }
-    // }
-
-    // if(num > 100 && num <= 130) {
-    //   file << "transform startkugel translate 0 " << -0.15 * num << " 0 \n";
-    // }
-
-    // if(num > 130 && num <= 230) {
-    //   file << "transform startkugel translate " << 0.15 * num << " 0 0 \n";
-    // }
-
-    // if(num > 230 && num <= 260) {
-    //   file << "transform startkugel translate 0 " << -0.15 * num << " 0 \n";
-    // }
-
-    // if(num > 260 && num <= 360) {
-    //   file << "transform startkugel translate " << -0.15 * num << "0 0 \n";
-    // }
-
     // funktioniert
     if(num <= 100) {
       file << "transform startkugel translate " << -0.15 * num << " 0 0 \n";
@@ -404,45 +346,36 @@ Scene output(std::string datei_name, float num) {
       }
     }
 
-    // if(num == 101) {
-    //   file << "transform startkugel translate " << "-15" << " " << "0" << " 0 \n";
-    // }
-
     // funktioniert
     if(num > 100 && num <= 130) {
-      // file << "define shape sphere startkugel -6 6.5 -18.5 2 grau \n";
-      // if(num == 101) {
-      //   file << "transform startkugel translate " << "-15" << " " << "0" << " 0 \n";
-      // }
-
-      file << "transform startkugel translate " << /*tempx*/ "-15" << " " << -0.15 * (num - 99) << " 0 \n";
+      file << "transform startkugel translate " << "-15" << " " << -0.15 * (num - 99) << " 0 \n";
 
       if(num == 130) {
         tempy = -0.15 * num;
       }
     }
 
+    // funktioniert
     if(num > 130 && num <= 230) {
-      // file << "define shape sphere startkugel -6 2 -18.5 2 grau \n";
-      file << "transform startkugel translate " << -15 + 0.15 * (num - 129) << " " << /*tempy*/ "-4.5" << " 0 \n";
+      file << "transform startkugel translate " << -15 + 0.15 * (num - 129) << " " << "-4.5" << " 0 \n";
 
       if(num == 230) {
         tempx = 0.15 * num;
       }
     }
 
+    // funktioniert
     if(num > 230 && num <= 260) {
-      // file << "define shape sphere startkugel 9 2 -18.5 2 grau \n";
-      file << "transform startkugel translate " << /*tempx*/ "15" << " " << -4.5 - (-0.15 * (num - 229)) << " 0 \n";
+      file << "transform startkugel translate " << "0" << " " << -4.5 + (-0.15 * (num - 229)) << " 0 \n";
 
       if(num == 260) {
         tempy = -0.15 * num;
       }
     }
 
+    // funktioniert
     if(num > 260 && num <= 360) {
-      // file << "define shape sphere startkugel 9 -2.5 -18.5 2 grau \n";
-      file << "transform startkugel translate " << 9 + (-0.15 * (num - 259)) << " " << /*tempy*/ "-4.5" << " 0 \n";
+      file << "transform startkugel translate " << (-0.15 * (num - 259)) << " " << "-9" << " 0 \n";
     }
 
     file << "define light lichtvonvorne 0 0 0 1 1 1 1 \n";
