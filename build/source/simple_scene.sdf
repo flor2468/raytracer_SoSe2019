@@ -3,7 +3,7 @@ define material red 1 0 0 1 0 0 1 1 1 10
 define material blue 0 0 1 0 0 1 1 0 1 10
 define material white 1 1 1 1 1 1 1 1 1 10
 
-define shape box untergrund -100000 -70000 -31.5 100000 500000 -31 red
+define shape box untergrund -100000 -70000 -50 100000 500000 -31 red
 #voronoi spheres
 #define shape sphere xsphere 3 0 -10 5 red
 #define shape sphere bsphere -3 0 -10 5 blue
@@ -72,9 +72,9 @@ define shape box untergrund -100000 -70000 -31.5 100000 500000 -31 red
 #define light neues_licht 1 4 -9 1 1 1 0.5
 
 #define light lichtvonoben 0 15 -10 1 1 1 1
-define light cam_light -1 0 0 1 1 1 1
-define light cam_light2 1 0 0 1 1 1 1
-define light cam_light3 1.5 0 0 1 1 1 1
+define light cam_light 0 0 0 1 1 1 100
+#define light cam_light2 1 0 0 1 1 1 1
+#define light cam_light3 1.5 0 0 1 1 1 1
 
 #define light l2 0 0 -55 1.0 1.0 1.0 0.5
 #define light sun -800 -800 0 0.8 0.8 0.8 1

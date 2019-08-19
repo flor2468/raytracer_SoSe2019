@@ -45,11 +45,11 @@ int main(int argc, char* argv[])
 
     Scene scene1 = input(filename1);
 
-    Scene scene2 = output(filename2, num);
+    //Scene scene2 = output(filename2, num);
 
     Renderer renderer{image_width, image_height, bildname1, scene1};
 
-    Renderer renderer_animation{image_width, image_height, bildname2, scene2};
+    //Renderer renderer_animation{image_width, image_height, bildname2, scene2};
 
     
     // // TEST Anfang
@@ -61,17 +61,17 @@ int main(int argc, char* argv[])
     //create separate thread to see updates of pixels while rendering
     //std::thread render_thread([&renderer]() {renderer.render();});
 
-    renderer_animation.render();
+    renderer/*_animation*/.render();
 
-    // Window window{{image_width, image_height}};
+    Window window{{image_width, image_height}};
 
-    // while (!window.should_close()) {
-    //   if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-    //     window.close();
-    //   }
-    //   window.show(renderer.color_buffer());
-    // // window.close();
-    // }
+    while (!window.should_close()) {
+      if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        window.close();
+      }
+      window.show(renderer.color_buffer());
+    // window.close();
+    }
 
     //"join" threads, i.e. synchronize main thread with render_thread
     //render_thread.join();

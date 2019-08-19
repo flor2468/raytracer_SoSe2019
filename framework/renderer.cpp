@@ -131,6 +131,7 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
     glm::vec3 richtung_licht = glm::normalize(light->position_ - h.point3d);
     Ray strahl = {h.point3d + h.normale_ * 0.1f, richtung_licht};
     
+    //std::cout << "Normale = " << richtung_licht.x << "," << richtung_licht.y << "," << richtung_licht.z << "\n";
     for(auto shape : scene.shapes) {
 
       hitpoint hit{};

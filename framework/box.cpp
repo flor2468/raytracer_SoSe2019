@@ -58,7 +58,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
     glm::vec3 sp5 = ray.origin + tymax * ray.direction; 
     glm::vec3 sp6 = ray.origin + tzmax * ray.direction; 
 
-    if(sp1.y > min_.y && sp1.y < max_.y && sp1.z > min_.z && sp1.z < max_.z) {
+    if(sp1.y > min_.y && sp1.y < max_.y && sp1.z > min_.z && sp1.z < max_.z && txmin > 0) {
         h.cut = true;
         if(txmin < h.distance) {
             h.distance = txmin;
@@ -76,7 +76,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
         
     }
 
-    if(sp2.x > min_.x && sp2.x < max_.x && sp2.z > min_.z && sp2.z < max_.z) {
+    if(sp2.x > min_.x && sp2.x < max_.x && sp2.z > min_.z && sp2.z < max_.z && tymin > 0) {
         h.cut = true;
         if(tymin < h.distance) {
             h.distance = tymin;
@@ -95,7 +95,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
         
     }
 
-    if(sp3.y > min_.y && sp3.y < max_.y && sp3.x > min_.x && sp3.x < max_.x) {
+    if(sp3.y > min_.y && sp3.y < max_.y && sp3.x > min_.x && sp3.x < max_.x && tzmin > 0) {
         h.cut = true;
         if(tzmin < h.distance) {
             h.distance = tzmin;
@@ -114,7 +114,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
         
     }
 
-    if(sp4.y > min_.y && sp4.y < max_.y && sp4.z > min_.z && sp4.z < max_.z) {
+    if(sp4.y > min_.y && sp4.y < max_.y && sp4.z > min_.z && sp4.z < max_.z && txmax > 0) {
         h.cut = true;
         if(txmax < h.distance) {
             h.distance = txmax;
@@ -133,7 +133,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
 
     }
 
-    if(sp5.x > min_.x && sp5.x < max_.x && sp5.z > min_.z && sp5.z < max_.z) {
+    if(sp5.x > min_.x && sp5.x < max_.x && sp5.z > min_.z && sp5.z < max_.z && tymax > 0) {
         h.cut = true;
         if(tymax < h.distance) {
             h.distance = tymax;
@@ -152,7 +152,7 @@ hitpoint Box::intersect(Ray const& original_ray) {
         
     }
 
-    if(sp6.y > min_.y && sp6.y < max_.y && sp6.x > min_.x && sp6.x < max_.x) {
+    if(sp6.y > min_.y && sp6.y < max_.y && sp6.x > min_.x && sp6.x < max_.x && tzmax > 0) {
         h.cut = true;
         if(tzmax < h.distance) {
             h.distance = tzmax;
