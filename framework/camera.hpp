@@ -8,8 +8,8 @@
 
 class Camera {
     public:
-        Camera(std::string name = "Kamera", float oeffnungswinkel = 60.0f, unsigned int breite = 800, unsigned int hoehe = 600, glm::vec3 blickrichtung = {0,0,-1}, 
-        glm::vec3 up_vektor = {0,1,0});
+        Camera(std::string name = "Kamera", float oeffnungswinkel = 60.0f, unsigned int breite = 800, unsigned int hoehe = 600, glm::vec3 startpunkt = {0,0,0},
+        glm::vec3 blickrichtung = {0,0,-1}, glm::vec3 up_vektor = {0,1,0});
 
         // Camera(std::string name = "Kamera", float oeffnungswinkel = 60.0f);
 

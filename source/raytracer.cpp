@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 
 
 
-  for(int num = 0; num <= 360; ++num) {
+  for(int num = 0; num <= 10; ++num) {
 
     std::stringstream s; // = "./Testbild" << num << ".ppm";
     s << "./Kugelbild" << num << ".ppm";
@@ -32,6 +32,13 @@ int main(int argc, char* argv[])
     std::string const bildname2 = s.str();
     
     std::string const filename2 = "./Kugel_Scene.sdf";
+
+    std::stringstream s3; 
+    s3 << "./Kugeln_&_Boxen" << num << ".ppm";
+
+    std::string const bildname3 = s3.str();
+
+    std::string const filename3 = "./Kugeln_&_Boxen.sdf";
 
     // Renderer renderer{image_width, image_height, filename};
 
@@ -47,9 +54,13 @@ int main(int argc, char* argv[])
 
     Scene scene2 = output(filename2, num);
 
+    Scene scene3 = output(filename3, num);
+
     Renderer renderer{image_width, image_height, bildname1, scene1};
 
     Renderer renderer_animation{image_width, image_height, bildname2, scene2};
+
+    Renderer renderer_animation2{image_width, image_height, bildname3, scene3};
 
     
     // // TEST Anfang
@@ -61,17 +72,17 @@ int main(int argc, char* argv[])
     //create separate thread to see updates of pixels while rendering
     //std::thread render_thread([&renderer]() {renderer.render();});
 
-    renderer_animation.render();
+    renderer/*_animation2*/.render();
 
-    // Window window{{image_width, image_height}};
+    Window window{{image_width, image_height}};
 
-    // while (!window.should_close()) {
-    //   if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-    //     window.close();
-    //   }
-    //   window.show(renderer.color_buffer());
-    // // window.close();
-    // }
+    while (!window.should_close()) {
+      if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        window.close();
+      }
+      window.show(renderer.color_buffer());
+    // window.close();
+    }
 
     //"join" threads, i.e. synchronize main thread with render_thread
     //render_thread.join();

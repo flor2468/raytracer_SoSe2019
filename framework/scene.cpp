@@ -140,7 +140,25 @@ Scene input(std::string datei_name/*, Scene scene*/) {
               float oeffnungswinkel;
               line_stream >> oeffnungswinkel;
 
-              Camera cam{name, oeffnungswinkel};
+              glm::vec3 startpunkt{0,0,0};
+              glm::vec3 blickrichtung{0,0,-1};
+              float sx, sy, sz, bx, by, bz;
+
+              if("define" != identifier || "transform" != identifier || "ambient" != identifier || "camera" != identifier) {
+            
+                line_stream >> sx;
+                line_stream >> sy;
+                line_stream >> sz;
+                line_stream >> bx;
+                line_stream >> by;
+                line_stream >> bz;
+
+                startpunkt = {sx, sy, sz};
+                blickrichtung = {bx, by, bz};
+
+              }
+
+              Camera cam{name, oeffnungswinkel, 800, 600, startpunkt, blickrichtung};
               std::cout << "camera added" << std::endl;
             }
 
@@ -305,6 +323,9 @@ Scene output(std::string datei_name, float num) {
     file << "define camera eye 60.0 \n";
     */
 
+
+    /* 
+    // Kugelbild-Szene
     file << "define material gruen 0 0.9 0.1 0 0.9 0.1 0 0.9 0.1 50 \n";
     file << "define material hellblau 0 0.8 0.9 0 0.8 0.9 0 0.8 0.9 50 \n";
     file << "define material lila 0.7 0 0.5 0.7 0 0.5 0.7 0 0.5 50 \n";
@@ -381,6 +402,31 @@ Scene output(std::string datei_name, float num) {
     file << "define light lichtvonvorne 0 0 0 1 1 1 1 \n";
     file << "ambient 0.4 0.4 0.4 \n";
     file << "define camera eye 60.0 \n";
+    */
+
+
+    // Kugeln_&_Boxen-Szene
+
+    file << "define material gruen 0 0.9 0.1 0 0.9 0.1 0 0.9 0.1 50 \n";
+    file << "define material hellblau 0 0.8 0.9 0 0.8 0.9 0 0.8 0.9 50 \n";
+    file << "define material lila 0.7 0 0.5 0.7 0 0.5 0.7 0 0.5 50 \n";
+    file << "define material orange 1 0.3 0 1 0.3 0 1 0.3 0 50 \n";
+    file << "define material pink 1 0.4 0.7 1 0.4 0.7 1 0.4 0.7 50 \n";
+    file << "define material gelb 1 1 0 1 1 0 1 1 0 50 \n";
+    file << "define material rot 1 0 0.1 1 0 0.1 1 0 0.1 50 \n";
+    file << "define material blau 0.1 0.1 1 0.1 0.1 1 0.1 0.1 1 50 \n";
+    file << "define material grau 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 50 \n";
+
+    file << "define shape box untergrund -10 -7 -31 10 -5 -5 grau \n";
+
+    file << "define light lichtvonoben 0 -2 -20 1 1 1 5 \n";
+
+    file << "ambient 0.7 0.7 0.7 \n";
+    file << "define camera eye 60.0 \n";
+
+    file << "transform eye rotate " << -45 - num << " 0 1 0 \n";
+    // file << "transform eye translate 100 0 100 \n";
+
 
     file.close();
   }

@@ -5,11 +5,12 @@
 #include <cmath>
 
 
-Camera::Camera(std::string name, float oeffnungswinkel, unsigned int breite, unsigned int hoehe, glm::vec3 blickrichtung, glm::vec3 up_vektor) :
+Camera::Camera(std::string name, float oeffnungswinkel, unsigned int breite, unsigned int hoehe, glm::vec3 startpunkt, glm::vec3 blickrichtung, glm::vec3 up_vektor) :
     name_{name},
     oeffnungswinkel_{oeffnungswinkel},
     breite_{breite},
     hoehe_{hoehe},
+    startpunkt_{startpunkt},
     blickrichtung_{blickrichtung},
     up_vektor_{up_vektor}
     {
