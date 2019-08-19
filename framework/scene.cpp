@@ -333,7 +333,7 @@ Scene output(std::string datei_name, float num) {
     file << "define shape sphere kugel16 9.5 2.4 -20 3.2 hellblau \n";
     file << "define shape sphere kugel17 7 4.9 -20 1.5 pink \n";
     file << "define shape sphere kugel18 9 6.5 -20 3 gelb \n";
-    file << "define shape sphere startkugel 9 6.5 -18.5 2 grau \n";
+    file << "define shape sphere startkugel 7 6.5 -18.5 2 grau \n";
 
     float tempx, tempy, tempz;
 
