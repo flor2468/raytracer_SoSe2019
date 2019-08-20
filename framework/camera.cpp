@@ -28,7 +28,7 @@ Ray Camera::calcEyeRay(unsigned int x, unsigned int y) {
     float strahlx = x - (breite_ / 2.0f);
     float strahly = y - (hoehe_ / 2.0f);
     float strahlz = -d;
-    strahl.origin = startpunkt_;
+    //strahl.origin = startpunkt_;
     glm::vec3 normstrahl = {strahlx, strahly, strahlz};
     strahl.direction = glm::normalize(normstrahl);
     

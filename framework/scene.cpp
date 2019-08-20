@@ -140,11 +140,18 @@ Scene input(std::string datei_name/*, Scene scene*/) {
               float oeffnungswinkel;
               line_stream >> oeffnungswinkel;
 
+              float breite, hoehe;
+              line_stream >> breite;
+              line_stream >> hoehe;
+
               glm::vec3 startpunkt{0,0,0};
               glm::vec3 blickrichtung{0,0,-1};
               float sx, sy, sz, bx, by, bz;
 
-              if("define" != identifier || "transform" != identifier || "ambient" != identifier || "camera" != identifier) {
+              // std::string identifier2;
+              // line_stream >> identifier2;
+
+              // if("define" != identifier2 || "transform" != identifier2 || "ambient" != identifier2) {
             
                 line_stream >> sx;
                 line_stream >> sy;
@@ -155,11 +162,15 @@ Scene input(std::string datei_name/*, Scene scene*/) {
 
                 startpunkt = {sx, sy, sz};
                 blickrichtung = {bx, by, bz};
+                blickrichtung = glm::normalize(blickrichtung);
+                // startpunkt = {1000, 1000, 1000};
 
-              }
+              // }
 
-              Camera cam{name, oeffnungswinkel, 800, 600, startpunkt, blickrichtung};
-              std::cout << "camera added" << std::endl;
+              // Camera cam{};
+              Camera cam{"Kamera", oeffnungswinkel, 800, 600, startpunkt, blickrichtung, glm::vec3{0,1,0}};
+              scene.camera = std::make_shared<Camera>(cam);
+              //std::cout << "camera added" << blickrichtung[2] << startpunkt[2] << std::endl;
             }
 
         }
@@ -418,13 +429,20 @@ Scene output(std::string datei_name, float num) {
     file << "define material grau 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 50 \n";
 
     file << "define shape box untergrund -10 -7 -31 10 -5 -5 grau \n";
+    //file << "define shape box untergrund -1 -2.5 -1 1 -0.5 1 grau \n";
 
     file << "define light lichtvonoben 0 -2 -20 1 1 1 5 \n";
 
-    file << "ambient 0.7 0.7 0.7 \n";
-    file << "define camera eye 60.0 \n";
+    float radius = 5;
 
-    file << "transform eye rotate " << -45 - num << " 0 1 0 \n";
+    float x = radius * std::sin(num);
+    float z = radius * std::cos(num);
+
+    file << "ambient 0.7 0.7 0.7 \n";
+    file << "define camera eye 60.0 800 600 " << x /*+ std::sin(num)*/ << " 0 " /*<< 1 + std::cos(num) + std::sin(num) << " "*/ 
+         << /*std::cos(num) +*/ z << " " << - x << " 0 "  << - z << "\n";
+
+    // file << "transform eye rotate " << -45 - num << " 0 1 0 \n";
     // file << "transform eye translate 100 0 100 \n";
 
 

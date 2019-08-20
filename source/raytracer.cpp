@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 
 
 
-  for(int num = 0; num <= 10; ++num) {
+  for(int num = 0; num <= 2*36; ++num) {
 
     std::stringstream s; // = "./Testbild" << num << ".ppm";
     s << "./Kugelbild" << num << ".ppm";
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 
     Scene scene2 = output(filename2, num);
 
-    Scene scene3 = output(filename3, num);
+    Scene scene3 = output(filename3, 0.087*num);
 
     Renderer renderer{image_width, image_height, bildname1, scene1};
 
@@ -72,17 +72,17 @@ int main(int argc, char* argv[])
     //create separate thread to see updates of pixels while rendering
     //std::thread render_thread([&renderer]() {renderer.render();});
 
-    renderer/*_animation2*/.render();
+    renderer_animation2.render();
 
-    Window window{{image_width, image_height}};
+    // Window window{{image_width, image_height}};
 
-    while (!window.should_close()) {
-      if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        window.close();
-      }
-      window.show(renderer.color_buffer());
-    // window.close();
-    }
+    // while (!window.should_close()) {
+    //   if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+    //     window.close();
+    //   }
+    //   window.show(renderer.color_buffer());
+    // // window.close();
+    // }
 
     //"join" threads, i.e. synchronize main thread with render_thread
     //render_thread.join();

@@ -10,5 +10,4 @@ define material grau 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 50
 define shape box untergrund -10 -7 -31 10 -5 -5 grau 
 define light lichtvonoben 0 -2 -20 1 1 1 5 
 ambient 0.7 0.7 0.7 
-define camera eye 60.0 
-transform eye rotate -45 0 1 0 
+define camera eye 60.0 800 600 -0.095921 0 4.99908 0.095921 0 -4.99908

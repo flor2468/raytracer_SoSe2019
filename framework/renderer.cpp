@@ -32,7 +32,7 @@ void Renderer::render() {
   /* Funktion zum Rendern einer Szene */
 
   std::size_t const checker_pattern_size = 20;
-  Camera cam;
+  Camera cam = *scene_.camera;
 
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
