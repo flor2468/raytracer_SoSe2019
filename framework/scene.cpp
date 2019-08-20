@@ -428,12 +428,21 @@ Scene output(std::string datei_name, float num) {
     file << "define material blau 0.1 0.1 1 0.1 0.1 1 0.1 0.1 1 50 \n";
     file << "define material grau 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 50 \n";
 
-    file << "define shape box untergrund -10 -7 -31 10 -5 -5 grau \n";
+    // file << "define shape box untergrund -10 -2 -10 10 -1 10 grau \n";
     //file << "define shape box untergrund -1 -2.5 -1 1 -0.5 1 grau \n";
 
-    file << "define light lichtvonoben 0 -2 -20 1 1 1 5 \n";
+    file << "define shape box untergrund -10 -7 -18 10 -5 18 grau \n";
+    file << "define shape box rbottom 1 -1 11.5 3 1 13.5 pink \n";
+    file << "define shape sphere bsphere 1 3 12.5 1 gruen \n";
+    file << "define shape sphere kugel2 -1.5 -1 11 1.5 hellblau \n";
+    file << "define shape sphere kugel3 8 3 -5 2 gelb \n";
 
-    float radius = 5;
+    // file << "define light lichtvonoben 0 -2 -20 1 1 1 5 \n";
+
+    file << "define light neues_licht 1 4 -9 1 1 1 1 \n";
+    file << "define light lichtvonoben 0 15 -10 1 1 1 1 \n";
+
+    float radius = 45;
 
     float x = radius * std::sin(num);
     float z = radius * std::cos(num);

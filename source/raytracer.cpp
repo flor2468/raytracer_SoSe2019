@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 
 
 
-  for(int num = 0; num <= 2*36; ++num) {
+  for(int num = 0; num <= 144; ++num) {
 
     std::stringstream s; // = "./Testbild" << num << ".ppm";
     s << "./Kugelbild" << num << ".ppm";
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 
     Scene scene2 = output(filename2, num);
 
-    Scene scene3 = output(filename3, 0.087*num);
+    Scene scene3 = output(filename3, 0.5 * 0.087 * num);
 
     Renderer renderer{image_width, image_height, bildname1, scene1};
 
