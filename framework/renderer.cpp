@@ -127,18 +127,13 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
 
     bool light_visible = true;
 
-        // Strahl wird vom Schnittpunkt des Objekts zur Lichtquelle geschossen
+    // Strahl wird vom Schnittpunkt des Objekts zur Lichtquelle geschossen
     glm::vec3 richtung_licht = glm::normalize(light->position_ - h.point3d);
     Ray strahl = {h.point3d + h.normale_ * 0.1f, richtung_licht};
     
-    //std::cout << "Normale = " << richtung_licht.x << "," << richtung_licht.y << "," << richtung_licht.z << "\n";
     for(auto shape : scene.shapes) {
 
       hitpoint hit{};
-
-      //  if(shape != shape_ptr) {
-
-
 
         // ueberpruefen, ob ein (anderes) Objekt zwischen dem Schnittpunkt (des Objekts) und der Lichtquelle liegt
         hit = shape->intersect(strahl);
@@ -147,13 +142,11 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
           light_visible = false;
           break;
         }
-      // }
 
       // Berechnung der Farben = Ambient + Diffus + Specular 
-      //if (hit.cut == false || hit.distance < 0) {
+
       if (light_visible == true) {
 
-        // glm::vec3 richtung_licht = light->position_ - h.point3d;
         glm::vec3 normal = h.normale_; 
         float cos_angle = glm::dot(glm::normalize(normal), glm::normalize(richtung_licht));
 
@@ -168,12 +161,7 @@ Color Renderer::shade(hitpoint const& h, Scene const& scene, std::shared_ptr<Sha
         }
 
         glm::vec3 r = {};
-        
-        // r.x = (2 * (h.normale_.x * richtung_licht.x) * h.normale_.x) - richtung_licht.x;
-        // r.y = (2 * (h.normale_.y * richtung_licht.y) * h.normale_.y) - richtung_licht.y;
-        // r.z = (2 * (h.normale_.z * richtung_licht.z) * h.normale_.z) - richtung_licht.z;
 
-        //r = 2 * glm::dot(h.normale_, richtung_licht) * h.normale_ - richtung_licht;
         r = glm::reflect(-richtung_licht, h.normale_);
 
         r = glm::normalize(r);
@@ -323,13 +311,6 @@ Ray transformRay(glm::mat4 const& mat, Ray const& ray) {
   return Ray{transform_origin, transform_direction};
 }
 
-void Renderer::transformation(std::shared_ptr<Shape> const& s, Scene const& scene, glm::vec3 verschiebung) {
-  /* Verschiebung des Objekts || Zoomen des Objekts || Drehen des Objekts */
-
-  // Berechnen: Vektoren, Punkte und Normalen
-
-}
-
 glm::vec3 reTransformPoint(glm::vec3 const& p, glm::mat4 mat) {
   glm::vec4 p_homogen = {p.x, p.y, p.z, 1};
   glm::vec4 punkt_retransformiert = mat * p_homogen;
@@ -338,21 +319,6 @@ glm::vec3 reTransformPoint(glm::vec3 const& p, glm::mat4 mat) {
 
 glm::vec3 reTransformVector(glm::vec3 const& v, glm::mat4 mat) {
   glm::vec4 v_homogen = {v.x, v.y, v.z, 0};
-
-  // glm::mat4 testmatrix = {
-  //   glm::vec4 {1, 0, 0, 0},
-  //   glm::vec4 {0, 1, 0, 0},
-  //   glm::vec4 {0, 0, 1, 0},
-  //   glm::vec4 {0, 0, 0, 1},
-  // };
-
-  // testmatrix[0][1] = 2;
-  // testmatrix[0][2] = 3;
-  // testmatrix[0][3] = 4;
-
-  // std::cout << "{" << testmatrix[0].x << ", " << testmatrix[0].y << ", " << testmatrix[0].z << ", " << testmatrix[0].w << "}" << std::endl;
-
-  // mat[0][0] = 1;
 
   glm::vec4 vector_retransformiert = mat * v_homogen;
   return glm::vec3{vector_retransformiert.x, vector_retransformiert.y, vector_retransformiert.z};

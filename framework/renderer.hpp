@@ -37,7 +37,6 @@ public:
   Color calculate_specular(std::shared_ptr<Shape> shape, Scene const& scene, hitpoint const& h);
   Color tone_mapping(Color& color);
   // Ray transformRay(glm::mat4 const& mat, Ray const& ray);
-  void transformation(std::shared_ptr<Shape> const& s, Scene const& scene, glm::vec3 verschiebung);
 
   inline std::vector<Color> const& color_buffer() const
   {

@@ -15,4 +15,4 @@ define shape sphere kugel3 8 3 -5 2 gelb
 define light neues_licht 1 4 -9 1 1 1 1 
 define light lichtvonoben 0 15 -10 1 1 1 1 
 ambient 0.7 0.7 0.7 
-define camera eye 60.0 800 600 -0.863289 0 44.9917 0.863289 0 -44.9917
+define camera eye 60.0 800 600 0 0 45 -0 0 -45

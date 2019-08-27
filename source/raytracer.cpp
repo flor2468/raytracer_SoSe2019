@@ -22,8 +22,6 @@ int main(int argc, char* argv[])
     filename1 = argv[1];
   }
 
-
-
   for(int num = 0; num <= 144; ++num) {
 
     std::stringstream s; // = "./Testbild" << num << ".ppm";
@@ -62,27 +60,23 @@ int main(int argc, char* argv[])
 
     Renderer renderer_animation2{image_width, image_height, bildname3, scene3};
 
-    
-    // // TEST Anfang
-    // Ray testray;
-    // renderer.trace(testray, scene1);
-    // renderer.render();
-    // // TEST Ende
-
     //create separate thread to see updates of pixels while rendering
     //std::thread render_thread([&renderer]() {renderer.render();});
 
-    renderer_animation2.render();
+    renderer/*_animation2*/.render();
 
-    // Window window{{image_width, image_height}};
+    /* Auskommentieren fuer Animation */
+    Window window{{image_width, image_height}};
 
-    // while (!window.should_close()) {
-    //   if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-    //     window.close();
-    //   }
-    //   window.show(renderer.color_buffer());
-    // // window.close();
-    // }
+    while (!window.should_close()) {
+      if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        window.close();
+      }
+      window.show(renderer.color_buffer());
+    // window.close();
+    }
+    /* Auskommentieren fuer Animation*/
+
 
     //"join" threads, i.e. synchronize main thread with render_thread
     //render_thread.join();

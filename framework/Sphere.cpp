@@ -48,16 +48,6 @@ hitpoint Sphere::intersect(Ray const& original_ray/*, float& distance*/){
         return h;
     }
     else{
-        // h.distance = distance;
-        // std::cout << "Test" << std::endl;
-
-        
-        
-        // if(original_ray.direction != ray.direction) {
-        //     std::cout << "Ray: {" << original_ray.direction.x << ", " << original_ray.direction.y << ", " << original_ray.direction.z << "}" << " || Hilfsray: {" << ray.direction.x << ", " << ray.direction.y << ", " << ray.direction.z << "}" << std::endl;
-            
-        // }
-
 
         h.name = name_;
         h.col = color_;

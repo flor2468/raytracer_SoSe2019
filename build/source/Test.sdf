@@ -86,7 +86,7 @@ define light lichtvonoben 0 15 -10 1 1 1 1
 #define light spot3 -800 800 0 0.8 0.8 0.8 1
 ambient 0.4 0.4 0.4
 # camera
-define camera eye 60.0
+define camera eye 60.0 800 600 0 0 0 0 0 -1
 # camera xform
 #transform eye rotate -45 0 1 0
 #transform eye translate 100 0 100
